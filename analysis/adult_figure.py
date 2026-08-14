@@ -131,7 +131,12 @@ ax.set_xticks(xb)
 ax.set_xticklabels(["visual similarity\nagrees", "visual similarity\nconflicts"])
 ax.set_ylabel("proportion correct")
 ax.set_ylim(0.25, 1.06)
-ax.set_title("Adults pay a cost when appearance conflicts — 4 of 4 adults",
+# Counted, not hardcoded — this title went stale once already.
+_w = cond.pivot_table(index="participantID", columns="condition",
+                      values="correct", aggfunc="mean")
+_n_cost = int((_w.visual_agree > _w.visual_conflict).sum())
+ax.set_title(f"Adults pay a cost when appearance conflicts — "
+             f"{_n_cost} of {len(_w)} adults",
              fontsize=9.5, loc="left", color=INK, pad=8)
 ax.grid(axis="y", color=GRID, lw=0.6)
 ax.set_axisbelow(True)
