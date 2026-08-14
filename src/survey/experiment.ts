@@ -175,17 +175,20 @@ const STUDY = getURLParam('study', IS_PROLIFIC ? 'things_kids_prolific' : 'thing
 // Where to send people when they finish. Prolific participants must land on
 // their completion URL or they cannot be paid; pass it as ?completion_url=...
 // (URL-encoded), or set the completion code with ?cc=XXXXXXXX.
-const COMPLETION_CODE = getURLParam('cc', IS_PROLIFIC ? 'CHO0PAQJ' : null);
-
-// Which consent screen to show. Defaults to the adult IRB form for Prolific
-// and the parental/kiosk screen otherwise; ?consent=adult or ?consent=kid
-// forces either one so both can be previewed without faking a Prolific ID.
-// A raw/unsubstituted Prolific link still means an adult arrived by that
-// route, so show the adult flow even though the id was unusable.
+// Adult determination has to come before the completion URL below: the exit
+// target depends on it, and gating on IS_PROLIFIC instead sent any adult
+// session without a usable Prolific ID (a ?consent=adult preview, or a raw
+// unsubstituted study link) to the museum kiosk landing page.
 const PROLIFIC_URL_SHAPE = /PROLIFIC_PID/i.test(window.location.search);
 const CONSENT_MODE = (getURLParam('consent', null) ||
   ((IS_PROLIFIC || PROLIFIC_URL_SHAPE) ? 'adult' : 'kid')) as 'adult' | 'kid';
 const IS_ADULT = CONSENT_MODE === 'adult';
+
+const COMPLETION_CODE = getURLParam('cc', IS_ADULT ? 'CHO0PAQJ' : null);
+
+// Which consent screen to show. Defaults to the adult IRB form for Prolific
+// and the parental/kiosk screen otherwise; ?consent=adult or ?consent=kid
+// forces either one so both can be previewed without faking a Prolific ID.
 
 // Response lockout: ignore taps for this many ms after a trial appears.
 // Adults on Prolific are paid per session and some will mash through; a
@@ -569,7 +572,7 @@ const jsPsych = initJsPsych({
         <img src="images/zorpie/zorpie_stars.gif" class="zorpie big" alt="Zorpie celebrates" />
         <div class="bell" style="font-size: 64px; color:#ff6f61;">Thank you!</div>
         <div style="font-size:28px; color:#444; margin-top: 18px;">
-          ${IS_PROLIFIC ? 'You&rsquo;ve finished the study.' : 'Great job playing the matching game!'}
+          ${IS_ADULT ? 'You&rsquo;ve finished the study.' : 'Great job playing the matching game!'}
         </div>
         <div id="save-status" style="margin-top:24px; font-size:15px; color:#888;">saving your answers…</div>
         <div id="prolific-code" style="display:none; margin-top:14px; font-size:16px; color:#444;"></div>
@@ -580,7 +583,7 @@ const jsPsych = initJsPsych({
           <button type="button" class="ca-link" id="dl-responses">Download my responses</button>
         </p>` : ''}
         <div style="margin-top:24px;">
-          <button class="big-btn" id="back-home">Back to home</button>
+          <button class="big-btn" id="back-home">${IS_ADULT ? 'Return to Prolific' : 'Back to home'}</button>
         </div>
         <div id="dl-fallback" style="margin-top:18px; display:none;">
           <button class="big-btn warning" id="dl">Download my data</button>
@@ -593,13 +596,17 @@ const jsPsych = initJsPsych({
 
     // Kiosk auto-returns to the landing page; Prolific participants go to
     // their completion URL instead, or they cannot be paid.
-    const exitTarget = COMPLETION_URL || EXIT_URL;
-    const goHome = () => { window.location.href = exitTarget; };
+    // An adult session never returns to the museum kiosk. If no completion
+    // URL could be built, stay put rather than navigating somewhere useless.
+    const exitTarget = IS_ADULT ? COMPLETION_URL : EXIT_URL;
+    const goHome = () => { if (exitTarget) window.location.href = exitTarget; };
     const homeBtn = document.getElementById('back-home');
     homeBtn?.addEventListener('click', goHome);
 
-    if (IS_PROLIFIC) {
-      if (homeBtn) homeBtn.textContent = 'Return to Prolific';
+    if (IS_ADULT) {
+      // Label is set in the template above, not patched here — patching left
+      // a frame where an adult could read "Back to home", and home is the
+      // museum kiosk.
       // No blind timer here. On the kiosk an early redirect costs nothing —
       // the next child just starts over. On Prolific it would race the POST
       // and lose the session, so the redirect is armed by the save handler
@@ -627,7 +634,7 @@ const jsPsych = initJsPsych({
 
     // Called once the save resolves, either way.
     function finishProlific(saved: boolean) {
-      if (!IS_PROLIFIC) return;
+      if (!IS_ADULT) return;
       const status = document.getElementById('save-status');
       if (status) {
         status.innerHTML = saved
