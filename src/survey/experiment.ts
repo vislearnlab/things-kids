@@ -149,9 +149,19 @@ function bumpScore(score: number): void {
 // ============ experiment params ============
 // Prolific appends PROLIFIC_PID, STUDY_ID and SESSION_ID to the study URL.
 // Param names are case-sensitive and upper-case on their side.
-const PROLIFIC_PID  = getURLParam('PROLIFIC_PID', null);
-const PROLIFIC_STUDY = getURLParam('STUDY_ID', null);
-const PROLIFIC_SESSION = getURLParam('SESSION_ID', null);
+// Prolific substitutes {{%PROLIFIC_PID%}} in the study URL. If someone opens
+// the raw link, or substitution fails, the literal placeholder arrives
+// instead — and since records upsert on participantID, every such visitor
+// would overwrite the previous one. Treat anything template-shaped as absent.
+function cleanProlificParam(v: string | null): string | null {
+  if (!v) return null;
+  const t = v.trim();
+  if (!t || /[{}%]/.test(t) || t.toUpperCase() === 'NULL') return null;
+  return t;
+}
+const PROLIFIC_PID  = cleanProlificParam(getURLParam('PROLIFIC_PID', null));
+const PROLIFIC_STUDY = cleanProlificParam(getURLParam('STUDY_ID', null));
+const PROLIFIC_SESSION = cleanProlificParam(getURLParam('SESSION_ID', null));
 const IS_PROLIFIC = !!PROLIFIC_PID;
 
 // Key the record on the Prolific ID when there is one, so a participant who
@@ -170,8 +180,11 @@ const COMPLETION_CODE = getURLParam('cc', IS_PROLIFIC ? 'CHO0PAQJ' : null);
 // Which consent screen to show. Defaults to the adult IRB form for Prolific
 // and the parental/kiosk screen otherwise; ?consent=adult or ?consent=kid
 // forces either one so both can be previewed without faking a Prolific ID.
+// A raw/unsubstituted Prolific link still means an adult arrived by that
+// route, so show the adult flow even though the id was unusable.
+const PROLIFIC_URL_SHAPE = /PROLIFIC_PID/i.test(window.location.search);
 const CONSENT_MODE = (getURLParam('consent', null) ||
-  (IS_PROLIFIC ? 'adult' : 'kid')) as 'adult' | 'kid';
+  ((IS_PROLIFIC || PROLIFIC_URL_SHAPE) ? 'adult' : 'kid')) as 'adult' | 'kid';
 const IS_ADULT = CONSENT_MODE === 'adult';
 
 // Response lockout: ignore taps for this many ms after a trial appears.
@@ -532,6 +545,9 @@ const jsPsych = initJsPsych({
       prolific: IS_PROLIFIC
         ? { pid: PROLIFIC_PID, study_id: PROLIFIC_STUDY, session_id: PROLIFIC_SESSION }
         : null,
+      // True when the URL looked like a Prolific link but carried no usable
+      // id — flags sessions that cannot be reconciled against a submission.
+      prolific_id_missing: PROLIFIC_URL_SHAPE && !IS_PROLIFIC,
       consent: CONSENT_INFO,
       consent_version: CONSENT_MODE === 'adult' ? 'adult_irb_811123' : 'parental_kiosk',
       debrief_comment: DEBRIEF_COMMENT || null,
