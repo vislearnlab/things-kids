@@ -638,8 +638,9 @@ const jsPsych = initJsPsych({
         <div style="font-size:28px; color:#444; margin-top: 18px;">
           ${IS_ADULT ? 'You&rsquo;ve finished the study.' : 'Great job playing the matching game!'}
         </div>
+        ${IS_ADULT ? `
         <div id="save-status" style="margin-top:24px; font-size:15px; color:#888;">saving your answers…</div>
-        <div id="prolific-code" style="display:none; margin-top:14px; font-size:16px; color:#444;"></div>
+        <div id="prolific-code" style="display:none; margin-top:14px; font-size:16px; color:#444;"></div>` : ''}
         ${IS_ADULT ? `
         <p class="end-downloads">
           <button type="button" class="ca-link" id="dl-consent">Download a copy of the consent form</button>
@@ -649,10 +650,11 @@ const jsPsych = initJsPsych({
         <div style="margin-top:24px;">
           <button class="big-btn" id="back-home">${IS_ADULT ? 'Return to Prolific' : 'Back to home'}</button>
         </div>
+        ${IS_ADULT ? `
         <div id="dl-fallback" style="margin-top:18px; display:none;">
           <button class="big-btn warning" id="dl">Download my data</button>
           <div style="font-size:13px;color:#999;margin-top:6px">(in case the server is down)</div>
-        </div>
+        </div>` : ''}
       </div>`;
 
     setTimeout(playChime, 100); setTimeout(playChime, 400); setTimeout(playChime, 700);
@@ -716,6 +718,15 @@ const jsPsych = initJsPsych({
     }
 
     function showDownloadFallback(reason: string) {
+      // On the kiosk there is no one to act on this and nowhere for a file to
+      // go — it is a museum iPad handed to a four-year-old. Every trial has
+      // already been written individually, so a failed final save costs the
+      // summary fields, not the responses. Log it for us; show the child a
+      // clean thank-you.
+      if (!IS_ADULT) {
+        console.warn('[save] final write failed on kiosk:', reason);
+        return;
+      }
       const status = document.getElementById('save-status');
       if (status) status.textContent = `couldn't reach the lab server (${reason}). You can save your answers below.`;
       const dl = document.getElementById('dl-fallback');
