@@ -1,12 +1,12 @@
 #!/bin/bash
-# One-click push to vislearnlab/mochi-kids on GitHub.
+# One-click push to vislearnlab/things-kids on GitHub.
 # Requires: gh CLI (https://cli.github.com) and `gh auth login` done once.
 # Double-click this file in Finder.
 
 set -e
 cd "$(dirname "$0")"
 
-REPO="vislearnlab/mochi-kids"
+REPO="vislearnlab/things-kids"
 
 if ! command -v gh >/dev/null 2>&1; then
   echo "Error: gh (GitHub CLI) is not installed."
@@ -26,7 +26,7 @@ if [ ! -d .git ]; then
   echo "Initializing git…"
   git init -b main
   git add .
-  git -c user.email="cowork@local" -c user.name="Cowork" commit -m "Initial commit: MOCHI Kids — Shape Detective"
+  git -c user.email="cowork@local" -c user.name="Cowork" commit -m "Initial commit: THINGS Kids — Picture Detective"
 fi
 
 # Create the repo (if it doesn't already exist) and push
@@ -37,7 +37,7 @@ if gh repo view "$REPO" >/dev/null 2>&1; then
   git push -u origin main
 else
   echo "Creating $REPO and pushing…"
-  gh repo create "$REPO" --public --source=. --remote=origin --push \
+  gh repo create "$REPO" --private --source=. --remote=origin --push \
     --description "Kid-friendly developmental version of the MOCHI 3D-shape oddity benchmark (jsPsych)."
 fi
 
