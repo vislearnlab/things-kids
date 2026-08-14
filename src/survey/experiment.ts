@@ -553,6 +553,11 @@ const jsPsych = initJsPsych({
       // True when the URL looked like a Prolific link but carried no usable
       // id — flags sessions that cannot be reconciled against a submission.
       prolific_id_missing: PROLIFIC_URL_SHAPE && !IS_PROLIFIC,
+      // The raw query string, so an id that never arrived can be diagnosed
+      // from the data instead of guessed at. Distinguishes "Prolific sent a
+      // literal {{%PROLIFIC_PID%}}" (study not set to use URL parameters)
+      // from "the param was absent entirely" (wrong link circulated).
+      url_query: window.location.search.slice(0, 500),
       consent: CONSENT_INFO,
       consent_version: CONSENT_MODE === 'adult' ? 'adult_irb_811123' : 'parental_kiosk',
       debrief_comment: DEBRIEF_COMMENT || null,

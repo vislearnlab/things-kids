@@ -15,7 +15,8 @@ Run against a dev server:  npm run dev
 import sys
 from playwright.sync_api import sync_playwright
 
-BASE = "http://localhost:3000/"
+import os
+BASE = os.environ.get("BASE", "http://localhost:3000/")
 KIOSK = "stanford-cogsci.org"
 PROLIFIC = "app.prolific.com/submissions/complete"
 
