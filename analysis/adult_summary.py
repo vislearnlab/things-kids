@@ -166,6 +166,30 @@ if len(t) > 2:
     print(it.to_string(float_format=lambda x: f"{x:.3f}") if len(it)
           else "  (no item has 2+ observations yet — the bank rotates faster than the sample)")
 
+# ---------- 3b. the designed contrast ----------
+print("\n" + "=" * 78)
+print("3b. VISUAL AGREE vs. VISUAL CONFLICT — the contrast the design rests on")
+print("=" * 78)
+
+cond = d[d.condition_m.isin(["visual_agree", "visual_conflict"])]
+print()
+print(cond.groupby("condition_m").agg(
+    n=("correct", "size"), items=("trial_id", "nunique"),
+    acc=("correct", "mean"), median_rt=("rt", "median")).to_string(
+        float_format=lambda x: f"{x:.3f}"))
+
+wide = cond.pivot_table(index="participantID", columns="condition_m",
+                        values="correct", aggfunc="mean")
+wide["cost"] = wide.visual_agree - wide.visual_conflict
+print("\nper adult (each sees 30 of each — the split is balanced by design):")
+print(wide.to_string(float_format=lambda x: f"{x:+.3f}"))
+same = int((wide.cost > 0).sum())
+print(f"\n{same} of {len(wide)} adults are more accurate when appearance agrees "
+      f"(mean cost {wide.cost.mean():.3f})")
+print("Children should show a LARGER cost if they weight appearance more heavily;\n"
+      "that gap is the developmental prediction, and adults are not at ceiling on\n"
+      "conflict items, so there is room to see it.")
+
 # ---------- 4. coverage ----------
 print("\n" + "=" * 78)
 print("4. BANK COVERAGE")

@@ -42,6 +42,7 @@ for key in ("intro", "core", "blocks", "adult_blocks"):
     for item in manifest.get(key) or []:
         for t in (item if isinstance(item, list) else [item]):
             rows.append({"trial_id": t["trial_id"],
+                         "condition": t.get("condition"),
                          "p_correct_spose": t.get("p_correct_spose")})
 items = pd.DataFrame(rows).drop_duplicates("trial_id").set_index("trial_id")
 
@@ -50,7 +51,9 @@ finished = (sessions.complete.fillna(False).astype(bool)
             | sessions.complete_inferred.fillna(False).astype(bool)
             | sessions.finishedAt.notna())
 usable = sessions[sessions.is_prolific & sessions.qa_pass.fillna(False) & finished]
-d = trials[trials.participantID.isin(usable.participantID)].join(items, on="trial_id")
+d = trials[trials.participantID.isin(usable.participantID)].join(
+    items, on="trial_id", rsuffix="_m")
+d["condition"] = d["condition_m"]
 test = d[d.tier.isin(["familiar", "warmup"])].dropna(subset=["p_correct_spose"]).copy()
 
 
@@ -101,19 +104,35 @@ ax.set_axisbelow(True)
 for s in ("top", "right"):
     ax.spines[s].set_visible(False)
 
-# ---- B. RT across the same gradient ------------------------------------
+# ---- B. the designed contrast: visual agree vs. conflict ---------------
+# This is the cut the developmental hypothesis lives on. Adults weight
+# concept over appearance, so they should stay high when visual similarity
+# points away from the conceptual pair; children should not.
 ax = axes[0, 1]
-rt = g.rt.median().values / 1000
-ax.bar(x, rt, width=0.62, color=OBS, zorder=3)
-for xi, v in zip(x, rt):
-    ax.annotate(f"{v:.1f}s", (xi, v), textcoords="offset points", xytext=(0, 4),
-                ha="center", fontsize=8, color=INK)
-ax.set_xticks(x)
-ax.set_xticklabels(["hardest\nquartile", "2nd", "3rd", "easiest\nquartile"])
-ax.set_ylabel("median RT (s)")
-ax.set_ylim(0, max(rt) * 1.22)
-ax.set_title("…and slow down on the same items", fontsize=9.5, loc="left",
-             color=INK, pad=8)
+cond = d[d.condition.isin(["visual_agree", "visual_conflict"])]
+order = ["visual_agree", "visual_conflict"]
+cg2 = [cond[cond.condition == c] for c in order]
+vals = [gg.correct.mean() for gg in cg2]
+cis2 = [wilson(int(gg.correct.sum()), len(gg)) for gg in cg2]
+err2 = np.array([[v - lo for v, (lo, _) in zip(vals, cis2)],
+                 [hi - v for v, (_, hi) in zip(vals, cis2)]])
+xb = np.arange(2)
+ax.bar(xb, vals, width=0.5, color=[OBS, PRED], zorder=3)
+ax.errorbar(xb, vals, yerr=err2, fmt="none", ecolor=INK2, elinewidth=1.2,
+            capsize=4, zorder=4)
+for xi, v, gg, (_, hi) in zip(xb, vals, cg2, cis2):
+    ax.annotate(f"{v:.2f}", (xi, hi), textcoords="offset points", xytext=(0, 5),
+                ha="center", fontsize=9, color=INK, fontweight="bold")
+    # RT sits inside the bar; ylim starts at 0.25, so anchor above it.
+    ax.annotate(f"median\n{gg.rt.median()/1000:.1f}s", (xi, 0.30), ha="center",
+                fontsize=8, color="#ffffff", va="bottom")
+ax.axhline(1 / 3, color=GRID, lw=1, ls=(0, (4, 3)), zorder=1)
+ax.set_xticks(xb)
+ax.set_xticklabels(["visual similarity\nagrees", "visual similarity\nconflicts"])
+ax.set_ylabel("proportion correct")
+ax.set_ylim(0.25, 1.06)
+ax.set_title("Adults pay a cost when appearance conflicts — 4 of 4 adults",
+             fontsize=9.5, loc="left", color=INK, pad=8)
 ax.grid(axis="y", color=GRID, lw=0.6)
 ax.set_axisbelow(True)
 for s in ("top", "right"):
@@ -173,7 +192,7 @@ for s in ("top", "right"):
     ax.spines[s].set_visible(False)
 
 fig.text(0.055, 0.018,
-         "Test trials only (training and catch excluded from panels A–B). "
+         "Panels A–B are test trials only (no training or catch). "
          "Error bars / band are 95% Wilson intervals. "
          "Items are rotated: each adult sees intro + core + one 40-trial block.",
          fontsize=7.5, color=INK2)
