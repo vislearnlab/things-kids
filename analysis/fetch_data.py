@@ -61,6 +61,8 @@ for d in docs:
         # during the pagehide-beacon regression (fixed 2026-08-14), where the
         # stored flag was overwritten by a late in-progress write. Filter on
         # `complete or complete_inferred`, not on finishedAt.
+        "assigned_bank": d.get("assigned_bank"),
+        "assigned_block": d.get("assigned_block"),
         "complete": d.get("complete"),
         "complete_inferred": d.get("complete_inferred"),
         "finishedAt": d.get("finishedAt"),
@@ -94,7 +96,7 @@ for d in docs:
 
 SESSION_COLS = [
     "participantID", "study", "consent_age", "consent_agree",
-    "complete", "complete_inferred", "finishedAt",
+    "assigned_bank", "assigned_block", "complete", "complete_inferred", "finishedAt",
     "n_trials", "n_correct", "mean_rt", "ua",
     "screen_w", "screen_h", "screen_dpr",
 ]
