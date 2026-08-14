@@ -578,6 +578,14 @@ function buildSummary(complete: boolean): any {
 let saveInFlight = false;
 let savePending = false;
 
+// Flipped the moment the timeline ends, before the final save is even
+// attempted. Every later write — a queued per-trial save, the pagehide
+// beacon that fires when the browser navigates to Prolific — then also
+// reports complete, so a late arrival cannot regress a finished session
+// back to in-progress. This is what `complete` means: the participant
+// reached the end, not that any particular POST succeeded.
+let sessionComplete = false;
+
 // Serialised, not fired blindly: writes are cumulative, so two in flight at
 // once could land out of order and regress the stored record.
 async function saveProgress(): Promise<void> {
@@ -588,7 +596,7 @@ async function saveProgress(): Promise<void> {
     await fetch(SUBMIT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ participantID: PARTICIPANT_ID, data: buildSummary(false) }),
+      body: JSON.stringify({ participantID: PARTICIPANT_ID, data: buildSummary(sessionComplete) }),
       keepalive: true,
     });
   } catch (_) {
@@ -607,7 +615,7 @@ window.addEventListener('pagehide', () => {
   try {
     navigator.sendBeacon(
       SUBMIT_URL,
-      new Blob([JSON.stringify({ participantID: PARTICIPANT_ID, data: buildSummary(false) })],
+      new Blob([JSON.stringify({ participantID: PARTICIPANT_ID, data: buildSummary(sessionComplete) })],
                { type: 'application/json' }));
   } catch (_) {}
 });
@@ -620,6 +628,7 @@ const jsPsych = initJsPsych({
     if (data && data.task === 'things_oddity') void saveProgress();
   },
   on_finish: async function () {
+    sessionComplete = true;
     const summary = buildSummary(true);
 
     document.body.innerHTML = `

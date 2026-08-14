@@ -31,4 +31,8 @@ echo "=== Layer 2: end-to-end ==="
 python3 tests/e2e_playthrough.py
 
 echo
+echo "--> Save/completion ordering (adult + Prolific redirect)"
+python3 tests/save_completion_check.py
+
+echo
 echo "=== ALL TESTS PASSED ==="
