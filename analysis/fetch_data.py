@@ -56,6 +56,13 @@ for d in docs:
         "study": d.get("study"),
         "consent_age": consent.get("age"),
         "consent_agree": consent.get("agree"),
+        # complete is what the client reported; complete_inferred is set by
+        # analysis/repair_completion_flag.py on the sessions that finished
+        # during the pagehide-beacon regression (fixed 2026-08-14), where the
+        # stored flag was overwritten by a late in-progress write. Filter on
+        # `complete or complete_inferred`, not on finishedAt.
+        "complete": d.get("complete"),
+        "complete_inferred": d.get("complete_inferred"),
         "finishedAt": d.get("finishedAt"),
         "n_trials": d.get("n_trials"),
         "n_correct": d.get("n_correct"),
@@ -86,7 +93,8 @@ for d in docs:
         })
 
 SESSION_COLS = [
-    "participantID", "study", "consent_age", "consent_agree", "finishedAt",
+    "participantID", "study", "consent_age", "consent_agree",
+    "complete", "complete_inferred", "finishedAt",
     "n_trials", "n_correct", "mean_rt", "ua",
     "screen_w", "screen_h", "screen_dpr",
 ]
