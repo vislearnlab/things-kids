@@ -45,7 +45,20 @@ def server(port):
 async def play_once(page, click_correct=True):
     """Walk the experiment, returning the final summary data."""
     manifest = await page.evaluate(
-        "(async () => (await (await fetch('manifest.json')).json()).trials)()")
+        "(async () => await (await fetch('manifest.json')).json())()")
+    # Banked manifest: a child plays intro + core + ONE randomly assigned
+    # block, so the bank (831 trials) is far larger than a session (51).
+    # Look trials up across the whole bank, but expect only a session's worth.
+    if isinstance(manifest.get('trials'), list):
+        bank = manifest['trials']
+        session_length = len(bank)
+    else:
+        bank = list(manifest.get('intro') or []) + list(manifest.get('core') or [])
+        for blocks in (manifest.get('blocks') or []) + (manifest.get('adult_blocks') or []):
+            bank.extend(blocks)
+        session_length = (manifest.get('meta') or {}).get('session_length')
+        if not session_length:
+            raise SystemExit("manifest has neither 'trials' nor meta.session_length")
 
     # 1. consent — wait for the age picker before clicking. The consent
     # tap is what unlocks audio playback for the rest of the session.
@@ -70,9 +83,9 @@ async def play_once(page, click_correct=True):
     # blocks and a Zorpie intro before each test block. So we read whichever
     # trial is currently rendered (the row id is `row-<trial_id>`) and look
     # it up in a manifest dict.
-    manifest_by_id = {t['trial_id']: t for t in manifest}
+    manifest_by_id = {t['trial_id']: t for t in bank}
     trials_completed = 0
-    total = len(manifest)
+    total = session_length
     for _ in range(total + 30):  # buffer for block intros + flicker
         if trials_completed >= total:
             break
@@ -113,7 +126,7 @@ async def play_once(page, click_correct=True):
     await page.wait_for_timeout(800)
     summary = await page.evaluate("""
       () => {
-        const all = jsPsych.data.get().values().filter(d => d.task === 'mochi_oddity');
+        const all = jsPsych.data.get().values().filter(d => d.task === 'things_oddity');
         return {
           n_trials: all.length,
           n_correct: all.filter(d => d.correct).length,
@@ -123,7 +136,7 @@ async def play_once(page, click_correct=True):
         };
       }
     """)
-    return summary, len(manifest)
+    return summary, session_length
 
 async def run():
     from playwright.async_api import async_playwright
@@ -216,7 +229,7 @@ async def run():
             """)
             await page.wait_for_timeout(500)
             n_done = await page.evaluate(
-                "jsPsych.data.get().values().filter(d=>d.task==='mochi_oddity').length")
+                "jsPsych.data.get().values().filter(d=>d.task==='things_oddity').length")
             if n_done != 1:
                 failures.append(f"double-click yielded {n_done} trials, expected 1")
             else:

@@ -39,10 +39,37 @@ def check_manifest():
         m = json.loads(p.read_text())
     except json.JSONDecodeError as e:
         fail(f"manifest.json invalid JSON: {e}"); return None
-    if 'trials' not in m or not isinstance(m['trials'], list):
-        fail("manifest must have a 'trials' list"); return None
-    ok(f"loaded {len(m['trials'])} trials")
-    return m
+    trials = flatten(m)
+    if trials is None:
+        fail("manifest must have a 'trials' list, or the banked "
+             "{intro, core, blocks, adult_blocks} shape")
+        return None
+    ok(f"loaded {len(trials)} trials")
+    return trials
+
+
+def flatten(m):
+    """Every trial the client can serve, from either manifest shape.
+
+    The original flat {trials: [...]} form is still supported. The banked
+    form is what build_bank.py writes now: a child does intro + core + one
+    of `blocks`, an adult does intro + core + one of `adult_blocks`. Every
+    one of those trials can reach a participant, so every one gets checked
+    — including blocks past `active_blocks`, which are built ahead of the
+    sample and opened up later.
+    """
+    if isinstance(m.get('trials'), list):
+        return m['trials']
+    keys = ('intro', 'core', 'blocks', 'adult_blocks')
+    if not any(k in m for k in keys):
+        return None
+    trials = []
+    for k in keys:
+        v = m.get(k) or []
+        for item in v:
+            # blocks / adult_blocks are lists of lists; intro / core are flat.
+            trials.extend(item if isinstance(item, list) else [item])
+    return trials
 
 def check_trial_schema(trials):
     print("==> trial schema")
@@ -64,19 +91,27 @@ def check_trial_schema(trials):
             bad += 1
     if bad == 0: ok(f"all {len(trials)} trials have valid schema")
 
-def check_images_exist(trials):
-    print("==> image files exist")
-    missing = []
+def unique_images(trials):
+    """One pass per file, not per reference — the bank reuses the same
+    concept images across many blocks (831 trials, ~900 distinct files)."""
+    seen = []
+    known = set()
     for t in trials:
         for img in t['images']:
-            p = PUBLIC / img
-            if not p.exists():
-                missing.append(img)
+            if img not in known:
+                known.add(img)
+                seen.append(img)
+    return seen
+
+def check_images_exist(trials):
+    print("==> image files exist")
+    imgs = unique_images(trials)
+    missing = [img for img in imgs if not (PUBLIC / img).exists()]
     if missing:
         for m in missing[:10]: fail(f"missing image: {m}")
         if len(missing) > 10: fail(f"... and {len(missing)-10} more")
     else:
-        ok(f"all {sum(len(t['images']) for t in trials)} images present")
+        ok(f"all {len(imgs)} distinct images present")
 
 def check_images_loadable(trials):
     print("==> images load with PIL")
@@ -86,17 +121,16 @@ def check_images_loadable(trials):
         print("  skipped (PIL not installed)")
         return
     bad = 0
-    for t in trials:
-        for img in t['images']:
-            p = PUBLIC / img
-            if not p.exists():
-                continue  # already counted
-            try:
-                with Image.open(p) as im:
-                    im.verify()
-            except Exception as e:
-                fail(f"{img}: {e}")
-                bad += 1
+    for img in unique_images(trials):
+        p = PUBLIC / img
+        if not p.exists():
+            continue  # already counted
+        try:
+            with Image.open(p) as im:
+                im.verify()
+        except Exception as e:
+            fail(f"{img}: {e}")
+            bad += 1
     if bad == 0: ok("all images loadable")
 
 def check_html_assets():
@@ -119,11 +153,11 @@ def check_html_assets():
         ok(f"all {len(refs)} experiment-referenced assets present")
 
 def main():
-    m = check_manifest()
-    if m is None: sys.exit(1)
-    check_trial_schema(m['trials'])
-    check_images_exist(m['trials'])
-    check_images_loadable(m['trials'])
+    trials = check_manifest()
+    if trials is None: sys.exit(1)
+    check_trial_schema(trials)
+    check_images_exist(trials)
+    check_images_loadable(trials)
     check_html_assets()
     print()
     if errors:
