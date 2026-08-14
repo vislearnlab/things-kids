@@ -35,4 +35,8 @@ echo "--> Save/completion ordering (adult + Prolific redirect)"
 python3 tests/save_completion_check.py
 
 echo
+echo "--> Debrief comment reaches the payload"
+python3 tests/debrief_comment_check.py
+
+echo
 echo "=== ALL TESTS PASSED ==="

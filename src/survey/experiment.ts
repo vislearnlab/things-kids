@@ -1066,12 +1066,19 @@ async function main(): Promise<void> {
         </div>`,
       choices: ['Finish'],
       button_html: (c: string) => `<button class="big-btn">${c}</button>`,
-      on_load: () => { setHud(false); document.getElementById('debrief-comment')?.focus(); },
-      on_finish: (data: any) => {
+      on_load: () => {
+        setHud(false);
         const box = document.getElementById('debrief-comment') as HTMLTextAreaElement | null;
-        DEBRIEF_COMMENT = (box?.value || '').trim().slice(0, 5000);
-        data.debrief_comment = DEBRIEF_COMMENT;
+        box?.focus();
+        // Read it while it is still on screen. jsPsych v8 tears the display
+        // down BEFORE a trial's on_finish runs, so looking the textarea up
+        // there found null every time and silently dropped the comment —
+        // which is why the first 16 adults all show debrief_comment: null.
+        box?.addEventListener('input', () => {
+          DEBRIEF_COMMENT = box.value.trim().slice(0, 5000);
+        });
       },
+      on_finish: (data: any) => { data.debrief_comment = DEBRIEF_COMMENT; },
       data: { task: 'debrief' },
     });
   }
