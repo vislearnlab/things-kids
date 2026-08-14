@@ -1,0 +1,230 @@
+---
+title: "THINGS-Kids — stimulus review"
+subtitle: "Every trial, the intended answer, and why"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+    toc_depth: 2
+    theme: flatly
+    df_print: paged
+    self_contained: false
+params:
+  # "core" is the 20 trials every child sees; "all" adds the 400 rotating
+  # bank trials and makes a very long document.
+  scope: "core"
+  pilot: "pilot_data/pilot_trials.csv"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.show = "hold", out.width = "31%")
+library(dplyr)
+library(knitr)
+library(ggplot2)
+
+d <- read.csv("stimulus_reasoning.csv", stringsAsFactors = FALSE)
+
+# Pilot responses, if any have been collected. Trials nobody has seen simply
+# come through as NA rather than being dropped.
+pilot_path <- params$pilot
+pilot <- if (file.exists(pilot_path)) read.csv(pilot_path, stringsAsFactors = FALSE) else NULL
+if (!is.null(pilot)) {
+  seen <- pilot %>% group_by(trial_id) %>%
+    summarise(n_seen = n(), n_correct = sum(correct), .groups = "drop") %>%
+    mutate(pilot_acc = n_correct / n_seen)
+  d <- left_join(d, seen, by = "trial_id")
+} else {
+  d$n_seen <- NA_integer_; d$pilot_acc <- NA_real_
+}
+
+img <- function(concept) file.path("..", "public", "stimuli", paste0(concept, ".jpg"))
+
+# Plain-language account of why the intended answer is the intended answer.
+# SPoSE similarity is on 0-1; the softmax P is the model's predicted chance
+# that an adult picks the intended item.
+reason <- function(r) {
+  if (r$duplicate_image == 1) {
+    return(sprintf(
+      "**Attention check.** Two copies of the same photo (*%s*) plus *%s*. The duplicate is the point — anyone attending cannot miss it.",
+      r$pair_a, r$odd_concept))
+  }
+  agree <- r$clip_margin > 0
+  sprintf(paste0(
+    "**%s** is the odd one out. SPoSE places *%s* and *%s* at **%.2f** (%s), ",
+    "while *%s* (%s) sits at only %.2f and %.2f from them. ",
+    "The model puts an adult's chance of picking it at **%.0f%%**. ",
+    "CLIP %s: the visual margin is **%+.3f**, so appearance %s."),
+    toupper(r$odd_concept), r$pair_a, r$pair_b, r$spose_pair,
+    ifelse(nzchar(r$pair_category), r$pair_category, "uncategorised"),
+    r$odd_concept, ifelse(nzchar(r$odd_category), r$odd_category, "uncategorised"),
+    r$spose_odd_a, r$spose_odd_b, 100 * r$p_correct_spose,
+    ifelse(agree, "agrees", "disagrees"), r$clip_margin,
+    ifelse(agree, "points at the same answer",
+           "pulls *against* the intended answer — this is a conflict trial"))
+}
+
+# Emit raw HTML rather than knitr::include_graphics(): inside a
+# results="asis" loop include_graphics() returns an object that is never
+# printed, so the images silently vanish. Raw <img> also lets the intended
+# answer carry a visible outline.
+show_trial <- function(r) {
+  flag <- ""
+  if (!is.na(r$pilot_acc)) {
+    flag <- if (r$pilot_acc < 0.5)
+      "<span class='miss'>&#10007; missed in pilot</span>"
+    else "<span class='hit'>&#10003; pilot correct</span>"
+  }
+  cat(sprintf("\n\n#### %s %s\n\n", r$trial_id, flag))
+  # No position is quoted: the app reshuffles the three images independently
+  # for every child, so "position 3" here would mean nothing on screen.
+  cat(sprintf("<p class='meta'>%s &middot; %s</p>\n\n",
+              r$condition,
+              ifelse(nzchar(r$difficulty_bin), r$difficulty_bin, r$tier)))
+  cat(reason(r), "\n\n")
+
+  concepts <- c(r$img_1, r$img_2, r$img_3)
+  odd_pos <- r$oddity_index + 1
+  cat("<div class='triad'>\n")
+  for (k in seq_along(concepts)) {
+    is_odd <- (k == odd_pos)
+    cat(sprintf(
+      "<figure class='%s'><img src='%s' alt='%s'><figcaption>%s%s</figcaption></figure>\n",
+      if (is_odd) "cell odd" else "cell",
+      img(concepts[k]), concepts[k], concepts[k],
+      if (is_odd) " &larr; odd one out" else ""))
+  }
+  cat("</div>\n\n")
+}
+```
+
+<style>
+.triad { display: flex; gap: 10px; margin: 10px 0 26px; flex-wrap: wrap; }
+.triad .cell { margin: 0; flex: 1 1 180px; max-width: 240px; }
+.triad img { width: 100%; aspect-ratio: 1; object-fit: cover;
+             border-radius: 8px; display: block; border: 3px solid transparent; }
+.triad .odd img { border-color: #eb6834; }
+.triad figcaption { font-size: 12px; color: #666; margin-top: 5px; text-align: center; }
+.triad .odd figcaption { color: #c0521f; font-weight: 600; }
+p.meta { font-size: 12px; color: #888; margin: -6px 0 8px; text-transform: uppercase;
+         letter-spacing: .06em; }
+span.miss { color: #c0392b; font-size: 13px; font-weight: 600; }
+span.hit  { color: #27ae60; font-size: 13px; font-weight: 500; }
+h4 { margin-top: 34px; border-top: 1px solid #eee; padding-top: 16px; }
+</style>
+
+## How to read this
+
+Each trial shows three photographs in the order a child sees them. Two are
+meant to go together; the third is the intended answer.
+
+**The intended answer comes from SPoSE**, a model fit to 4.7 million adult
+odd-one-out judgements (Hebart et al., 2023). It is not a ground truth — it is
+a well-supported prediction about what adults *would* say, and part of the job
+of this document is to find the trials where that prediction looks wrong.
+
+Two numbers carry most of the reasoning:
+
+- **SPoSE similarity** (0–1) between concepts. The pair should be high; the odd
+  item should be low against both.
+- **CLIP visual margin.** Positive means the photographs agree with SPoSE.
+  Negative means they disagree — the intended odd item actually *looks* like it
+  belongs, and only category knowledge supports the answer. Half of all test
+  trials are deliberately negative.
+
+```{r overview}
+d %>%
+  filter(section %in% c("core", "block")) %>%
+  count(condition, difficulty_bin) %>%
+  tidyr::pivot_wider(names_from = condition, values_from = n, values_fill = 0) %>%
+  kable(caption = "Test trials by condition and difficulty (core + full bank)")
+```
+
+## Pilot: where the model and the adult disagreed
+
+```{r pilot-summary, eval = !is.null(pilot)}
+pd <- d %>% filter(!is.na(pilot_acc), section %in% c("core", "block"))
+pd %>%
+  group_by(condition) %>%
+  summarise(trials = n(), correct = sum(n_correct), acc = mean(pilot_acc), .groups = "drop") %>%
+  kable(digits = 2, caption = "Adult pilot accuracy by condition")
+```
+
+```{r pilot-calibration, eval = !is.null(pilot), fig.width = 7, fig.height = 4.2, out.width = "88%"}
+ggplot(pd, aes(p_correct_spose, pilot_acc)) +
+  geom_hline(yintercept = 1/3, linetype = "dashed", colour = "grey60") +
+  geom_abline(slope = 1, intercept = 0, colour = "grey75") +
+  geom_jitter(aes(colour = condition), height = 0.03, width = 0, size = 2.6, alpha = 0.85) +
+  scale_colour_manual(values = c(visual_agree = "#2a78d6", visual_conflict = "#eb6834")) +
+  scale_x_continuous(limits = c(0.3, 1)) + scale_y_continuous(limits = c(-0.05, 1.05)) +
+  labs(x = "SPoSE predicted P(correct)", y = "Adult pilot accuracy",
+       title = "Calibration: does the model predict what the adult actually did?",
+       subtitle = "Grey line is perfect calibration; dashed line is chance") +
+  theme_minimal(base_size = 12) + theme(legend.position = "bottom")
+```
+
+Points far **below** the grey line are the ones to worry about: trials the model
+calls easy that a fully attentive adult still got wrong. Those are candidates for
+removal, because a trial no adult endorses cannot measure anything in a child.
+
+```{r pilot-misses, eval = !is.null(pilot)}
+pd %>%
+  filter(pilot_acc < 0.5, p_correct_spose > 0.75) %>%
+  arrange(desc(p_correct_spose)) %>%
+  select(trial_id, condition, pair_a, pair_b, odd_concept,
+         spose_pair, p_correct_spose, clip_margin) %>%
+  kable(digits = 2,
+        caption = "Model says easy, adult said otherwise — review these first")
+```
+
+## Core trials
+
+Every child sees these 20, so they carry the age comparison and deserve the
+closest reading.
+
+```{r core, results = "asis"}
+core <- d %>% filter(section == "core") %>% arrange(desc(p_correct_spose))
+invisible(lapply(seq_len(nrow(core)), function(i) show_trial(core[i, ])))
+```
+
+## Training, warmup, and attention checks
+
+```{r intro, results = "asis"}
+intro <- d %>% filter(section %in% c("training", "warmup", "catch")) %>%
+  arrange(factor(section, levels = c("training", "warmup", "catch")), trial_id)
+invisible(lapply(seq_len(nrow(intro)), function(i) show_trial(intro[i, ])))
+```
+
+## Rotating bank
+
+```{r bank, results = "asis", eval = params$scope == "all"}
+bank <- d %>% filter(section == "block") %>% arrange(block, trial_id)
+for (b in unique(bank$block)) {
+  cat(sprintf("\n\n### Block %s\n", b))
+  bb <- bank %>% filter(block == b)
+  invisible(lapply(seq_len(nrow(bb)), function(i) show_trial(bb[i, ])))
+}
+```
+
+```{r bank-note, results = "asis", eval = params$scope != "all"}
+cat(sprintf(paste0(
+  "The 400 rotating bank trials are omitted here to keep the document readable. ",
+  "Each child sees one 20-trial block of the %d currently active.\n\n",
+  "Render the full set with:\n\n",
+  "```r\nrmarkdown::render(\"stimulus_review.Rmd\", params = list(scope = \"all\"))\n```\n"),
+  length(unique(d$block[d$section == "block" & d$block != ""]))))
+```
+
+## Provenance
+
+All photographs come from the vocab-gradient published item set (THINGS,
+copyright-free release), restricted to concepts appearing in `test_items.csv`
+so results join to that paper's 4AFC item data. Similarity terms are
+recomputed by `build_reasoning_table.py` from the same matrices the bank was
+built with: SPoSE 66-d (Hebart et al., 2023) and CLIP ViT-B/32 with OpenAI
+weights, matching the model the vocab-gradient paper used.
+
+No image appears twice within a session, and no two concepts in different
+trials of one session exceed CLIP .88 — near-identical photographs of
+different concepts read as repeats even when nothing is literally repeated.

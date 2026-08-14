@@ -1,0 +1,432 @@
+trial_id,section,block,tier,condition,difficulty_bin,duplicate_image,img_1,img_2,img_3,oddity_index,odd_concept,pair_a,pair_b,pair_category,odd_category,spose_pair,spose_odd_a,spose_odd_b,p_correct_spose,clip_pair,clip_odd_a,clip_odd_b,clip_margin
+training_00,training,,training,animal_vs_office supply,,0,turtle,clipboard,pigeon,1,clipboard,pigeon,turtle,animal,office supply,0.92,0.104,0.108,0.989,0.667,0.557,0.523,0.109
+training_01,training,,training,plant_vs_electronic device,,0,pineapple,amplifier,flower,1,amplifier,flower,pineapple,plant,electronic device,0.837,0.103,0.084,0.974,0.631,0.46,0.523,0.109
+training_02,training,,training,container_vs_food,,0,dessert,crate,forklift,0,dessert,crate,forklift,container,food,0.887,0.102,0.086,0.986,0.486,0.432,0.444,0.042
+training_03,training,,training,food_vs_part of car,,0,fondue,marshmallow,brake,2,brake,fondue,marshmallow,food,part of car,0.841,0.13,0.089,0.97,0.674,0.506,0.466,0.167
+warmup_00,warmup,,warmup,food_vs_home decor,,0,sauerkraut,poster,almond,1,poster,almond,sauerkraut,food,home decor,0.781,0.154,0.107,0.95,0.554,0.383,0.389,0.165
+warmup_01,warmup,,warmup,food_vs_clothing,,0,fruitcake,cardigan,carrot,1,cardigan,carrot,fruitcake,food,clothing,0.818,0.225,0.177,0.933,0.547,0.476,0.501,0.046
+warmup_02,warmup,,warmup,animal_vs_clothing,,0,snail,jellyfish,sweater,2,sweater,jellyfish,snail,animal,clothing,0.839,0.217,0.132,0.937,0.651,0.58,0.508,0.072
+warmup_03,warmup,,warmup,plant_vs_vehicle,,0,artichoke,subway,tamale,1,subway,artichoke,tamale,plant,vehicle,0.74,0.093,0.132,0.937,0.646,0.382,0.378,0.264
+catch_00,catch,,catch,attention_check,,1,boat,cymbal,boat,1,cymbal,boat,boat,,,1.0,,,,1.0,0.426,0.426,
+catch_01,catch,,catch,attention_check,,1,swordfish,teacup,teacup,0,swordfish,teacup,teacup,,,1.0,,,,1.0,0.4,0.4,
+catch_02,catch,,catch,attention_check,,1,cheese,cheese,leggings,2,leggings,cheese,cheese,,,1.0,,,,1.0,0.413,0.413,
+core_00,core,,familiar,visual_conflict,very hard,0,baseball,visor,headdress,0,baseball,headdress,visor,clothing,sports equipment,0.707,0.438,0.63,0.516,0.517,0.528,0.433,-0.01
+core_01,core,,familiar,visual_conflict,hard,0,avocado,cactus,zucchini,1,cactus,avocado,zucchini,food,plant,0.801,0.456,0.613,0.68,0.704,0.716,0.695,-0.012
+core_02,core,,familiar,visual_conflict,medium,0,sunflower,garlic,bee,1,garlic,bee,sunflower,animal,food,0.869,0.421,0.634,0.796,0.659,0.673,0.703,-0.045
+core_03,core,,familiar,visual_conflict,easy,0,sorbet,butter,hammock,2,hammock,butter,sorbet,food,furniture,0.795,0.26,0.209,0.881,0.62,0.662,0.546,-0.042
+core_04,core,,familiar,visual_conflict,very easy,0,hedgehog,goat,saddle,2,saddle,goat,hedgehog,animal,sports equipment,0.929,0.473,0.352,0.927,0.657,0.668,0.56,-0.011
+core_05,core,,familiar,visual_conflict,very hard,0,clam,coconut,parsley,0,clam,coconut,parsley,food,animal,0.794,0.758,0.602,0.487,0.698,0.733,0.667,-0.035
+core_06,core,,familiar,visual_conflict,hard,0,pot,lobster,gazelle,0,pot,gazelle,lobster,animal,container,0.711,0.092,0.485,0.59,0.596,0.475,0.627,-0.031
+core_07,core,,familiar,visual_conflict,medium,0,swan,monkey,orchid,2,orchid,monkey,swan,animal,plant,0.845,0.367,0.512,0.796,0.6,0.581,0.712,-0.112
+core_08,core,,familiar,visual_conflict,easy,0,marker,harmonica,trumpet,0,marker,harmonica,trumpet,musical instrument,tool,0.877,0.55,0.559,0.802,0.609,0.633,0.556,-0.025
+core_09,core,,familiar,visual_conflict,very easy,0,sloth,egg,seagull,1,egg,seagull,sloth,animal,food,0.902,0.469,0.396,0.901,0.623,0.654,0.501,-0.032
+core_10,core,,familiar,visual_agree,very hard,0,salami,dish,raisin,1,dish,raisin,salami,food,container,0.755,0.558,0.58,0.482,0.677,0.567,0.504,0.11
+core_11,core,,familiar,visual_agree,hard,0,bouquet,pesto,papaya,0,bouquet,papaya,pesto,food,decoration,0.842,0.751,0.555,0.631,0.654,0.554,0.522,0.1
+core_12,core,,familiar,visual_agree,medium,0,gargoyle,hippopotamus,turkey,0,gargoyle,hippopotamus,turkey,animal,decoration,0.888,0.573,0.581,0.763,0.686,0.64,0.626,0.046
+core_13,core,,familiar,visual_agree,easy,0,volleyball,pumpkin,strawberry,0,volleyball,pumpkin,strawberry,food,sports equipment,0.885,0.551,0.26,0.888,0.73,0.595,0.603,0.127
+core_14,core,,familiar,visual_agree,very easy,0,chive,sunroof,pancake,1,sunroof,chive,pancake,plant,part of car,0.749,0.087,0.124,0.943,0.674,0.504,0.591,0.084
+core_15,core,,familiar,visual_agree,very hard,0,suit,toe,bagpipe,2,bagpipe,suit,toe,clothing,musical instrument,0.72,0.598,0.288,0.478,0.562,0.52,0.506,0.042
+core_16,core,,familiar,visual_agree,hard,0,potato,dragonfly,basil,1,dragonfly,basil,potato,plant,animal,0.818,0.743,0.367,0.687,0.725,0.62,0.505,0.104
+core_17,core,,familiar,visual_agree,medium,0,caramel,oatmeal,bed,2,bed,caramel,oatmeal,food,furniture,0.732,0.345,0.142,0.779,0.623,0.552,0.506,0.07
+core_18,core,,familiar,visual_agree,easy,0,dishwasher,microwave,shelf,2,shelf,dishwasher,microwave,electronic device,furniture,0.951,0.659,0.697,0.873,0.693,0.566,0.65,0.042
+core_19,core,,familiar,visual_agree,very easy,0,rhubarb,grain,cassette,2,cassette,grain,rhubarb,food,container,0.772,0.131,0.132,0.937,0.709,0.528,0.503,0.181
+blk00_00,block,0,familiar,visual_conflict,very hard,0,eggnog,flan,pie,0,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk00_01,block,0,familiar,visual_conflict,hard,0,carriage,jukebox,windshield,1,jukebox,carriage,windshield,vehicle,electronic device,0.794,0.584,0.413,0.678,0.641,0.657,0.614,-0.017
+blk00_02,block,0,familiar,visual_conflict,medium,0,violin,tapestry,tuxedo,0,violin,tapestry,tuxedo,home decor,musical instrument,0.846,0.512,0.499,0.789,0.475,0.524,0.553,-0.078
+blk00_03,block,0,familiar,visual_conflict,easy,0,mango,coleslaw,antelope,2,antelope,coleslaw,mango,food,animal,0.779,0.249,0.442,0.847,0.593,0.516,0.631,-0.038
+blk00_04,block,0,familiar,visual_conflict,very easy,0,leopard,tulip,rabbit,1,tulip,leopard,rabbit,animal,plant,0.943,0.457,0.633,0.937,0.676,0.546,0.739,-0.063
+blk00_05,block,0,familiar,visual_conflict,very hard,0,pajamas,boa,anklet,2,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk00_06,block,0,familiar,visual_conflict,hard,0,prune,watermelon,ladybug,2,ladybug,prune,watermelon,food,animal,0.731,0.355,0.608,0.594,0.646,0.607,0.665,-0.02
+blk00_07,block,0,familiar,visual_conflict,medium,0,kayak,trampoline,submarine,1,trampoline,kayak,submarine,vehicle,sports equipment,0.916,0.747,0.383,0.797,0.547,0.582,0.475,-0.034
+blk00_08,block,0,familiar,visual_conflict,easy,0,rice,toothpick,pizza,1,toothpick,pizza,rice,food,tool,0.873,0.391,0.507,0.853,0.625,0.606,0.646,-0.02
+blk00_09,block,0,familiar,visual_conflict,very easy,0,coyote,tractor,bobsled,0,coyote,bobsled,tractor,sports equipment,animal,0.772,0.194,0.187,0.926,0.473,0.48,0.517,-0.043
+blk00_10,block,0,familiar,visual_agree,very hard,0,eggplant,teabag,gourd,1,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk00_11,block,0,familiar,visual_agree,hard,0,teapot,meatball,soup,0,teapot,meatball,soup,food,container,0.854,0.524,0.683,0.692,0.696,0.531,0.616,0.081
+blk00_12,block,0,familiar,visual_agree,medium,0,gondola,veil,coat,0,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk00_13,block,0,familiar,visual_agree,easy,0,aloe,groundhog,pheasant,0,aloe,groundhog,pheasant,animal,plant,0.896,0.546,0.454,0.883,0.617,0.575,0.543,0.042
+blk00_14,block,0,familiar,visual_agree,very easy,0,goose,bone,eagle,1,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk00_15,block,0,familiar,visual_agree,very hard,0,pinball,locker,pinwheel,1,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk00_16,block,0,familiar,visual_agree,hard,0,barrel,clove,leek,0,barrel,clove,leek,food,container,0.779,0.527,0.351,0.63,0.604,0.526,0.535,0.068
+blk00_17,block,0,familiar,visual_agree,medium,0,turntable,aquarium,frog,0,turntable,aquarium,frog,home decor,electronic device,0.762,0.416,0.086,0.771,0.575,0.535,0.493,0.04
+blk00_18,block,0,familiar,visual_agree,easy,0,otter,vase,tadpole,1,vase,otter,tadpole,animal,home decor,0.854,0.213,0.289,0.885,0.601,0.501,0.511,0.09
+blk00_19,block,0,familiar,visual_agree,very easy,0,koala,trough,rhinoceros,1,trough,koala,rhinoceros,animal,container,0.939,0.431,0.37,0.936,0.698,0.472,0.467,0.226
+blk01_00,block,1,familiar,visual_conflict,very hard,0,pie,flan,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk01_01,block,1,familiar,visual_conflict,hard,0,carriage,jukebox,windshield,1,jukebox,carriage,windshield,vehicle,electronic device,0.794,0.584,0.413,0.678,0.641,0.657,0.614,-0.017
+blk01_02,block,1,familiar,visual_conflict,medium,0,footbath,tapestry,tuxedo,0,footbath,tapestry,tuxedo,home decor,container,0.846,0.399,0.543,0.796,0.475,0.498,0.5,-0.025
+blk01_03,block,1,familiar,visual_conflict,easy,0,rhinoceros,coleslaw,mango,0,rhinoceros,coleslaw,mango,food,animal,0.779,0.237,0.403,0.882,0.593,0.444,0.608,-0.015
+blk01_04,block,1,familiar,visual_conflict,very easy,0,acorn,hamster,antelope,0,acorn,antelope,hamster,animal,fruit,0.937,0.552,0.536,0.916,0.594,0.579,0.65,-0.056
+blk01_05,block,1,familiar,visual_conflict,very hard,0,anklet,boa,pajamas,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk01_06,block,1,familiar,visual_conflict,hard,0,ladybug,prune,watermelon,0,ladybug,prune,watermelon,food,animal,0.731,0.355,0.608,0.594,0.646,0.607,0.665,-0.02
+blk01_07,block,1,familiar,visual_conflict,medium,0,submarine,kayak,target,2,target,kayak,submarine,vehicle,sports equipment,0.916,0.72,0.448,0.779,0.547,0.639,0.511,-0.092
+blk01_08,block,1,familiar,visual_conflict,easy,0,tulip,rabbit,pheasant,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk01_09,block,1,familiar,visual_conflict,very easy,0,pizza,rice,bamboo,2,bamboo,pizza,rice,food,plant,0.873,0.292,0.413,0.919,0.625,0.579,0.722,-0.097
+blk01_10,block,1,familiar,visual_agree,very hard,0,eggplant,gourd,teabag,2,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk01_11,block,1,familiar,visual_agree,hard,0,meatball,mixer,soup,1,mixer,meatball,soup,food,electronic device,0.854,0.55,0.641,0.689,0.696,0.467,0.557,0.14
+blk01_12,block,1,familiar,visual_agree,medium,0,coat,veil,gondola,2,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk01_13,block,1,familiar,visual_agree,easy,0,tractor,bobsled,crib,2,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk01_14,block,1,familiar,visual_agree,very easy,0,eagle,aquarium,goose,1,aquarium,eagle,goose,animal,home decor,0.955,0.565,0.62,0.938,0.73,0.561,0.557,0.169
+blk01_15,block,1,familiar,visual_agree,very hard,0,pinwheel,pinball,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk01_16,block,1,familiar,visual_agree,hard,0,clove,barrel,leek,1,barrel,clove,leek,food,container,0.779,0.527,0.351,0.63,0.604,0.526,0.535,0.068
+blk01_17,block,1,familiar,visual_agree,medium,0,otter,tadpole,ship,2,ship,otter,tadpole,animal,vehicle,0.854,0.323,0.521,0.773,0.601,0.51,0.489,0.091
+blk01_18,block,1,familiar,visual_agree,easy,0,hoe,coyote,reindeer,0,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk01_19,block,1,familiar,visual_agree,very easy,0,pinecone,rooster,warthog,0,pinecone,rooster,warthog,animal,home decor,0.939,0.507,0.527,0.947,0.738,0.671,0.606,0.067
+blk02_00,block,2,familiar,visual_conflict,very hard,0,flan,pie,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk02_01,block,2,familiar,visual_conflict,hard,0,windshield,suitcase,carriage,1,suitcase,carriage,windshield,vehicle,container,0.794,0.524,0.64,0.619,0.641,0.633,0.654,-0.013
+blk02_02,block,2,familiar,visual_conflict,medium,0,gondola,tapestry,tuxedo,0,gondola,tapestry,tuxedo,home decor,vehicle,0.846,0.409,0.695,0.702,0.475,0.526,0.483,-0.051
+blk02_03,block,2,familiar,visual_conflict,easy,0,coleslaw,mango,barrel,2,barrel,coleslaw,mango,food,container,0.779,0.237,0.267,0.805,0.593,0.523,0.624,-0.031
+blk02_04,block,2,familiar,visual_conflict,very easy,0,antelope,tumbleweed,hamster,1,tumbleweed,antelope,hamster,animal,plant,0.937,0.503,0.492,0.945,0.594,0.605,0.573,-0.011
+blk02_05,block,2,familiar,visual_conflict,very hard,0,anklet,pajamas,boa,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk02_06,block,2,familiar,visual_conflict,hard,0,watermelon,prune,bamboo,2,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk02_07,block,2,familiar,visual_conflict,medium,0,aquarium,submarine,kayak,0,aquarium,kayak,submarine,vehicle,home decor,0.916,0.725,0.703,0.725,0.547,0.631,0.526,-0.083
+blk02_08,block,2,familiar,visual_conflict,easy,0,tulip,pheasant,rabbit,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk02_09,block,2,familiar,visual_conflict,very easy,0,pizza,rice,aloe,2,aloe,pizza,rice,food,plant,0.873,0.323,0.463,0.916,0.625,0.593,0.638,-0.013
+blk02_10,block,2,familiar,visual_agree,very hard,0,gourd,teabag,eggplant,1,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk02_11,block,2,familiar,visual_agree,hard,0,soup,meatball,mixer,2,mixer,meatball,soup,food,electronic device,0.854,0.55,0.641,0.689,0.696,0.467,0.557,0.14
+blk02_12,block,2,familiar,visual_agree,medium,0,statue,coat,veil,0,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk02_13,block,2,familiar,visual_agree,easy,0,bobsled,crib,tractor,1,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk02_14,block,2,familiar,visual_agree,very easy,0,bone,eagle,goose,0,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk02_15,block,2,familiar,visual_agree,very hard,0,pinwheel,pinball,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk02_16,block,2,familiar,visual_agree,hard,0,ladybug,coral,ferry,2,ferry,coral,ladybug,animal,vehicle,0.754,0.611,0.148,0.622,0.672,0.568,0.497,0.104
+blk02_17,block,2,familiar,visual_agree,medium,0,leek,clove,jug,2,jug,clove,leek,food,container,0.779,0.499,0.264,0.731,0.604,0.573,0.545,0.031
+blk02_18,block,2,familiar,visual_agree,easy,0,coyote,hoe,reindeer,1,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk02_19,block,2,familiar,visual_agree,very easy,0,pinecone,rhinoceros,koala,0,pinecone,koala,rhinoceros,animal,home decor,0.939,0.571,0.441,0.931,0.698,0.6,0.596,0.098
+blk03_00,block,3,familiar,visual_conflict,very hard,0,flan,eggnog,pie,1,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk03_01,block,3,familiar,visual_conflict,hard,0,windshield,carriage,basket,2,basket,carriage,windshield,vehicle,container,0.794,0.555,0.193,0.674,0.641,0.661,0.548,-0.02
+blk03_02,block,3,familiar,visual_conflict,medium,0,tuxedo,jukebox,tapestry,1,jukebox,tapestry,tuxedo,home decor,electronic device,0.846,0.543,0.422,0.793,0.475,0.547,0.558,-0.083
+blk03_03,block,3,familiar,visual_conflict,easy,0,coleslaw,koala,mango,1,koala,coleslaw,mango,food,animal,0.779,0.184,0.385,0.89,0.593,0.522,0.604,-0.011
+blk03_04,block,3,familiar,visual_conflict,very easy,0,hamster,hoe,antelope,1,hoe,antelope,hamster,animal,tool,0.937,0.579,0.431,0.908,0.594,0.606,0.504,-0.012
+blk03_05,block,3,familiar,visual_conflict,very hard,0,anklet,boa,pajamas,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk03_06,block,3,familiar,visual_conflict,hard,0,prune,watermelon,aloe,2,aloe,prune,watermelon,food,plant,0.731,0.445,0.651,0.55,0.646,0.655,0.703,-0.057
+blk03_07,block,3,familiar,visual_conflict,medium,0,kayak,horn,submarine,1,horn,kayak,submarine,vehicle,musical instrument,0.916,0.622,0.692,0.768,0.547,0.642,0.578,-0.095
+blk03_08,block,3,familiar,visual_conflict,easy,0,pheasant,tulip,rabbit,1,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk03_09,block,3,familiar,visual_conflict,very easy,0,pizza,bamboo,rice,1,bamboo,pizza,rice,food,plant,0.873,0.292,0.413,0.919,0.625,0.579,0.722,-0.097
+blk03_10,block,3,familiar,visual_agree,very hard,0,eggplant,tea,gourd,1,tea,eggplant,gourd,food,drink,0.735,0.578,0.665,0.455,0.762,0.632,0.657,0.105
+blk03_11,block,3,familiar,visual_agree,hard,0,soup,blender,meatball,1,blender,meatball,soup,food,electronic device,0.854,0.622,0.752,0.585,0.696,0.51,0.594,0.102
+blk03_12,block,3,familiar,visual_agree,medium,0,statue,coat,veil,0,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk03_13,block,3,familiar,visual_agree,easy,0,bobsled,crib,tractor,1,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk03_14,block,3,familiar,visual_agree,very easy,0,goose,gondola,eagle,1,gondola,eagle,goose,animal,vehicle,0.955,0.632,0.494,0.943,0.73,0.539,0.57,0.159
+blk03_15,block,3,familiar,visual_agree,very hard,0,locker,pinball,pinwheel,0,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk03_16,block,3,familiar,visual_agree,hard,0,ladybug,coral,album,2,album,coral,ladybug,animal,home decor,0.754,0.564,0.35,0.629,0.672,0.55,0.517,0.122
+blk03_17,block,3,familiar,visual_agree,medium,0,jug,frog,aquarium,0,jug,aquarium,frog,home decor,container,0.762,0.38,0.141,0.784,0.575,0.545,0.499,0.03
+blk03_18,block,3,familiar,visual_agree,easy,0,clove,skateboard,leek,1,skateboard,clove,leek,food,toy,0.779,0.182,0.199,0.899,0.604,0.566,0.558,0.038
+blk03_19,block,3,familiar,visual_agree,very easy,0,trough,warthog,rooster,0,trough,rooster,warthog,animal,container,0.939,0.469,0.413,0.94,0.738,0.543,0.548,0.189
+blk04_00,block,4,familiar,visual_conflict,very hard,0,pie,eggnog,flan,1,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk04_01,block,4,familiar,visual_conflict,hard,0,carriage,suitcase,windshield,1,suitcase,carriage,windshield,vehicle,container,0.794,0.524,0.64,0.619,0.641,0.633,0.654,-0.013
+blk04_02,block,4,familiar,visual_conflict,medium,0,tuxedo,arm,tapestry,1,arm,tapestry,tuxedo,home decor,body part,0.846,0.444,0.667,0.748,0.475,0.495,0.533,-0.058
+blk04_03,block,4,familiar,visual_conflict,easy,0,orangutan,mango,coleslaw,0,orangutan,coleslaw,mango,food,animal,0.779,0.209,0.413,0.873,0.593,0.513,0.626,-0.033
+blk04_04,block,4,familiar,visual_conflict,very easy,0,hamster,pinecone,antelope,1,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk04_05,block,4,familiar,visual_conflict,very hard,0,pajamas,boa,anklet,2,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk04_06,block,4,familiar,visual_conflict,hard,0,prune,watermelon,bamboo,2,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk04_07,block,4,familiar,visual_conflict,medium,0,submarine,kayak,catfish,2,catfish,kayak,submarine,vehicle,animal,0.916,0.707,0.696,0.772,0.547,0.604,0.544,-0.057
+blk04_08,block,4,familiar,visual_conflict,easy,0,rabbit,pheasant,tulip,2,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk04_09,block,4,familiar,visual_conflict,very easy,0,pizza,rice,aloe,2,aloe,pizza,rice,food,plant,0.873,0.323,0.463,0.916,0.625,0.593,0.638,-0.013
+blk04_10,block,4,familiar,visual_agree,very hard,0,eggplant,coral,gourd,1,coral,eggplant,gourd,food,animal,0.735,0.46,0.701,0.449,0.762,0.661,0.641,0.101
+blk04_11,block,4,familiar,visual_agree,hard,0,blender,soup,meatball,0,blender,meatball,soup,food,electronic device,0.854,0.622,0.752,0.585,0.696,0.51,0.594,0.102
+blk04_12,block,4,familiar,visual_agree,medium,0,veil,coat,statue,2,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk04_13,block,4,familiar,visual_agree,easy,0,kimono,tractor,bobsled,0,kimono,bobsled,tractor,sports equipment,clothing,0.772,0.395,0.12,0.85,0.473,0.436,0.397,0.038
+blk04_14,block,4,familiar,visual_agree,very easy,0,goose,bone,eagle,1,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk04_15,block,4,familiar,visual_agree,very hard,0,pinball,pinwheel,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk04_16,block,4,familiar,visual_agree,hard,0,trough,clove,leek,0,trough,clove,leek,food,container,0.779,0.5,0.333,0.678,0.604,0.48,0.482,0.122
+blk04_17,block,4,familiar,visual_agree,medium,0,aquarium,frog,dustpan,2,dustpan,aquarium,frog,home decor,container,0.762,0.393,0.184,0.786,0.575,0.538,0.522,0.036
+blk04_18,block,4,familiar,visual_agree,easy,0,hoe,coyote,reindeer,0,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk04_19,block,4,familiar,visual_agree,very easy,0,cage,rhinoceros,koala,0,cage,koala,rhinoceros,animal,container,0.939,0.439,0.423,0.943,0.698,0.545,0.573,0.125
+blk05_00,block,5,familiar,visual_conflict,very hard,0,flan,pie,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk05_01,block,5,familiar,visual_conflict,hard,0,carriage,windshield,jukebox,2,jukebox,carriage,windshield,vehicle,electronic device,0.794,0.584,0.413,0.678,0.641,0.657,0.614,-0.017
+blk05_02,block,5,familiar,visual_conflict,medium,0,tapestry,tuxedo,mandolin,2,mandolin,tapestry,tuxedo,home decor,musical instrument,0.846,0.466,0.52,0.773,0.475,0.512,0.529,-0.054
+blk05_03,block,5,familiar,visual_conflict,easy,0,coleslaw,mango,antelope,2,antelope,coleslaw,mango,food,animal,0.779,0.249,0.442,0.847,0.593,0.516,0.631,-0.038
+blk05_04,block,5,familiar,visual_conflict,very easy,0,rabbit,leopard,tulip,2,tulip,leopard,rabbit,animal,plant,0.943,0.457,0.633,0.937,0.676,0.546,0.739,-0.063
+blk05_05,block,5,familiar,visual_conflict,very hard,0,anklet,boa,pajamas,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk05_06,block,5,familiar,visual_conflict,hard,0,ladybug,watermelon,prune,0,ladybug,prune,watermelon,food,animal,0.731,0.355,0.608,0.594,0.646,0.607,0.665,-0.02
+blk05_07,block,5,familiar,visual_conflict,medium,0,kayak,coral,submarine,1,coral,kayak,submarine,vehicle,animal,0.916,0.733,0.648,0.754,0.547,0.595,0.548,-0.048
+blk05_08,block,5,familiar,visual_conflict,easy,0,rice,pizza,refrigerator,2,refrigerator,pizza,rice,food,electronic device,0.873,0.359,0.485,0.869,0.625,0.64,0.585,-0.014
+blk05_09,block,5,familiar,visual_conflict,very easy,0,bobsled,tractor,soup,2,soup,bobsled,tractor,sports equipment,food,0.772,0.099,0.116,0.949,0.473,0.452,0.507,-0.034
+blk05_10,block,5,familiar,visual_agree,very hard,0,eggplant,gourd,teabag,2,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk05_11,block,5,familiar,visual_agree,hard,0,pinball,pinwheel,kimono,2,kimono,pinball,pinwheel,electronic device,clothing,0.733,0.419,0.52,0.623,0.596,0.508,0.513,0.083
+blk05_12,block,5,familiar,visual_agree,medium,0,coat,statue,veil,1,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk05_13,block,5,familiar,visual_agree,easy,0,hoe,coyote,reindeer,0,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk05_14,block,5,familiar,visual_agree,very easy,0,eagle,goose,aquarium,2,aquarium,eagle,goose,animal,home decor,0.955,0.565,0.62,0.938,0.73,0.561,0.557,0.169
+blk05_15,block,5,familiar,visual_agree,very hard,0,clove,wreath,leek,1,wreath,clove,leek,food,home decor,0.779,0.513,0.722,0.503,0.604,0.503,0.57,0.034
+blk05_16,block,5,familiar,visual_agree,hard,0,trough,otter,tadpole,0,trough,otter,tadpole,animal,container,0.854,0.468,0.478,0.691,0.601,0.498,0.568,0.032
+blk05_17,block,5,familiar,visual_agree,medium,0,mallet,anvil,lamp,2,lamp,anvil,mallet,tool,electronic device,0.741,0.36,0.427,0.761,0.732,0.627,0.627,0.105
+blk05_18,block,5,familiar,visual_agree,easy,0,pheasant,bone,groundhog,1,bone,groundhog,pheasant,animal,body part,0.896,0.55,0.503,0.86,0.617,0.541,0.563,0.054
+blk05_19,block,5,familiar,visual_agree,very easy,0,koala,rhinoceros,tumbleweed,2,tumbleweed,koala,rhinoceros,animal,plant,0.939,0.559,0.433,0.938,0.698,0.534,0.518,0.164
+blk06_00,block,6,familiar,visual_conflict,very hard,0,pie,flan,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk06_01,block,6,familiar,visual_conflict,hard,0,windshield,carriage,jukebox,2,jukebox,carriage,windshield,vehicle,electronic device,0.794,0.584,0.413,0.678,0.641,0.657,0.614,-0.017
+blk06_02,block,6,familiar,visual_conflict,medium,0,tapestry,basket,tuxedo,1,basket,tapestry,tuxedo,home decor,container,0.846,0.603,0.281,0.738,0.475,0.579,0.508,-0.104
+blk06_03,block,6,familiar,visual_conflict,easy,0,mango,gorilla,coleslaw,1,gorilla,coleslaw,mango,food,animal,0.779,0.202,0.391,0.888,0.593,0.48,0.632,-0.039
+blk06_04,block,6,familiar,visual_conflict,very easy,0,antelope,hamster,pinecone,2,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk06_05,block,6,familiar,visual_conflict,very hard,0,anklet,boa,pajamas,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk06_06,block,6,familiar,visual_conflict,hard,0,prune,watermelon,aloe,2,aloe,prune,watermelon,food,plant,0.731,0.445,0.651,0.55,0.646,0.655,0.703,-0.057
+blk06_07,block,6,familiar,visual_conflict,medium,0,kayak,submarine,stretcher,2,stretcher,kayak,submarine,vehicle,medical equipment,0.916,0.774,0.625,0.712,0.547,0.605,0.516,-0.057
+blk06_08,block,6,familiar,visual_conflict,easy,0,tulip,rabbit,pheasant,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk06_09,block,6,familiar,visual_conflict,very easy,0,pizza,bamboo,rice,1,bamboo,pizza,rice,food,plant,0.873,0.292,0.413,0.919,0.625,0.579,0.722,-0.097
+blk06_10,block,6,familiar,visual_agree,very hard,0,gourd,eggplant,tea,2,tea,eggplant,gourd,food,drink,0.735,0.578,0.665,0.455,0.762,0.632,0.657,0.105
+blk06_11,block,6,familiar,visual_agree,hard,0,meatball,blender,soup,1,blender,meatball,soup,food,electronic device,0.854,0.622,0.752,0.585,0.696,0.51,0.594,0.102
+blk06_12,block,6,familiar,visual_agree,medium,0,coat,veil,statue,2,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk06_13,block,6,familiar,visual_agree,easy,0,bobsled,tractor,crib,2,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk06_14,block,6,familiar,visual_agree,very easy,0,eagle,goose,aquarium,2,aquarium,eagle,goose,animal,home decor,0.955,0.565,0.62,0.938,0.73,0.561,0.557,0.169
+blk06_15,block,6,familiar,visual_agree,very hard,0,pinball,pinwheel,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk06_16,block,6,familiar,visual_agree,hard,0,ladybug,coral,yacht,2,yacht,coral,ladybug,animal,vehicle,0.754,0.589,0.129,0.65,0.672,0.577,0.535,0.095
+blk06_17,block,6,familiar,visual_agree,medium,0,coaster,leek,clove,0,coaster,clove,leek,food,home decor,0.779,0.422,0.265,0.791,0.604,0.528,0.486,0.075
+blk06_18,block,6,familiar,visual_agree,easy,0,reindeer,hoe,coyote,1,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk06_19,block,6,familiar,visual_agree,very easy,0,tumbleweed,rhinoceros,koala,0,tumbleweed,koala,rhinoceros,animal,plant,0.939,0.559,0.433,0.938,0.698,0.534,0.518,0.164
+blk07_00,block,7,familiar,visual_conflict,very hard,0,pie,flan,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk07_01,block,7,familiar,visual_conflict,hard,0,jukebox,windshield,carriage,0,jukebox,carriage,windshield,vehicle,electronic device,0.794,0.584,0.413,0.678,0.641,0.657,0.614,-0.017
+blk07_02,block,7,familiar,visual_conflict,medium,0,tapestry,tuxedo,basket,2,basket,tapestry,tuxedo,home decor,container,0.846,0.603,0.281,0.738,0.475,0.579,0.508,-0.104
+blk07_03,block,7,familiar,visual_conflict,easy,0,mango,koala,coleslaw,1,koala,coleslaw,mango,food,animal,0.779,0.184,0.385,0.89,0.593,0.522,0.604,-0.011
+blk07_04,block,7,familiar,visual_conflict,very easy,0,hamster,pinecone,antelope,1,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk07_05,block,7,familiar,visual_conflict,very hard,0,anklet,boa,pajamas,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk07_06,block,7,familiar,visual_conflict,hard,0,ladybug,watermelon,prune,0,ladybug,prune,watermelon,food,animal,0.731,0.355,0.608,0.594,0.646,0.607,0.665,-0.02
+blk07_07,block,7,familiar,visual_conflict,medium,0,submarine,horn,kayak,1,horn,kayak,submarine,vehicle,musical instrument,0.916,0.622,0.692,0.768,0.547,0.642,0.578,-0.095
+blk07_08,block,7,familiar,visual_conflict,easy,0,pheasant,rabbit,tulip,2,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk07_09,block,7,familiar,visual_conflict,very easy,0,pizza,rice,bamboo,2,bamboo,pizza,rice,food,plant,0.873,0.292,0.413,0.919,0.625,0.579,0.722,-0.097
+blk07_10,block,7,familiar,visual_agree,very hard,0,gourd,eggplant,hoe,2,hoe,eggplant,gourd,food,tool,0.735,0.513,0.534,0.47,0.762,0.609,0.593,0.153
+blk07_11,block,7,familiar,visual_agree,hard,0,meatball,teapot,soup,1,teapot,meatball,soup,food,container,0.854,0.524,0.683,0.692,0.696,0.531,0.616,0.081
+blk07_12,block,7,familiar,visual_agree,medium,0,gondola,veil,coat,0,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk07_13,block,7,familiar,visual_agree,easy,0,bobsled,crib,tractor,1,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk07_14,block,7,familiar,visual_agree,very easy,0,aquarium,eagle,goose,0,aquarium,eagle,goose,animal,home decor,0.955,0.565,0.62,0.938,0.73,0.561,0.557,0.169
+blk07_15,block,7,familiar,visual_agree,very hard,0,pinball,pinwheel,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk07_16,block,7,familiar,visual_agree,hard,0,clove,trough,leek,1,trough,clove,leek,food,container,0.779,0.5,0.333,0.678,0.604,0.48,0.482,0.122
+blk07_17,block,7,familiar,visual_agree,medium,0,otter,tadpole,ship,2,ship,otter,tadpole,animal,vehicle,0.854,0.323,0.521,0.773,0.601,0.51,0.489,0.091
+blk07_18,block,7,familiar,visual_agree,easy,0,tumbleweed,wreath,wolf,2,wolf,tumbleweed,wreath,plant,animal,0.757,0.439,0.215,0.838,0.565,0.534,0.448,0.031
+blk07_19,block,7,familiar,visual_agree,very easy,0,warthog,sushi,rooster,1,sushi,rooster,warthog,animal,food,0.939,0.619,0.413,0.928,0.738,0.6,0.555,0.138
+blk08_00,block,8,familiar,visual_conflict,very hard,0,pie,eggnog,flan,1,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk08_01,block,8,familiar,visual_conflict,hard,0,suitcase,carriage,windshield,0,suitcase,carriage,windshield,vehicle,container,0.794,0.524,0.64,0.619,0.641,0.633,0.654,-0.013
+blk08_02,block,8,familiar,visual_conflict,medium,0,flute,tapestry,tuxedo,0,flute,tapestry,tuxedo,home decor,musical instrument,0.846,0.453,0.652,0.718,0.475,0.45,0.559,-0.084
+blk08_03,block,8,familiar,visual_conflict,easy,0,mango,iguana,coleslaw,1,iguana,coleslaw,mango,food,animal,0.779,0.246,0.416,0.867,0.593,0.499,0.654,-0.061
+blk08_04,block,8,familiar,visual_conflict,very easy,0,acorn,antelope,hamster,0,acorn,antelope,hamster,animal,fruit,0.937,0.552,0.536,0.916,0.594,0.579,0.65,-0.056
+blk08_05,block,8,familiar,visual_conflict,very hard,0,pajamas,anklet,boa,1,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk08_06,block,8,familiar,visual_conflict,hard,0,ladybug,prune,watermelon,0,ladybug,prune,watermelon,food,animal,0.731,0.355,0.608,0.594,0.646,0.607,0.665,-0.02
+blk08_07,block,8,familiar,visual_conflict,medium,0,stretcher,submarine,kayak,0,stretcher,kayak,submarine,vehicle,medical equipment,0.916,0.774,0.625,0.712,0.547,0.605,0.516,-0.057
+blk08_08,block,8,familiar,visual_conflict,easy,0,tulip,rabbit,pheasant,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk08_09,block,8,familiar,visual_conflict,very easy,0,rice,pizza,bamboo,2,bamboo,pizza,rice,food,plant,0.873,0.292,0.413,0.919,0.625,0.579,0.722,-0.097
+blk08_10,block,8,familiar,visual_agree,very hard,0,eggplant,teabag,gourd,1,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk08_11,block,8,familiar,visual_agree,hard,0,meatball,soup,mixer,2,mixer,meatball,soup,food,electronic device,0.854,0.55,0.641,0.689,0.696,0.467,0.557,0.14
+blk08_12,block,8,familiar,visual_agree,medium,0,gondola,veil,coat,0,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk08_13,block,8,familiar,visual_agree,easy,0,kimono,bobsled,tractor,0,kimono,bobsled,tractor,sports equipment,clothing,0.772,0.395,0.12,0.85,0.473,0.436,0.397,0.038
+blk08_14,block,8,familiar,visual_agree,very easy,0,goose,eagle,bone,2,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk08_15,block,8,familiar,visual_agree,very hard,0,pinball,locker,pinwheel,1,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk08_16,block,8,familiar,visual_agree,hard,0,leek,clove,barrel,2,barrel,clove,leek,food,container,0.779,0.527,0.351,0.63,0.604,0.526,0.535,0.068
+blk08_17,block,8,familiar,visual_agree,medium,0,jug,frog,aquarium,0,jug,aquarium,frog,home decor,container,0.762,0.38,0.141,0.784,0.575,0.545,0.499,0.03
+blk08_18,block,8,familiar,visual_agree,easy,0,hoe,reindeer,coyote,0,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk08_19,block,8,familiar,visual_agree,very easy,0,pinecone,koala,rhinoceros,0,pinecone,koala,rhinoceros,animal,home decor,0.939,0.571,0.441,0.931,0.698,0.6,0.596,0.098
+blk09_00,block,9,familiar,visual_conflict,very hard,0,eggnog,flan,pie,0,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk09_01,block,9,familiar,visual_conflict,hard,0,carriage,suitcase,windshield,1,suitcase,carriage,windshield,vehicle,container,0.794,0.524,0.64,0.619,0.641,0.633,0.654,-0.013
+blk09_02,block,9,familiar,visual_conflict,medium,0,gondola,tapestry,tuxedo,0,gondola,tapestry,tuxedo,home decor,vehicle,0.846,0.409,0.695,0.702,0.475,0.526,0.483,-0.051
+blk09_03,block,9,familiar,visual_conflict,easy,0,coleslaw,mango,frog,2,frog,coleslaw,mango,food,animal,0.779,0.245,0.426,0.858,0.593,0.507,0.642,-0.049
+blk09_04,block,9,familiar,visual_conflict,very easy,0,hamster,acorn,antelope,1,acorn,antelope,hamster,animal,fruit,0.937,0.552,0.536,0.916,0.594,0.579,0.65,-0.056
+blk09_05,block,9,familiar,visual_conflict,very hard,0,boa,pajamas,anklet,2,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk09_06,block,9,familiar,visual_conflict,hard,0,aloe,watermelon,prune,0,aloe,prune,watermelon,food,plant,0.731,0.445,0.651,0.55,0.646,0.655,0.703,-0.057
+blk09_07,block,9,familiar,visual_conflict,medium,0,kayak,submarine,horn,2,horn,kayak,submarine,vehicle,musical instrument,0.916,0.622,0.692,0.768,0.547,0.642,0.578,-0.095
+blk09_08,block,9,familiar,visual_conflict,easy,0,tulip,pheasant,rabbit,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk09_09,block,9,familiar,visual_conflict,very easy,0,pizza,pinecone,rice,1,pinecone,pizza,rice,food,home decor,0.873,0.233,0.413,0.926,0.625,0.625,0.648,-0.023
+blk09_10,block,9,familiar,visual_agree,very hard,0,eggplant,gourd,coral,2,coral,eggplant,gourd,food,animal,0.735,0.46,0.701,0.449,0.762,0.661,0.641,0.101
+blk09_11,block,9,familiar,visual_agree,hard,0,soup,blender,meatball,1,blender,meatball,soup,food,electronic device,0.854,0.622,0.752,0.585,0.696,0.51,0.594,0.102
+blk09_12,block,9,familiar,visual_agree,medium,0,veil,coat,statue,2,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk09_13,block,9,familiar,visual_agree,easy,0,kimono,tractor,bobsled,0,kimono,bobsled,tractor,sports equipment,clothing,0.772,0.395,0.12,0.85,0.473,0.436,0.397,0.038
+blk09_14,block,9,familiar,visual_agree,very easy,0,bone,goose,eagle,0,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk09_15,block,9,familiar,visual_agree,very hard,0,pinwheel,pinball,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk09_16,block,9,familiar,visual_agree,hard,0,clove,trough,leek,1,trough,clove,leek,food,container,0.779,0.5,0.333,0.678,0.604,0.48,0.482,0.122
+blk09_17,block,9,familiar,visual_agree,medium,0,tadpole,otter,ship,2,ship,otter,tadpole,animal,vehicle,0.854,0.323,0.521,0.773,0.601,0.51,0.489,0.091
+blk09_18,block,9,familiar,visual_agree,easy,0,coyote,reindeer,hoe,2,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk09_19,block,9,familiar,visual_agree,very easy,0,rhinoceros,koala,aquarium,2,aquarium,koala,rhinoceros,animal,home decor,0.939,0.544,0.484,0.923,0.698,0.583,0.567,0.115
+blk10_00,block,10,familiar,visual_conflict,very hard,0,pie,eggnog,flan,1,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk10_01,block,10,familiar,visual_conflict,hard,0,basket,carriage,windshield,0,basket,carriage,windshield,vehicle,container,0.794,0.555,0.193,0.674,0.641,0.661,0.548,-0.02
+blk10_02,block,10,familiar,visual_conflict,medium,0,tuxedo,tapestry,arm,2,arm,tapestry,tuxedo,home decor,body part,0.846,0.444,0.667,0.748,0.475,0.495,0.533,-0.058
+blk10_03,block,10,familiar,visual_conflict,easy,0,coleslaw,mango,barrel,2,barrel,coleslaw,mango,food,container,0.779,0.237,0.267,0.805,0.593,0.523,0.624,-0.031
+blk10_04,block,10,familiar,visual_conflict,very easy,0,hamster,tumbleweed,antelope,1,tumbleweed,antelope,hamster,animal,plant,0.937,0.503,0.492,0.945,0.594,0.605,0.573,-0.011
+blk10_05,block,10,familiar,visual_conflict,very hard,0,anklet,pajamas,boa,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk10_06,block,10,familiar,visual_conflict,hard,0,funnel,watermelon,prune,0,funnel,prune,watermelon,food,kitchen tool,0.731,0.178,0.538,0.663,0.646,0.66,0.715,-0.07
+blk10_07,block,10,familiar,visual_conflict,medium,0,submarine,kayak,trampoline,2,trampoline,kayak,submarine,vehicle,sports equipment,0.916,0.747,0.383,0.797,0.547,0.582,0.475,-0.034
+blk10_08,block,10,familiar,visual_conflict,easy,0,rabbit,tulip,pheasant,1,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk10_09,block,10,familiar,visual_conflict,very easy,0,pizza,rice,bamboo,2,bamboo,pizza,rice,food,plant,0.873,0.292,0.413,0.919,0.625,0.579,0.722,-0.097
+blk10_10,block,10,familiar,visual_agree,very hard,0,gourd,teabag,eggplant,1,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk10_11,block,10,familiar,visual_agree,hard,0,soup,teapot,meatball,1,teapot,meatball,soup,food,container,0.854,0.524,0.683,0.692,0.696,0.531,0.616,0.081
+blk10_12,block,10,familiar,visual_agree,medium,0,gondola,veil,coat,0,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk10_13,block,10,familiar,visual_agree,easy,0,kimono,bobsled,tractor,0,kimono,bobsled,tractor,sports equipment,clothing,0.772,0.395,0.12,0.85,0.473,0.436,0.397,0.038
+blk10_14,block,10,familiar,visual_agree,very easy,0,bone,eagle,goose,0,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk10_15,block,10,familiar,visual_agree,very hard,0,pinball,locker,pinwheel,1,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk10_16,block,10,familiar,visual_agree,hard,0,lollipop,ladybug,coral,0,lollipop,coral,ladybug,animal,food,0.754,0.393,0.615,0.564,0.672,0.52,0.61,0.062
+blk10_17,block,10,familiar,visual_agree,medium,0,aquarium,turntable,frog,1,turntable,aquarium,frog,home decor,electronic device,0.762,0.416,0.086,0.771,0.575,0.535,0.493,0.04
+blk10_18,block,10,familiar,visual_agree,easy,0,coyote,hoe,reindeer,1,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk10_19,block,10,familiar,visual_agree,very easy,0,rhinoceros,koala,cage,2,cage,koala,rhinoceros,animal,container,0.939,0.439,0.423,0.943,0.698,0.545,0.573,0.125
+blk11_00,block,11,familiar,visual_conflict,very hard,0,pie,flan,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk11_01,block,11,familiar,visual_conflict,hard,0,carriage,windshield,suitcase,2,suitcase,carriage,windshield,vehicle,container,0.794,0.524,0.64,0.619,0.641,0.633,0.654,-0.013
+blk11_02,block,11,familiar,visual_conflict,medium,0,tapestry,gondola,tuxedo,1,gondola,tapestry,tuxedo,home decor,vehicle,0.846,0.409,0.695,0.702,0.475,0.526,0.483,-0.051
+blk11_03,block,11,familiar,visual_conflict,easy,0,mango,coleslaw,iguana,2,iguana,coleslaw,mango,food,animal,0.779,0.246,0.416,0.867,0.593,0.499,0.654,-0.061
+blk11_04,block,11,familiar,visual_conflict,very easy,0,antelope,tumbleweed,hamster,1,tumbleweed,antelope,hamster,animal,plant,0.937,0.503,0.492,0.945,0.594,0.605,0.573,-0.011
+blk11_05,block,11,familiar,visual_conflict,very hard,0,anklet,pajamas,boa,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk11_06,block,11,familiar,visual_conflict,hard,0,bamboo,prune,watermelon,0,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk11_07,block,11,familiar,visual_conflict,medium,0,stretcher,kayak,submarine,0,stretcher,kayak,submarine,vehicle,medical equipment,0.916,0.774,0.625,0.712,0.547,0.605,0.516,-0.057
+blk11_08,block,11,familiar,visual_conflict,easy,0,tulip,rabbit,pheasant,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk11_09,block,11,familiar,visual_conflict,very easy,0,pizza,pinecone,rice,1,pinecone,pizza,rice,food,home decor,0.873,0.233,0.413,0.926,0.625,0.625,0.648,-0.023
+blk11_10,block,11,familiar,visual_agree,very hard,0,coral,gourd,eggplant,0,coral,eggplant,gourd,food,animal,0.735,0.46,0.701,0.449,0.762,0.661,0.641,0.101
+blk11_11,block,11,familiar,visual_agree,hard,0,blender,soup,meatball,0,blender,meatball,soup,food,electronic device,0.854,0.622,0.752,0.585,0.696,0.51,0.594,0.102
+blk11_12,block,11,familiar,visual_agree,medium,0,veil,coat,statue,2,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk11_13,block,11,familiar,visual_agree,easy,0,tractor,kimono,bobsled,1,kimono,bobsled,tractor,sports equipment,clothing,0.772,0.395,0.12,0.85,0.473,0.436,0.397,0.038
+blk11_14,block,11,familiar,visual_agree,very easy,0,bone,goose,eagle,0,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk11_15,block,11,familiar,visual_agree,very hard,0,pinwheel,pinball,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk11_16,block,11,familiar,visual_agree,hard,0,trough,clove,leek,0,trough,clove,leek,food,container,0.779,0.5,0.333,0.678,0.604,0.48,0.482,0.122
+blk11_17,block,11,familiar,visual_agree,medium,0,aquarium,teapot,frog,1,teapot,aquarium,frog,home decor,container,0.762,0.456,0.107,0.743,0.575,0.501,0.52,0.055
+blk11_18,block,11,familiar,visual_agree,easy,0,reindeer,hoe,coyote,1,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk11_19,block,11,familiar,visual_agree,very easy,0,koala,cage,rhinoceros,1,cage,koala,rhinoceros,animal,container,0.939,0.439,0.423,0.943,0.698,0.545,0.573,0.125
+blk12_00,block,12,familiar,visual_conflict,very hard,0,flan,pie,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk12_01,block,12,familiar,visual_conflict,hard,0,windshield,basket,carriage,1,basket,carriage,windshield,vehicle,container,0.794,0.555,0.193,0.674,0.641,0.661,0.548,-0.02
+blk12_02,block,12,familiar,visual_conflict,medium,0,gondola,tapestry,tuxedo,0,gondola,tapestry,tuxedo,home decor,vehicle,0.846,0.409,0.695,0.702,0.475,0.526,0.483,-0.051
+blk12_03,block,12,familiar,visual_conflict,easy,0,coleslaw,mango,rhinoceros,2,rhinoceros,coleslaw,mango,food,animal,0.779,0.237,0.403,0.882,0.593,0.444,0.608,-0.015
+blk12_04,block,12,familiar,visual_conflict,very easy,0,pinecone,hamster,antelope,0,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk12_05,block,12,familiar,visual_conflict,very hard,0,pajamas,anklet,boa,1,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk12_06,block,12,familiar,visual_conflict,hard,0,watermelon,prune,bamboo,2,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk12_07,block,12,familiar,visual_conflict,medium,0,submarine,horn,kayak,1,horn,kayak,submarine,vehicle,musical instrument,0.916,0.622,0.692,0.768,0.547,0.642,0.578,-0.095
+blk12_08,block,12,familiar,visual_conflict,easy,0,tulip,rabbit,pheasant,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk12_09,block,12,familiar,visual_conflict,very easy,0,rice,aloe,pizza,1,aloe,pizza,rice,food,plant,0.873,0.323,0.463,0.916,0.625,0.593,0.638,-0.013
+blk12_10,block,12,familiar,visual_agree,very hard,0,eggplant,teabag,gourd,1,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk12_11,block,12,familiar,visual_agree,hard,0,meatball,teapot,soup,1,teapot,meatball,soup,food,container,0.854,0.524,0.683,0.692,0.696,0.531,0.616,0.081
+blk12_12,block,12,familiar,visual_agree,medium,0,coat,veil,statue,2,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk12_13,block,12,familiar,visual_agree,easy,0,kimono,tractor,bobsled,0,kimono,bobsled,tractor,sports equipment,clothing,0.772,0.395,0.12,0.85,0.473,0.436,0.397,0.038
+blk12_14,block,12,familiar,visual_agree,very easy,0,eagle,aquarium,goose,1,aquarium,eagle,goose,animal,home decor,0.955,0.565,0.62,0.938,0.73,0.561,0.557,0.169
+blk12_15,block,12,familiar,visual_agree,very hard,0,pinball,pinwheel,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk12_16,block,12,familiar,visual_agree,hard,0,clove,ladybug,coral,0,clove,coral,ladybug,animal,food,0.754,0.535,0.488,0.591,0.672,0.594,0.638,0.034
+blk12_17,block,12,familiar,visual_agree,medium,0,otter,tadpole,ship,2,ship,otter,tadpole,animal,vehicle,0.854,0.323,0.521,0.773,0.601,0.51,0.489,0.091
+blk12_18,block,12,familiar,visual_agree,easy,0,hoe,reindeer,coyote,0,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk12_19,block,12,familiar,visual_agree,very easy,0,warthog,acorn,rooster,1,acorn,rooster,warthog,animal,fruit,0.939,0.561,0.52,0.929,0.738,0.663,0.586,0.075
+blk13_00,block,13,familiar,visual_conflict,very hard,0,flan,eggnog,pie,1,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk13_01,block,13,familiar,visual_conflict,hard,0,basket,windshield,carriage,0,basket,carriage,windshield,vehicle,container,0.794,0.555,0.193,0.674,0.641,0.661,0.548,-0.02
+blk13_02,block,13,familiar,visual_conflict,medium,0,tuxedo,jukebox,tapestry,1,jukebox,tapestry,tuxedo,home decor,electronic device,0.846,0.543,0.422,0.793,0.475,0.547,0.558,-0.083
+blk13_03,block,13,familiar,visual_conflict,easy,0,coleslaw,antelope,mango,1,antelope,coleslaw,mango,food,animal,0.779,0.249,0.442,0.847,0.593,0.516,0.631,-0.038
+blk13_04,block,13,familiar,visual_conflict,very easy,0,leopard,tulip,rabbit,1,tulip,leopard,rabbit,animal,plant,0.943,0.457,0.633,0.937,0.676,0.546,0.739,-0.063
+blk13_05,block,13,familiar,visual_conflict,very hard,0,pajamas,anklet,boa,1,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk13_06,block,13,familiar,visual_conflict,hard,0,bamboo,prune,watermelon,0,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk13_07,block,13,familiar,visual_conflict,medium,0,kayak,horn,submarine,1,horn,kayak,submarine,vehicle,musical instrument,0.916,0.622,0.692,0.768,0.547,0.642,0.578,-0.095
+blk13_08,block,13,familiar,visual_conflict,easy,0,toothpick,rice,pizza,0,toothpick,pizza,rice,food,tool,0.873,0.391,0.507,0.853,0.625,0.606,0.646,-0.02
+blk13_09,block,13,familiar,visual_conflict,very easy,0,tractor,bobsled,worm,2,worm,bobsled,tractor,sports equipment,animal,0.772,0.192,0.255,0.902,0.473,0.509,0.58,-0.107
+blk13_10,block,13,familiar,visual_agree,very hard,0,hoe,eggplant,gourd,0,hoe,eggplant,gourd,food,tool,0.735,0.513,0.534,0.47,0.762,0.609,0.593,0.153
+blk13_11,block,13,familiar,visual_agree,hard,0,soup,meatball,mixer,2,mixer,meatball,soup,food,electronic device,0.854,0.55,0.641,0.689,0.696,0.467,0.557,0.14
+blk13_12,block,13,familiar,visual_agree,medium,0,gondola,veil,coat,0,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk13_13,block,13,familiar,visual_agree,easy,0,pheasant,groundhog,cage,2,cage,groundhog,pheasant,animal,container,0.896,0.42,0.445,0.876,0.617,0.539,0.542,0.075
+blk13_14,block,13,familiar,visual_agree,very easy,0,eagle,bone,goose,1,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk13_15,block,13,familiar,visual_agree,very hard,0,locker,pinwheel,pinball,0,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk13_16,block,13,familiar,visual_agree,hard,0,ladybug,coral,album,2,album,coral,ladybug,animal,home decor,0.754,0.564,0.35,0.629,0.672,0.55,0.517,0.122
+blk13_17,block,13,familiar,visual_agree,medium,0,aquarium,frog,bassinet,2,bassinet,aquarium,frog,home decor,furniture,0.762,0.417,0.16,0.786,0.575,0.54,0.517,0.035
+blk13_18,block,13,familiar,visual_agree,easy,0,clove,panda,leek,1,panda,clove,leek,food,animal,0.779,0.224,0.35,0.899,0.604,0.506,0.568,0.036
+blk13_19,block,13,familiar,visual_agree,very easy,0,koala,pinecone,rhinoceros,1,pinecone,koala,rhinoceros,animal,home decor,0.939,0.571,0.441,0.931,0.698,0.6,0.596,0.098
+blk14_00,block,14,familiar,visual_conflict,very hard,0,eggnog,flan,pie,0,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk14_01,block,14,familiar,visual_conflict,hard,0,carriage,suitcase,windshield,1,suitcase,carriage,windshield,vehicle,container,0.794,0.524,0.64,0.619,0.641,0.633,0.654,-0.013
+blk14_02,block,14,familiar,visual_conflict,medium,0,basket,tuxedo,tapestry,0,basket,tapestry,tuxedo,home decor,container,0.846,0.603,0.281,0.738,0.475,0.579,0.508,-0.104
+blk14_03,block,14,familiar,visual_conflict,easy,0,mango,coleslaw,iguana,2,iguana,coleslaw,mango,food,animal,0.779,0.246,0.416,0.867,0.593,0.499,0.654,-0.061
+blk14_04,block,14,familiar,visual_conflict,very easy,0,hamster,pinecone,antelope,1,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk14_05,block,14,familiar,visual_conflict,very hard,0,pajamas,boa,anklet,2,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk14_06,block,14,familiar,visual_conflict,hard,0,watermelon,prune,bamboo,2,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk14_07,block,14,familiar,visual_conflict,medium,0,aquarium,kayak,submarine,0,aquarium,kayak,submarine,vehicle,home decor,0.916,0.725,0.703,0.725,0.547,0.631,0.526,-0.083
+blk14_08,block,14,familiar,visual_conflict,easy,0,tulip,rabbit,pheasant,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk14_09,block,14,familiar,visual_conflict,very easy,0,pizza,rice,aloe,2,aloe,pizza,rice,food,plant,0.873,0.323,0.463,0.916,0.625,0.593,0.638,-0.013
+blk14_10,block,14,familiar,visual_agree,very hard,0,teabag,eggplant,gourd,0,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk14_11,block,14,familiar,visual_agree,hard,0,meatball,soup,blender,2,blender,meatball,soup,food,electronic device,0.854,0.622,0.752,0.585,0.696,0.51,0.594,0.102
+blk14_12,block,14,familiar,visual_agree,medium,0,statue,coat,veil,0,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk14_13,block,14,familiar,visual_agree,easy,0,tractor,kimono,bobsled,1,kimono,bobsled,tractor,sports equipment,clothing,0.772,0.395,0.12,0.85,0.473,0.436,0.397,0.038
+blk14_14,block,14,familiar,visual_agree,very easy,0,gondola,goose,eagle,0,gondola,eagle,goose,animal,vehicle,0.955,0.632,0.494,0.943,0.73,0.539,0.57,0.159
+blk14_15,block,14,familiar,visual_agree,very hard,0,pinball,locker,pinwheel,1,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk14_16,block,14,familiar,visual_agree,hard,0,ladybug,coral,clove,2,clove,coral,ladybug,animal,food,0.754,0.535,0.488,0.591,0.672,0.594,0.638,0.034
+blk14_17,block,14,familiar,visual_agree,medium,0,tadpole,ship,otter,1,ship,otter,tadpole,animal,vehicle,0.854,0.323,0.521,0.773,0.601,0.51,0.489,0.091
+blk14_18,block,14,familiar,visual_agree,easy,0,reindeer,hoe,coyote,1,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk14_19,block,14,familiar,visual_agree,very easy,0,rhinoceros,koala,trough,2,trough,koala,rhinoceros,animal,container,0.939,0.431,0.37,0.936,0.698,0.472,0.467,0.226
+blk15_00,block,15,familiar,visual_conflict,very hard,0,pie,flan,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk15_01,block,15,familiar,visual_conflict,hard,0,windshield,suitcase,carriage,1,suitcase,carriage,windshield,vehicle,container,0.794,0.524,0.64,0.619,0.641,0.633,0.654,-0.013
+blk15_02,block,15,familiar,visual_conflict,medium,0,tuxedo,jukebox,tapestry,1,jukebox,tapestry,tuxedo,home decor,electronic device,0.846,0.543,0.422,0.793,0.475,0.547,0.558,-0.083
+blk15_03,block,15,familiar,visual_conflict,easy,0,mango,coleslaw,warthog,2,warthog,coleslaw,mango,food,animal,0.779,0.22,0.426,0.868,0.593,0.521,0.621,-0.028
+blk15_04,block,15,familiar,visual_conflict,very easy,0,pinecone,antelope,hamster,0,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk15_05,block,15,familiar,visual_conflict,very hard,0,anklet,boa,pajamas,0,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk15_06,block,15,familiar,visual_conflict,hard,0,prune,bamboo,watermelon,1,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk15_07,block,15,familiar,visual_conflict,medium,0,trampoline,submarine,kayak,0,trampoline,kayak,submarine,vehicle,sports equipment,0.916,0.747,0.383,0.797,0.547,0.582,0.475,-0.034
+blk15_08,block,15,familiar,visual_conflict,easy,0,pheasant,tulip,rabbit,1,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk15_09,block,15,familiar,visual_conflict,very easy,0,rice,pizza,aloe,2,aloe,pizza,rice,food,plant,0.873,0.323,0.463,0.916,0.625,0.593,0.638,-0.013
+blk15_10,block,15,familiar,visual_agree,very hard,0,hoe,eggplant,gourd,0,hoe,eggplant,gourd,food,tool,0.735,0.513,0.534,0.47,0.762,0.609,0.593,0.153
+blk15_11,block,15,familiar,visual_agree,hard,0,soup,mixer,meatball,1,mixer,meatball,soup,food,electronic device,0.854,0.55,0.641,0.689,0.696,0.467,0.557,0.14
+blk15_12,block,15,familiar,visual_agree,medium,0,coat,veil,gondola,2,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk15_13,block,15,familiar,visual_agree,easy,0,tractor,bobsled,crib,2,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk15_14,block,15,familiar,visual_agree,very easy,0,aquarium,goose,eagle,0,aquarium,eagle,goose,animal,home decor,0.955,0.565,0.62,0.938,0.73,0.561,0.557,0.169
+blk15_15,block,15,familiar,visual_agree,very hard,0,pinwheel,pinball,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk15_16,block,15,familiar,visual_agree,hard,0,ladybug,footbath,coral,1,footbath,coral,ladybug,animal,container,0.754,0.577,0.25,0.618,0.672,0.614,0.624,0.048
+blk15_17,block,15,familiar,visual_agree,medium,0,leek,bone,clove,1,bone,clove,leek,food,body part,0.779,0.478,0.395,0.754,0.604,0.554,0.563,0.04
+blk15_18,block,15,familiar,visual_agree,easy,0,tadpole,otter,cauliflower,2,cauliflower,otter,tadpole,animal,food,0.854,0.343,0.356,0.883,0.601,0.541,0.54,0.06
+blk15_19,block,15,familiar,visual_agree,very easy,0,acorn,koala,rhinoceros,0,acorn,koala,rhinoceros,animal,fruit,0.939,0.508,0.483,0.926,0.698,0.584,0.57,0.114
+blk16_00,block,16,familiar,visual_conflict,very hard,0,eggnog,flan,pie,0,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk16_01,block,16,familiar,visual_conflict,hard,0,carriage,windshield,basket,2,basket,carriage,windshield,vehicle,container,0.794,0.555,0.193,0.674,0.641,0.661,0.548,-0.02
+blk16_02,block,16,familiar,visual_conflict,medium,0,tuxedo,tapestry,violin,2,violin,tapestry,tuxedo,home decor,musical instrument,0.846,0.512,0.499,0.789,0.475,0.524,0.553,-0.078
+blk16_03,block,16,familiar,visual_conflict,easy,0,iguana,mango,coleslaw,0,iguana,coleslaw,mango,food,animal,0.779,0.246,0.416,0.867,0.593,0.499,0.654,-0.061
+blk16_04,block,16,familiar,visual_conflict,very easy,0,pinecone,hamster,antelope,0,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk16_05,block,16,familiar,visual_conflict,very hard,0,boa,pajamas,anklet,2,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk16_06,block,16,familiar,visual_conflict,hard,0,prune,bamboo,watermelon,1,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk16_07,block,16,familiar,visual_conflict,medium,0,horn,kayak,submarine,0,horn,kayak,submarine,vehicle,musical instrument,0.916,0.622,0.692,0.768,0.547,0.642,0.578,-0.095
+blk16_08,block,16,familiar,visual_conflict,easy,0,pheasant,rabbit,tulip,2,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk16_09,block,16,familiar,visual_conflict,very easy,0,pizza,rice,aloe,2,aloe,pizza,rice,food,plant,0.873,0.323,0.463,0.916,0.625,0.593,0.638,-0.013
+blk16_10,block,16,familiar,visual_agree,very hard,0,eggplant,hoe,gourd,1,hoe,eggplant,gourd,food,tool,0.735,0.513,0.534,0.47,0.762,0.609,0.593,0.153
+blk16_11,block,16,familiar,visual_agree,hard,0,meatball,soup,blender,2,blender,meatball,soup,food,electronic device,0.854,0.622,0.752,0.585,0.696,0.51,0.594,0.102
+blk16_12,block,16,familiar,visual_agree,medium,0,coat,veil,statue,2,statue,coat,veil,clothing,home decor,0.869,0.453,0.602,0.788,0.576,0.537,0.513,0.039
+blk16_13,block,16,familiar,visual_agree,easy,0,bobsled,tractor,crib,2,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk16_14,block,16,familiar,visual_agree,very easy,0,eagle,bone,goose,1,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk16_15,block,16,familiar,visual_agree,very hard,0,pinwheel,locker,pinball,1,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk16_16,block,16,familiar,visual_agree,hard,0,ladybug,coral,cauliflower,2,cauliflower,coral,ladybug,animal,food,0.754,0.534,0.537,0.604,0.672,0.623,0.639,0.033
+blk16_17,block,16,familiar,visual_agree,medium,0,teapot,frog,aquarium,0,teapot,aquarium,frog,home decor,container,0.762,0.456,0.107,0.743,0.575,0.501,0.52,0.055
+blk16_18,block,16,familiar,visual_agree,easy,0,leek,leopard,clove,1,leopard,clove,leek,food,animal,0.779,0.28,0.282,0.898,0.604,0.482,0.494,0.11
+blk16_19,block,16,familiar,visual_agree,very easy,0,trough,rhinoceros,koala,0,trough,koala,rhinoceros,animal,container,0.939,0.431,0.37,0.936,0.698,0.472,0.467,0.226
+blk17_00,block,17,familiar,visual_conflict,very hard,0,flan,pie,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk17_01,block,17,familiar,visual_conflict,hard,0,windshield,carriage,basket,2,basket,carriage,windshield,vehicle,container,0.794,0.555,0.193,0.674,0.641,0.661,0.548,-0.02
+blk17_02,block,17,familiar,visual_conflict,medium,0,tuxedo,tapestry,mandolin,2,mandolin,tapestry,tuxedo,home decor,musical instrument,0.846,0.466,0.52,0.773,0.475,0.512,0.529,-0.054
+blk17_03,block,17,familiar,visual_conflict,easy,0,barrel,coleslaw,mango,0,barrel,coleslaw,mango,food,container,0.779,0.237,0.267,0.805,0.593,0.523,0.624,-0.031
+blk17_04,block,17,familiar,visual_conflict,very easy,0,antelope,hamster,pinecone,2,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk17_05,block,17,familiar,visual_conflict,very hard,0,boa,anklet,pajamas,1,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk17_06,block,17,familiar,visual_conflict,hard,0,aloe,prune,watermelon,0,aloe,prune,watermelon,food,plant,0.731,0.445,0.651,0.55,0.646,0.655,0.703,-0.057
+blk17_07,block,17,familiar,visual_conflict,medium,0,kayak,submarine,aquarium,2,aquarium,kayak,submarine,vehicle,home decor,0.916,0.725,0.703,0.725,0.547,0.631,0.526,-0.083
+blk17_08,block,17,familiar,visual_conflict,easy,0,rabbit,pheasant,tulip,2,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk17_09,block,17,familiar,visual_conflict,very easy,0,rice,bamboo,pizza,1,bamboo,pizza,rice,food,plant,0.873,0.292,0.413,0.919,0.625,0.579,0.722,-0.097
+blk17_10,block,17,familiar,visual_agree,very hard,0,gourd,eggplant,coral,2,coral,eggplant,gourd,food,animal,0.735,0.46,0.701,0.449,0.762,0.661,0.641,0.101
+blk17_11,block,17,familiar,visual_agree,hard,0,teapot,soup,meatball,0,teapot,meatball,soup,food,container,0.854,0.524,0.683,0.692,0.696,0.531,0.616,0.081
+blk17_12,block,17,familiar,visual_agree,medium,0,gondola,coat,veil,0,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk17_13,block,17,familiar,visual_agree,easy,0,tractor,bobsled,crib,2,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk17_14,block,17,familiar,visual_agree,very easy,0,goose,eagle,bone,2,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk17_15,block,17,familiar,visual_agree,very hard,0,locker,pinball,pinwheel,0,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk17_16,block,17,familiar,visual_agree,hard,0,leek,blender,clove,1,blender,clove,leek,food,electronic device,0.779,0.471,0.452,0.699,0.604,0.57,0.518,0.033
+blk17_17,block,17,familiar,visual_agree,medium,0,ship,tadpole,otter,0,ship,otter,tadpole,animal,vehicle,0.854,0.323,0.521,0.773,0.601,0.51,0.489,0.091
+blk17_18,block,17,familiar,visual_agree,easy,0,reindeer,hoe,coyote,1,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk17_19,block,17,familiar,visual_agree,very easy,0,koala,rhinoceros,trough,2,trough,koala,rhinoceros,animal,container,0.939,0.431,0.37,0.936,0.698,0.472,0.467,0.226
+blk18_00,block,18,familiar,visual_conflict,very hard,0,eggnog,pie,flan,0,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk18_01,block,18,familiar,visual_conflict,hard,0,carriage,windshield,suitcase,2,suitcase,carriage,windshield,vehicle,container,0.794,0.524,0.64,0.619,0.641,0.633,0.654,-0.013
+blk18_02,block,18,familiar,visual_conflict,medium,0,tuxedo,tapestry,jukebox,2,jukebox,tapestry,tuxedo,home decor,electronic device,0.846,0.543,0.422,0.793,0.475,0.547,0.558,-0.083
+blk18_03,block,18,familiar,visual_conflict,easy,0,mango,coleslaw,squirrel,2,squirrel,coleslaw,mango,food,animal,0.779,0.241,0.404,0.873,0.593,0.493,0.606,-0.013
+blk18_04,block,18,familiar,visual_conflict,very easy,0,hamster,antelope,acorn,2,acorn,antelope,hamster,animal,fruit,0.937,0.552,0.536,0.916,0.594,0.579,0.65,-0.056
+blk18_05,block,18,familiar,visual_conflict,very hard,0,pajamas,anklet,boa,1,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk18_06,block,18,familiar,visual_conflict,hard,0,watermelon,bamboo,prune,1,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk18_07,block,18,familiar,visual_conflict,medium,0,stretcher,submarine,kayak,0,stretcher,kayak,submarine,vehicle,medical equipment,0.916,0.774,0.625,0.712,0.547,0.605,0.516,-0.057
+blk18_08,block,18,familiar,visual_conflict,easy,0,tulip,pheasant,rabbit,0,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk18_09,block,18,familiar,visual_conflict,very easy,0,pizza,rice,aloe,2,aloe,pizza,rice,food,plant,0.873,0.323,0.463,0.916,0.625,0.593,0.638,-0.013
+blk18_10,block,18,familiar,visual_agree,very hard,0,coral,gourd,eggplant,0,coral,eggplant,gourd,food,animal,0.735,0.46,0.701,0.449,0.762,0.661,0.641,0.101
+blk18_11,block,18,familiar,visual_agree,hard,0,blender,soup,meatball,0,blender,meatball,soup,food,electronic device,0.854,0.622,0.752,0.585,0.696,0.51,0.594,0.102
+blk18_12,block,18,familiar,visual_agree,medium,0,veil,coat,gondola,2,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk18_13,block,18,familiar,visual_agree,easy,0,tractor,crib,bobsled,1,crib,bobsled,tractor,sports equipment,furniture,0.772,0.344,0.246,0.832,0.473,0.414,0.433,0.04
+blk18_14,block,18,familiar,visual_agree,very easy,0,goose,eagle,bone,2,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk18_15,block,18,familiar,visual_agree,very hard,0,pinwheel,pinball,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk18_16,block,18,familiar,visual_agree,hard,0,leek,barrel,clove,1,barrel,clove,leek,food,container,0.779,0.527,0.351,0.63,0.604,0.526,0.535,0.068
+blk18_17,block,18,familiar,visual_agree,medium,0,aquarium,jug,frog,1,jug,aquarium,frog,home decor,container,0.762,0.38,0.141,0.784,0.575,0.545,0.499,0.03
+blk18_18,block,18,familiar,visual_agree,easy,0,reindeer,coyote,hoe,2,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk18_19,block,18,familiar,visual_agree,very easy,0,trough,rhinoceros,koala,0,trough,koala,rhinoceros,animal,container,0.939,0.431,0.37,0.936,0.698,0.472,0.467,0.226
+blk19_00,block,19,familiar,visual_conflict,very hard,0,pie,flan,eggnog,2,eggnog,flan,pie,food,drink,0.91,0.88,0.817,0.546,0.655,0.668,0.663,-0.013
+blk19_01,block,19,familiar,visual_conflict,hard,0,carriage,basket,windshield,1,basket,carriage,windshield,vehicle,container,0.794,0.555,0.193,0.674,0.641,0.661,0.548,-0.02
+blk19_02,block,19,familiar,visual_conflict,medium,0,mandolin,tuxedo,tapestry,0,mandolin,tapestry,tuxedo,home decor,musical instrument,0.846,0.466,0.52,0.773,0.475,0.512,0.529,-0.054
+blk19_03,block,19,familiar,visual_conflict,easy,0,barrel,mango,coleslaw,0,barrel,coleslaw,mango,food,container,0.779,0.237,0.267,0.805,0.593,0.523,0.624,-0.031
+blk19_04,block,19,familiar,visual_conflict,very easy,0,pinecone,hamster,antelope,0,pinecone,antelope,hamster,animal,home decor,0.937,0.513,0.461,0.945,0.594,0.614,0.608,-0.02
+blk19_05,block,19,familiar,visual_conflict,very hard,0,pajamas,boa,anklet,2,anklet,boa,pajamas,clothing,decoration,0.909,0.832,0.827,0.525,0.565,0.629,0.536,-0.063
+blk19_06,block,19,familiar,visual_conflict,hard,0,prune,bamboo,watermelon,1,bamboo,prune,watermelon,food,plant,0.731,0.357,0.494,0.676,0.646,0.632,0.713,-0.068
+blk19_07,block,19,familiar,visual_conflict,medium,0,submarine,kayak,horn,2,horn,kayak,submarine,vehicle,musical instrument,0.916,0.622,0.692,0.768,0.547,0.642,0.578,-0.095
+blk19_08,block,19,familiar,visual_conflict,easy,0,rabbit,tulip,pheasant,1,tulip,pheasant,rabbit,animal,plant,0.928,0.632,0.633,0.878,0.666,0.544,0.739,-0.073
+blk19_09,block,19,familiar,visual_conflict,very easy,0,aloe,pizza,rice,0,aloe,pizza,rice,food,plant,0.873,0.323,0.463,0.916,0.625,0.593,0.638,-0.013
+blk19_10,block,19,familiar,visual_agree,very hard,0,teabag,eggplant,gourd,0,teabag,eggplant,gourd,food,container,0.735,0.427,0.631,0.521,0.762,0.599,0.598,0.163
+blk19_11,block,19,familiar,visual_agree,hard,0,soup,meatball,teapot,2,teapot,meatball,soup,food,container,0.854,0.524,0.683,0.692,0.696,0.531,0.616,0.081
+blk19_12,block,19,familiar,visual_agree,medium,0,veil,gondola,coat,1,gondola,coat,veil,clothing,vehicle,0.869,0.428,0.575,0.8,0.576,0.501,0.476,0.075
+blk19_13,block,19,familiar,visual_agree,easy,0,kimono,bobsled,tractor,0,kimono,bobsled,tractor,sports equipment,clothing,0.772,0.395,0.12,0.85,0.473,0.436,0.397,0.038
+blk19_14,block,19,familiar,visual_agree,very easy,0,eagle,bone,goose,1,bone,eagle,goose,animal,body part,0.955,0.577,0.617,0.948,0.73,0.573,0.589,0.141
+blk19_15,block,19,familiar,visual_agree,very hard,0,pinwheel,pinball,locker,2,locker,pinball,pinwheel,electronic device,container,0.733,0.568,0.544,0.536,0.596,0.557,0.493,0.038
+blk19_16,block,19,familiar,visual_agree,hard,0,coral,ladybug,kaleidoscope,2,kaleidoscope,coral,ladybug,animal,toy,0.754,0.52,0.409,0.603,0.672,0.586,0.61,0.061
+blk19_17,block,19,familiar,visual_agree,medium,0,dustpan,frog,aquarium,0,dustpan,aquarium,frog,home decor,container,0.762,0.393,0.184,0.786,0.575,0.538,0.522,0.036
+blk19_18,block,19,familiar,visual_agree,easy,0,coyote,hoe,reindeer,1,hoe,coyote,reindeer,animal,tool,0.936,0.453,0.562,0.896,0.683,0.563,0.572,0.111
+blk19_19,block,19,familiar,visual_agree,very easy,0,cage,rhinoceros,koala,0,cage,koala,rhinoceros,animal,container,0.939,0.439,0.423,0.943,0.698,0.545,0.573,0.125

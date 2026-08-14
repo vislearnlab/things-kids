@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>THINGS-Kids — stimulus review</title>
+
+<script src="stimulus_review_files/header-attrs-2.24/header-attrs.js"></script>
+<script src="stimulus_review_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="stimulus_review_files/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="stimulus_review_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="stimulus_review_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="stimulus_review_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="stimulus_review_files/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="stimulus_review_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="stimulus_review_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="stimulus_review_files/navigation-1.1/tabsets.js"></script>
+<link href="stimulus_review_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="stimulus_review_files/highlightjs-9.12.0/highlight.js"></script>
+<link href="stimulus_review_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="stimulus_review_files/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">THINGS-Kids — stimulus review</h1>
+<h3 class="subtitle">Every trial, the intended answer, and why</h3>
+
+</div>
+
+
+<style>
+.triad { display: flex; gap: 10px; margin: 10px 0 26px; flex-wrap: wrap; }
+.triad .cell { margin: 0; flex: 1 1 180px; max-width: 240px; }
+.triad img { width: 100%; aspect-ratio: 1; object-fit: cover;
+             border-radius: 8px; display: block; border: 3px solid transparent; }
+.triad .odd img { border-color: #eb6834; }
+.triad figcaption { font-size: 12px; color: #666; margin-top: 5px; text-align: center; }
+.triad .odd figcaption { color: #c0521f; font-weight: 600; }
+p.meta { font-size: 12px; color: #888; margin: -6px 0 8px; text-transform: uppercase;
+         letter-spacing: .06em; }
+span.miss { color: #c0392b; font-size: 13px; font-weight: 600; }
+span.hit  { color: #27ae60; font-size: 13px; font-weight: 500; }
+h4 { margin-top: 34px; border-top: 1px solid #eee; padding-top: 16px; }
+</style>
+<div id="how-to-read-this" class="section level2">
+<h2>How to read this</h2>
+<p>Each trial shows three photographs in the order a child sees them.
+Two are meant to go together; the third is the intended answer.</p>
+<p><strong>The intended answer comes from SPoSE</strong>, a model fit to
+4.7 million adult odd-one-out judgements (Hebart et al., 2023). It is
+not a ground truth — it is a well-supported prediction about what adults
+<em>would</em> say, and part of the job of this document is to find the
+trials where that prediction looks wrong.</p>
+<p>Two numbers carry most of the reasoning:</p>
+<ul>
+<li><strong>SPoSE similarity</strong> (0–1) between concepts. The pair
+should be high; the odd item should be low against both.</li>
+<li><strong>CLIP visual margin.</strong> Positive means the photographs
+agree with SPoSE. Negative means they disagree — the intended odd item
+actually <em>looks</em> like it belongs, and only category knowledge
+supports the answer. Half of all test trials are deliberately
+negative.</li>
+</ul>
+<table>
+<caption>Test trials by condition and difficulty (core + full
+bank)</caption>
+<thead>
+<tr>
+<th align="left">difficulty_bin</th>
+<th align="right">visual_agree</th>
+<th align="right">visual_conflict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">easy</td>
+<td align="right">42</td>
+<td align="right">42</td>
+</tr>
+<tr>
+<td align="left">hard</td>
+<td align="right">42</td>
+<td align="right">42</td>
+</tr>
+<tr>
+<td align="left">medium</td>
+<td align="right">42</td>
+<td align="right">42</td>
+</tr>
+<tr>
+<td align="left">very easy</td>
+<td align="right">42</td>
+<td align="right">42</td>
+</tr>
+<tr>
+<td align="left">very hard</td>
+<td align="right">42</td>
+<td align="right">42</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="pilot-where-the-model-and-the-adult-disagreed"
+class="section level2">
+<h2>Pilot: where the model and the adult disagreed</h2>
+<table>
+<caption>Adult pilot accuracy by condition</caption>
+<thead>
+<tr>
+<th align="left">condition</th>
+<th align="right">trials</th>
+<th align="right">correct</th>
+<th align="right">acc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">visual_agree</td>
+<td align="right">30</td>
+<td align="right">33</td>
+<td align="right">0.83</td>
+</tr>
+<tr>
+<td align="left">visual_conflict</td>
+<td align="right">30</td>
+<td align="right">25</td>
+<td align="right">0.63</td>
+</tr>
+</tbody>
+</table>
+<p><img src="stimulus_review_files/figure-html/pilot-calibration-1.png" width="88%" /></p>
+<p>Points far <strong>below</strong> the grey line are the ones to worry
+about: trials the model calls easy that a fully attentive adult still
+got wrong. Those are candidates for removal, because a trial no adult
+endorses cannot measure anything in a child.</p>
+<table>
+<caption>Model says easy, adult said otherwise — review these
+first</caption>
+<colgroup>
+<col width="9%" />
+<col width="16%" />
+<col width="10%" />
+<col width="10%" />
+<col width="12%" />
+<col width="11%" />
+<col width="16%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr>
+<th align="left">trial_id</th>
+<th align="left">condition</th>
+<th align="left">pair_a</th>
+<th align="left">pair_b</th>
+<th align="left">odd_concept</th>
+<th align="right">spose_pair</th>
+<th align="right">p_correct_spose</th>
+<th align="right">clip_margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">blk03_09</td>
+<td align="left">visual_conflict</td>
+<td align="left">pizza</td>
+<td align="left">rice</td>
+<td align="left">bamboo</td>
+<td align="right">0.87</td>
+<td align="right">0.92</td>
+<td align="right">-0.10</td>
+</tr>
+<tr>
+<td align="left">blk03_03</td>
+<td align="left">visual_conflict</td>
+<td align="left">coleslaw</td>
+<td align="left">mango</td>
+<td align="left">koala</td>
+<td align="right">0.78</td>
+<td align="right">0.89</td>
+<td align="right">-0.01</td>
+</tr>
+<tr>
+<td align="left">core_08</td>
+<td align="left">visual_conflict</td>
+<td align="left">harmonica</td>
+<td align="left">trumpet</td>
+<td align="left">marker</td>
+<td align="right">0.88</td>
+<td align="right">0.80</td>
+<td align="right">-0.03</td>
+</tr>
+<tr>
+<td align="left">blk03_17</td>
+<td align="left">visual_agree</td>
+<td align="left">aquarium</td>
+<td align="left">frog</td>
+<td align="left">jug</td>
+<td align="right">0.76</td>
+<td align="right">0.78</td>
+<td align="right">0.03</td>
+</tr>
+<tr>
+<td align="left">blk03_07</td>
+<td align="left">visual_conflict</td>
+<td align="left">kayak</td>
+<td align="left">submarine</td>
+<td align="left">horn</td>
+<td align="right">0.92</td>
+<td align="right">0.77</td>
+<td align="right">-0.10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="core-trials" class="section level2">
+<h2>Core trials</h2>
+<p>Every child sees these 20, so they carry the age comparison and
+deserve the closest reading.</p>
+<div id="core_14-pilot-correct" class="section level4">
+<h4>core_14 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · very easy
+</p>
+<p><strong>SUNROOF</strong> is the odd one out. SPoSE places
+<em>chive</em> and <em>pancake</em> at <strong>0.75</strong> (plant),
+while <em>sunroof</em> (part of car) sits at only 0.09 and 0.12 from
+them. The model puts an adult’s chance of picking it at
+<strong>94%</strong>. CLIP agrees: the visual margin is
+<strong>+0.084</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/chive.jpg' alt='chive'>
+<figcaption>
+chive
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/sunroof.jpg' alt='sunroof'>
+<figcaption>
+sunroof ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/pancake.jpg' alt='pancake'>
+<figcaption>
+pancake
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_19-pilot-correct" class="section level4">
+<h4>core_19 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · very easy
+</p>
+<p><strong>CASSETTE</strong> is the odd one out. SPoSE places
+<em>grain</em> and <em>rhubarb</em> at <strong>0.77</strong> (food),
+while <em>cassette</em> (container) sits at only 0.13 and 0.13 from
+them. The model puts an adult’s chance of picking it at
+<strong>94%</strong>. CLIP agrees: the visual margin is
+<strong>+0.181</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/rhubarb.jpg' alt='rhubarb'>
+<figcaption>
+rhubarb
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/grain.jpg' alt='grain'>
+<figcaption>
+grain
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/cassette.jpg' alt='cassette'>
+<figcaption>
+cassette ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_04-pilot-correct" class="section level4">
+<h4>core_04 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_conflict · very easy
+</p>
+<p><strong>SADDLE</strong> is the odd one out. SPoSE places
+<em>goat</em> and <em>hedgehog</em> at <strong>0.93</strong> (animal),
+while <em>saddle</em> (sports equipment) sits at only 0.47 and 0.35 from
+them. The model puts an adult’s chance of picking it at
+<strong>93%</strong>. CLIP disagrees: the visual margin is
+<strong>-0.011</strong>, so appearance pulls <em>against</em> the
+intended answer — this is a conflict trial.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/hedgehog.jpg' alt='hedgehog'>
+<figcaption>
+hedgehog
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/goat.jpg' alt='goat'>
+<figcaption>
+goat
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/saddle.jpg' alt='saddle'>
+<figcaption>
+saddle ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_09-pilot-correct" class="section level4">
+<h4>core_09 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_conflict · very easy
+</p>
+<p><strong>EGG</strong> is the odd one out. SPoSE places
+<em>seagull</em> and <em>sloth</em> at <strong>0.90</strong> (animal),
+while <em>egg</em> (food) sits at only 0.47 and 0.40 from them. The
+model puts an adult’s chance of picking it at <strong>90%</strong>. CLIP
+disagrees: the visual margin is <strong>-0.032</strong>, so appearance
+pulls <em>against</em> the intended answer — this is a conflict
+trial.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/sloth.jpg' alt='sloth'>
+<figcaption>
+sloth
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/egg.jpg' alt='egg'>
+<figcaption>
+egg ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/seagull.jpg' alt='seagull'>
+<figcaption>
+seagull
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_13-pilot-correct" class="section level4">
+<h4>core_13 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · easy
+</p>
+<p><strong>VOLLEYBALL</strong> is the odd one out. SPoSE places
+<em>pumpkin</em> and <em>strawberry</em> at <strong>0.89</strong>
+(food), while <em>volleyball</em> (sports equipment) sits at only 0.55
+and 0.26 from them. The model puts an adult’s chance of picking it at
+<strong>89%</strong>. CLIP agrees: the visual margin is
+<strong>+0.127</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/volleyball.jpg' alt='volleyball'>
+<figcaption>
+volleyball ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/pumpkin.jpg' alt='pumpkin'>
+<figcaption>
+pumpkin
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/strawberry.jpg' alt='strawberry'>
+<figcaption>
+strawberry
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_03-pilot-correct" class="section level4">
+<h4>core_03 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_conflict · easy
+</p>
+<p><strong>HAMMOCK</strong> is the odd one out. SPoSE places
+<em>butter</em> and <em>sorbet</em> at <strong>0.80</strong> (food),
+while <em>hammock</em> (furniture) sits at only 0.26 and 0.21 from them.
+The model puts an adult’s chance of picking it at <strong>88%</strong>.
+CLIP disagrees: the visual margin is <strong>-0.042</strong>, so
+appearance pulls <em>against</em> the intended answer — this is a
+conflict trial.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/sorbet.jpg' alt='sorbet'>
+<figcaption>
+sorbet
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/butter.jpg' alt='butter'>
+<figcaption>
+butter
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/hammock.jpg' alt='hammock'>
+<figcaption>
+hammock ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_18-pilot-correct" class="section level4">
+<h4>core_18 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · easy
+</p>
+<p><strong>SHELF</strong> is the odd one out. SPoSE places
+<em>dishwasher</em> and <em>microwave</em> at <strong>0.95</strong>
+(electronic device), while <em>shelf</em> (furniture) sits at only 0.66
+and 0.70 from them. The model puts an adult’s chance of picking it at
+<strong>87%</strong>. CLIP agrees: the visual margin is
+<strong>+0.042</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/dishwasher.jpg' alt='dishwasher'>
+<figcaption>
+dishwasher
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/microwave.jpg' alt='microwave'>
+<figcaption>
+microwave
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/shelf.jpg' alt='shelf'>
+<figcaption>
+shelf ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_08-missed-in-pilot" class="section level4">
+<h4>core_08 <span class="miss">✗ missed in pilot</span></h4>
+<p class="meta">
+visual_conflict · easy
+</p>
+<p><strong>MARKER</strong> is the odd one out. SPoSE places
+<em>harmonica</em> and <em>trumpet</em> at <strong>0.88</strong>
+(musical instrument), while <em>marker</em> (tool) sits at only 0.55 and
+0.56 from them. The model puts an adult’s chance of picking it at
+<strong>80%</strong>. CLIP disagrees: the visual margin is
+<strong>-0.025</strong>, so appearance pulls <em>against</em> the
+intended answer — this is a conflict trial.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/marker.jpg' alt='marker'>
+<figcaption>
+marker ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/harmonica.jpg' alt='harmonica'>
+<figcaption>
+harmonica
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/trumpet.jpg' alt='trumpet'>
+<figcaption>
+trumpet
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_02-pilot-correct" class="section level4">
+<h4>core_02 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_conflict · medium
+</p>
+<p><strong>GARLIC</strong> is the odd one out. SPoSE places <em>bee</em>
+and <em>sunflower</em> at <strong>0.87</strong> (animal), while
+<em>garlic</em> (food) sits at only 0.42 and 0.63 from them. The model
+puts an adult’s chance of picking it at <strong>80%</strong>. CLIP
+disagrees: the visual margin is <strong>-0.045</strong>, so appearance
+pulls <em>against</em> the intended answer — this is a conflict
+trial.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/sunflower.jpg' alt='sunflower'>
+<figcaption>
+sunflower
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/garlic.jpg' alt='garlic'>
+<figcaption>
+garlic ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/bee.jpg' alt='bee'>
+<figcaption>
+bee
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_07-pilot-correct" class="section level4">
+<h4>core_07 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_conflict · medium
+</p>
+<p><strong>ORCHID</strong> is the odd one out. SPoSE places
+<em>monkey</em> and <em>swan</em> at <strong>0.84</strong> (animal),
+while <em>orchid</em> (plant) sits at only 0.37 and 0.51 from them. The
+model puts an adult’s chance of picking it at <strong>80%</strong>. CLIP
+disagrees: the visual margin is <strong>-0.112</strong>, so appearance
+pulls <em>against</em> the intended answer — this is a conflict
+trial.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/swan.jpg' alt='swan'>
+<figcaption>
+swan
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/monkey.jpg' alt='monkey'>
+<figcaption>
+monkey
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/orchid.jpg' alt='orchid'>
+<figcaption>
+orchid ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_17-pilot-correct" class="section level4">
+<h4>core_17 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · medium
+</p>
+<p><strong>BED</strong> is the odd one out. SPoSE places
+<em>caramel</em> and <em>oatmeal</em> at <strong>0.73</strong> (food),
+while <em>bed</em> (furniture) sits at only 0.34 and 0.14 from them. The
+model puts an adult’s chance of picking it at <strong>78%</strong>. CLIP
+agrees: the visual margin is <strong>+0.070</strong>, so appearance
+points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/caramel.jpg' alt='caramel'>
+<figcaption>
+caramel
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/oatmeal.jpg' alt='oatmeal'>
+<figcaption>
+oatmeal
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/bed.jpg' alt='bed'>
+<figcaption>
+bed ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_12-pilot-correct" class="section level4">
+<h4>core_12 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · medium
+</p>
+<p><strong>GARGOYLE</strong> is the odd one out. SPoSE places
+<em>hippopotamus</em> and <em>turkey</em> at <strong>0.89</strong>
+(animal), while <em>gargoyle</em> (decoration) sits at only 0.57 and
+0.58 from them. The model puts an adult’s chance of picking it at
+<strong>76%</strong>. CLIP agrees: the visual margin is
+<strong>+0.046</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/gargoyle.jpg' alt='gargoyle'>
+<figcaption>
+gargoyle ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/hippopotamus.jpg' alt='hippopotamus'>
+<figcaption>
+hippopotamus
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/turkey.jpg' alt='turkey'>
+<figcaption>
+turkey
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_16-pilot-correct" class="section level4">
+<h4>core_16 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · hard
+</p>
+<p><strong>DRAGONFLY</strong> is the odd one out. SPoSE places
+<em>basil</em> and <em>potato</em> at <strong>0.82</strong> (plant),
+while <em>dragonfly</em> (animal) sits at only 0.74 and 0.37 from them.
+The model puts an adult’s chance of picking it at <strong>69%</strong>.
+CLIP agrees: the visual margin is <strong>+0.104</strong>, so appearance
+points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/potato.jpg' alt='potato'>
+<figcaption>
+potato
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/dragonfly.jpg' alt='dragonfly'>
+<figcaption>
+dragonfly ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/basil.jpg' alt='basil'>
+<figcaption>
+basil
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_01-pilot-correct" class="section level4">
+<h4>core_01 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_conflict · hard
+</p>
+<p><strong>CACTUS</strong> is the odd one out. SPoSE places
+<em>avocado</em> and <em>zucchini</em> at <strong>0.80</strong> (food),
+while <em>cactus</em> (plant) sits at only 0.46 and 0.61 from them. The
+model puts an adult’s chance of picking it at <strong>68%</strong>. CLIP
+disagrees: the visual margin is <strong>-0.012</strong>, so appearance
+pulls <em>against</em> the intended answer — this is a conflict
+trial.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/avocado.jpg' alt='avocado'>
+<figcaption>
+avocado
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/cactus.jpg' alt='cactus'>
+<figcaption>
+cactus ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/zucchini.jpg' alt='zucchini'>
+<figcaption>
+zucchini
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_11-pilot-correct" class="section level4">
+<h4>core_11 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · hard
+</p>
+<p><strong>BOUQUET</strong> is the odd one out. SPoSE places
+<em>papaya</em> and <em>pesto</em> at <strong>0.84</strong> (food),
+while <em>bouquet</em> (decoration) sits at only 0.75 and 0.56 from
+them. The model puts an adult’s chance of picking it at
+<strong>63%</strong>. CLIP agrees: the visual margin is
+<strong>+0.100</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/bouquet.jpg' alt='bouquet'>
+<figcaption>
+bouquet ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/pesto.jpg' alt='pesto'>
+<figcaption>
+pesto
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/papaya.jpg' alt='papaya'>
+<figcaption>
+papaya
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_06-pilot-correct" class="section level4">
+<h4>core_06 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_conflict · hard
+</p>
+<p><strong>POT</strong> is the odd one out. SPoSE places
+<em>gazelle</em> and <em>lobster</em> at <strong>0.71</strong> (animal),
+while <em>pot</em> (container) sits at only 0.09 and 0.48 from them. The
+model puts an adult’s chance of picking it at <strong>59%</strong>. CLIP
+disagrees: the visual margin is <strong>-0.031</strong>, so appearance
+pulls <em>against</em> the intended answer — this is a conflict
+trial.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/pot.jpg' alt='pot'>
+<figcaption>
+pot ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/lobster.jpg' alt='lobster'>
+<figcaption>
+lobster
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/gazelle.jpg' alt='gazelle'>
+<figcaption>
+gazelle
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_00-missed-in-pilot" class="section level4">
+<h4>core_00 <span class="miss">✗ missed in pilot</span></h4>
+<p class="meta">
+visual_conflict · very hard
+</p>
+<p><strong>BASEBALL</strong> is the odd one out. SPoSE places
+<em>headdress</em> and <em>visor</em> at <strong>0.71</strong>
+(clothing), while <em>baseball</em> (sports equipment) sits at only 0.44
+and 0.63 from them. The model puts an adult’s chance of picking it at
+<strong>52%</strong>. CLIP disagrees: the visual margin is
+<strong>-0.010</strong>, so appearance pulls <em>against</em> the
+intended answer — this is a conflict trial.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/baseball.jpg' alt='baseball'>
+<figcaption>
+baseball ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/visor.jpg' alt='visor'>
+<figcaption>
+visor
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/headdress.jpg' alt='headdress'>
+<figcaption>
+headdress
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_05-missed-in-pilot" class="section level4">
+<h4>core_05 <span class="miss">✗ missed in pilot</span></h4>
+<p class="meta">
+visual_conflict · very hard
+</p>
+<p><strong>CLAM</strong> is the odd one out. SPoSE places
+<em>coconut</em> and <em>parsley</em> at <strong>0.79</strong> (food),
+while <em>clam</em> (animal) sits at only 0.76 and 0.60 from them. The
+model puts an adult’s chance of picking it at <strong>49%</strong>. CLIP
+disagrees: the visual margin is <strong>-0.035</strong>, so appearance
+pulls <em>against</em> the intended answer — this is a conflict
+trial.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/clam.jpg' alt='clam'>
+<figcaption>
+clam ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/coconut.jpg' alt='coconut'>
+<figcaption>
+coconut
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/parsley.jpg' alt='parsley'>
+<figcaption>
+parsley
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_10-pilot-correct" class="section level4">
+<h4>core_10 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+visual_agree · very hard
+</p>
+<p><strong>DISH</strong> is the odd one out. SPoSE places
+<em>raisin</em> and <em>salami</em> at <strong>0.76</strong> (food),
+while <em>dish</em> (container) sits at only 0.56 and 0.58 from them.
+The model puts an adult’s chance of picking it at <strong>48%</strong>.
+CLIP agrees: the visual margin is <strong>+0.110</strong>, so appearance
+points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/salami.jpg' alt='salami'>
+<figcaption>
+salami
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/dish.jpg' alt='dish'>
+<figcaption>
+dish ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/raisin.jpg' alt='raisin'>
+<figcaption>
+raisin
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="core_15-missed-in-pilot" class="section level4">
+<h4>core_15 <span class="miss">✗ missed in pilot</span></h4>
+<p class="meta">
+visual_agree · very hard
+</p>
+<p><strong>BAGPIPE</strong> is the odd one out. SPoSE places
+<em>suit</em> and <em>toe</em> at <strong>0.72</strong> (clothing),
+while <em>bagpipe</em> (musical instrument) sits at only 0.60 and 0.29
+from them. The model puts an adult’s chance of picking it at
+<strong>48%</strong>. CLIP agrees: the visual margin is
+<strong>+0.042</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/suit.jpg' alt='suit'>
+<figcaption>
+suit
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/toe.jpg' alt='toe'>
+<figcaption>
+toe
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/bagpipe.jpg' alt='bagpipe'>
+<figcaption>
+bagpipe ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="training-warmup-and-attention-checks" class="section level2">
+<h2>Training, warmup, and attention checks</h2>
+<div id="training_00-pilot-correct" class="section level4">
+<h4>training_00 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+animal_vs_office supply · training
+</p>
+<p><strong>CLIPBOARD</strong> is the odd one out. SPoSE places
+<em>pigeon</em> and <em>turtle</em> at <strong>0.92</strong> (animal),
+while <em>clipboard</em> (office supply) sits at only 0.10 and 0.11 from
+them. The model puts an adult’s chance of picking it at
+<strong>99%</strong>. CLIP agrees: the visual margin is
+<strong>+0.109</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/turtle.jpg' alt='turtle'>
+<figcaption>
+turtle
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/clipboard.jpg' alt='clipboard'>
+<figcaption>
+clipboard ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/pigeon.jpg' alt='pigeon'>
+<figcaption>
+pigeon
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="training_01-pilot-correct" class="section level4">
+<h4>training_01 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+plant_vs_electronic device · training
+</p>
+<p><strong>AMPLIFIER</strong> is the odd one out. SPoSE places
+<em>flower</em> and <em>pineapple</em> at <strong>0.84</strong> (plant),
+while <em>amplifier</em> (electronic device) sits at only 0.10 and 0.08
+from them. The model puts an adult’s chance of picking it at
+<strong>97%</strong>. CLIP agrees: the visual margin is
+<strong>+0.109</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/pineapple.jpg' alt='pineapple'>
+<figcaption>
+pineapple
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/amplifier.jpg' alt='amplifier'>
+<figcaption>
+amplifier ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/flower.jpg' alt='flower'>
+<figcaption>
+flower
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="training_02-pilot-correct" class="section level4">
+<h4>training_02 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+container_vs_food · training
+</p>
+<p><strong>DESSERT</strong> is the odd one out. SPoSE places
+<em>crate</em> and <em>forklift</em> at <strong>0.89</strong>
+(container), while <em>dessert</em> (food) sits at only 0.10 and 0.09
+from them. The model puts an adult’s chance of picking it at
+<strong>99%</strong>. CLIP agrees: the visual margin is
+<strong>+0.042</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/dessert.jpg' alt='dessert'>
+<figcaption>
+dessert ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/crate.jpg' alt='crate'>
+<figcaption>
+crate
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/forklift.jpg' alt='forklift'>
+<figcaption>
+forklift
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="training_03-pilot-correct" class="section level4">
+<h4>training_03 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+food_vs_part of car · training
+</p>
+<p><strong>BRAKE</strong> is the odd one out. SPoSE places
+<em>fondue</em> and <em>marshmallow</em> at <strong>0.84</strong>
+(food), while <em>brake</em> (part of car) sits at only 0.13 and 0.09
+from them. The model puts an adult’s chance of picking it at
+<strong>97%</strong>. CLIP agrees: the visual margin is
+<strong>+0.167</strong>, so appearance points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/fondue.jpg' alt='fondue'>
+<figcaption>
+fondue
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/marshmallow.jpg' alt='marshmallow'>
+<figcaption>
+marshmallow
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/brake.jpg' alt='brake'>
+<figcaption>
+brake ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="warmup_00-pilot-correct" class="section level4">
+<h4>warmup_00 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+food_vs_home decor · warmup
+</p>
+<p><strong>POSTER</strong> is the odd one out. SPoSE places
+<em>almond</em> and <em>sauerkraut</em> at <strong>0.78</strong> (food),
+while <em>poster</em> (home decor) sits at only 0.15 and 0.11 from them.
+The model puts an adult’s chance of picking it at <strong>95%</strong>.
+CLIP agrees: the visual margin is <strong>+0.165</strong>, so appearance
+points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/sauerkraut.jpg' alt='sauerkraut'>
+<figcaption>
+sauerkraut
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/poster.jpg' alt='poster'>
+<figcaption>
+poster ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/almond.jpg' alt='almond'>
+<figcaption>
+almond
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="warmup_01-pilot-correct" class="section level4">
+<h4>warmup_01 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+food_vs_clothing · warmup
+</p>
+<p><strong>CARDIGAN</strong> is the odd one out. SPoSE places
+<em>carrot</em> and <em>fruitcake</em> at <strong>0.82</strong> (food),
+while <em>cardigan</em> (clothing) sits at only 0.23 and 0.18 from them.
+The model puts an adult’s chance of picking it at <strong>93%</strong>.
+CLIP agrees: the visual margin is <strong>+0.046</strong>, so appearance
+points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/fruitcake.jpg' alt='fruitcake'>
+<figcaption>
+fruitcake
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/cardigan.jpg' alt='cardigan'>
+<figcaption>
+cardigan ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/carrot.jpg' alt='carrot'>
+<figcaption>
+carrot
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="warmup_02-pilot-correct" class="section level4">
+<h4>warmup_02 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+animal_vs_clothing · warmup
+</p>
+<p><strong>SWEATER</strong> is the odd one out. SPoSE places
+<em>jellyfish</em> and <em>snail</em> at <strong>0.84</strong> (animal),
+while <em>sweater</em> (clothing) sits at only 0.22 and 0.13 from them.
+The model puts an adult’s chance of picking it at <strong>94%</strong>.
+CLIP agrees: the visual margin is <strong>+0.072</strong>, so appearance
+points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/snail.jpg' alt='snail'>
+<figcaption>
+snail
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/jellyfish.jpg' alt='jellyfish'>
+<figcaption>
+jellyfish
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/sweater.jpg' alt='sweater'>
+<figcaption>
+sweater ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="warmup_03-pilot-correct" class="section level4">
+<h4>warmup_03 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+plant_vs_vehicle · warmup
+</p>
+<p><strong>SUBWAY</strong> is the odd one out. SPoSE places
+<em>artichoke</em> and <em>tamale</em> at <strong>0.74</strong> (plant),
+while <em>subway</em> (vehicle) sits at only 0.09 and 0.13 from them.
+The model puts an adult’s chance of picking it at <strong>94%</strong>.
+CLIP agrees: the visual margin is <strong>+0.264</strong>, so appearance
+points at the same answer.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/artichoke.jpg' alt='artichoke'>
+<figcaption>
+artichoke
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/subway.jpg' alt='subway'>
+<figcaption>
+subway ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/tamale.jpg' alt='tamale'>
+<figcaption>
+tamale
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="catch_00-pilot-correct" class="section level4">
+<h4>catch_00 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+attention_check · catch
+</p>
+<p><strong>Attention check.</strong> Two copies of the same photo
+(<em>boat</em>) plus <em>cymbal</em>. The duplicate is the point —
+anyone attending cannot miss it.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/boat.jpg' alt='boat'>
+<figcaption>
+boat
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/cymbal.jpg' alt='cymbal'>
+<figcaption>
+cymbal ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/boat.jpg' alt='boat'>
+<figcaption>
+boat
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="catch_01-pilot-correct" class="section level4">
+<h4>catch_01 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+attention_check · catch
+</p>
+<p><strong>Attention check.</strong> Two copies of the same photo
+(<em>teacup</em>) plus <em>swordfish</em>. The duplicate is the point —
+anyone attending cannot miss it.</p>
+<div class="triad">
+<figure class="cell odd">
+<img src='../public/stimuli/swordfish.jpg' alt='swordfish'>
+<figcaption>
+swordfish ← odd one out
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/teacup.jpg' alt='teacup'>
+<figcaption>
+teacup
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/teacup.jpg' alt='teacup'>
+<figcaption>
+teacup
+</figcaption>
+</figure>
+</div>
+</div>
+<div id="catch_02-pilot-correct" class="section level4">
+<h4>catch_02 <span class="hit">✓ pilot correct</span></h4>
+<p class="meta">
+attention_check · catch
+</p>
+<p><strong>Attention check.</strong> Two copies of the same photo
+(<em>cheese</em>) plus <em>leggings</em>. The duplicate is the point —
+anyone attending cannot miss it.</p>
+<div class="triad">
+<figure class="cell">
+<img src='../public/stimuli/cheese.jpg' alt='cheese'>
+<figcaption>
+cheese
+</figcaption>
+</figure>
+<figure class="cell">
+<img src='../public/stimuli/cheese.jpg' alt='cheese'>
+<figcaption>
+cheese
+</figcaption>
+</figure>
+<figure class="cell odd">
+<img src='../public/stimuli/leggings.jpg' alt='leggings'>
+<figcaption>
+leggings ← odd one out
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="rotating-bank" class="section level2">
+<h2>Rotating bank</h2>
+<p>The 400 rotating bank trials are omitted here to keep the document
+readable. Each child sees one 20-trial block of the 20 currently
+active.</p>
+<p>Render the full set with:</p>
+<pre class="r"><code>rmarkdown::render(&quot;stimulus_review.Rmd&quot;, params = list(scope = &quot;all&quot;))</code></pre>
+</div>
+<div id="provenance" class="section level2">
+<h2>Provenance</h2>
+<p>All photographs come from the vocab-gradient published item set
+(THINGS, copyright-free release), restricted to concepts appearing in
+<code>test_items.csv</code> so results join to that paper’s 4AFC item
+data. Similarity terms are recomputed by
+<code>build_reasoning_table.py</code> from the same matrices the bank
+was built with: SPoSE 66-d (Hebart et al., 2023) and CLIP ViT-B/32 with
+OpenAI weights, matching the model the vocab-gradient paper used.</p>
+<p>No image appears twice within a session, and no two concepts in
+different trials of one session exceed CLIP .88 — near-identical
+photographs of different concepts read as repeats even when nothing is
+literally repeated.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

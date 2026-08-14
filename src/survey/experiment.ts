@@ -145,8 +145,27 @@ function bumpScore(score: number): void {
 }
 
 // ============ experiment params ============
-const PARTICIPANT_ID = getURLParam('participantID', null) || ('kid_' + shortId(8));
-const STUDY = getURLParam('study', 'things_kids_v1') as string;
+// Prolific appends PROLIFIC_PID, STUDY_ID and SESSION_ID to the study URL.
+// Param names are case-sensitive and upper-case on their side.
+const PROLIFIC_PID  = getURLParam('PROLIFIC_PID', null);
+const PROLIFIC_STUDY = getURLParam('STUDY_ID', null);
+const PROLIFIC_SESSION = getURLParam('SESSION_ID', null);
+const IS_PROLIFIC = !!PROLIFIC_PID;
+
+// Key the record on the Prolific ID when there is one, so a participant who
+// refreshes mid-study upserts onto their own row instead of creating a second
+// one, and so payment can be reconciled without a lookup table.
+const PARTICIPANT_ID = PROLIFIC_PID
+  || getURLParam('participantID', null)
+  || ('kid_' + shortId(8));
+const STUDY = getURLParam('study', IS_PROLIFIC ? 'things_kids_prolific' : 'things_kids_v1') as string;
+
+// Where to send people when they finish. Prolific participants must land on
+// their completion URL or they cannot be paid; pass it as ?completion_url=...
+// (URL-encoded), or set the completion code with ?cc=XXXXXXXX.
+const COMPLETION_CODE = getURLParam('cc', IS_PROLIFIC ? 'CHO0PAQJ' : null);
+const COMPLETION_URL = getURLParam('completion_url', null)
+  || (COMPLETION_CODE ? `https://app.prolific.com/submissions/complete?cc=${COMPLETION_CODE}` : null);
 
 // Save endpoint: defaults to a /submit relative to the current URL, which
 // matches the lab nginx-prefix pattern (BASE_PATH/submit). Override with
@@ -403,6 +422,9 @@ const jsPsych = initJsPsych({
     const oddity = all.filter((d: any) => d.task === 'things_oddity');
     const summary = {
       participantID: PARTICIPANT_ID, study: STUDY,
+      prolific: IS_PROLIFIC
+        ? { pid: PROLIFIC_PID, study_id: PROLIFIC_STUDY, session_id: PROLIFIC_SESSION }
+        : null,
       consent: CONSENT_INFO,
       assigned_block: ASSIGNED_BLOCK,
       finishedAt: new Date().toISOString(),
@@ -419,9 +441,10 @@ const jsPsych = initJsPsych({
         <img src="images/zorpie/zorpie_stars.gif" class="zorpie big" alt="Zorpie celebrates" />
         <div class="bell" style="font-size: 64px; color:#ff6f61;">Thank you!</div>
         <div style="font-size:28px; color:#444; margin-top: 18px;">
-          Great job playing the matching game!
+          ${IS_PROLIFIC ? 'You&rsquo;ve finished the study.' : 'Great job playing the matching game!'}
         </div>
         <div id="save-status" style="margin-top:24px; font-size:15px; color:#888;">saving your answers…</div>
+        <div id="prolific-code" style="display:none; margin-top:14px; font-size:16px; color:#444;"></div>
         <div style="margin-top:24px;">
           <button class="big-btn" id="back-home">Back to home</button>
         </div>
@@ -434,11 +457,41 @@ const jsPsych = initJsPsych({
     setTimeout(playChime, 100); setTimeout(playChime, 400); setTimeout(playChime, 700);
     setTimeout(() => playPrompt('all_done'), 900);
 
-    // Kiosk auto-return after the thank-you screen + audio. Manual button is
-    // also available immediately for impatient operators / kids.
-    const goHome = () => { window.location.href = EXIT_URL; };
-    document.getElementById('back-home')?.addEventListener('click', goHome);
-    if (END_REDIRECT_MS > 0) setTimeout(goHome, END_REDIRECT_MS);
+    // Kiosk auto-returns to the landing page; Prolific participants go to
+    // their completion URL instead, or they cannot be paid.
+    const exitTarget = COMPLETION_URL || EXIT_URL;
+    const goHome = () => { window.location.href = exitTarget; };
+    const homeBtn = document.getElementById('back-home');
+    homeBtn?.addEventListener('click', goHome);
+
+    if (IS_PROLIFIC) {
+      if (homeBtn) homeBtn.textContent = 'Return to Prolific';
+      // No blind timer here. On the kiosk an early redirect costs nothing —
+      // the next child just starts over. On Prolific it would race the POST
+      // and lose the session, so the redirect is armed by the save handler
+      // below once the data is actually stored.
+    } else if (END_REDIRECT_MS > 0) {
+      setTimeout(goHome, END_REDIRECT_MS);
+    }
+
+    // Called once the save resolves, either way.
+    function finishProlific(saved: boolean) {
+      if (!IS_PROLIFIC) return;
+      const status = document.getElementById('save-status');
+      if (status) {
+        status.innerHTML = saved
+          ? `&#10003; answers saved &mdash; returning to Prolific…`
+          : `Your answers could not be saved automatically. Please download them below and message the researcher.`;
+      }
+      // Always show the completion code: if the redirect is blocked or the
+      // participant closes the tab early, this is how they still get paid.
+      const codeBox = document.getElementById('prolific-code');
+      if (codeBox && COMPLETION_CODE) {
+        codeBox.style.display = 'block';
+        codeBox.innerHTML = `Completion code: <strong>${COMPLETION_CODE}</strong>`;
+      }
+      if (saved) setTimeout(goHome, 2500);
+    }
 
     function showDownloadFallback(reason: string) {
       const status = document.getElementById('save-status');
@@ -466,16 +519,20 @@ const jsPsych = initJsPsych({
         if (r.ok) {
           const status = document.getElementById('save-status');
           if (status) status.textContent = '✓ answers saved';
+          finishProlific(true);
         } else {
           showDownloadFallback(`HTTP ${r.status}`);
+          finishProlific(false);
         }
       } catch (e: any) {
         console.warn('save failed:', e);
         showDownloadFallback(String(e?.message || e).slice(0, 60));
+        finishProlific(false);
       }
     } else {
       const status = document.getElementById('save-status');
       if (status) status.textContent = '(saving disabled via ?save=false)';
+      finishProlific(false);
       if (SHOW_DOWNLOAD) showDownloadFallback('save disabled');
     }
     if (SHOW_DOWNLOAD) showDownloadFallback('dev mode');
