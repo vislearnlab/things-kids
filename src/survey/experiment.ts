@@ -539,38 +539,88 @@ function blockIntro(tier: string): any {
   };
 }
 
+// ============ save ============
+// Data is written after EVERY trial, not only at the end — on the kiosk as
+// well as on Prolific. A child who wanders off mid-session, or an adult who
+// abandons at trial 40 of 71, would otherwise leave nothing behind. Each
+// write is the full cumulative payload upserted on participantID, so it is
+// idempotent and self-healing: a dropped request is simply superseded by the
+// next trial's write.
+function buildSummary(complete: boolean): any {
+  const all = (jsPsych as any).data.get().values();
+  const oddity = all.filter((d: any) => d.task === 'things_oddity');
+  return {
+    participantID: PARTICIPANT_ID, study: STUDY,
+    prolific: IS_PROLIFIC
+      ? { pid: PROLIFIC_PID, study_id: PROLIFIC_STUDY, session_id: PROLIFIC_SESSION }
+      : null,
+    prolific_id_missing: PROLIFIC_URL_SHAPE && !IS_PROLIFIC,
+    url_query: window.location.search.slice(0, 500),
+    consent: CONSENT_INFO,
+    consent_version: CONSENT_MODE === 'adult' ? 'adult_irb_811123' : 'parental_kiosk',
+    debrief_comment: DEBRIEF_COMMENT || null,
+    assigned_block: ASSIGNED_BLOCK,
+    assigned_bank: ASSIGNED_BANK,
+    // false while in progress. Analysis should filter on this rather than on
+    // n_trials — a partial session is a legitimate dropout record, not junk.
+    complete,
+    updatedAt: new Date().toISOString(),
+    finishedAt: complete ? new Date().toISOString() : null,
+    n_trials: oddity.length,
+    n_correct: oddity.filter((d: any) => d.correct).length,
+    mean_rt: oddity.length ? oddity.reduce((a: number, d: any) => a + d.rt, 0) / oddity.length : null,
+    trials: oddity,
+    ua: navigator.userAgent,
+    screen: { w: screen.width, h: screen.height, dpr: window.devicePixelRatio },
+  };
+}
+
+let saveInFlight = false;
+let savePending = false;
+
+// Serialised, not fired blindly: writes are cumulative, so two in flight at
+// once could land out of order and regress the stored record.
+async function saveProgress(): Promise<void> {
+  if (!SAVE_ENABLED) return;
+  if (saveInFlight) { savePending = true; return; }
+  saveInFlight = true;
+  try {
+    await fetch(SUBMIT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ participantID: PARTICIPANT_ID, data: buildSummary(false) }),
+      keepalive: true,
+    });
+  } catch (_) {
+    // Silent by design: the next trial supersedes this write, and the final
+    // save is what reports a real failure to the participant.
+  } finally {
+    saveInFlight = false;
+    if (savePending) { savePending = false; void saveProgress(); }
+  }
+}
+
+// Last-gasp write when the tab is hidden or closed — the common shape of an
+// abandoned session. sendBeacon survives unload where fetch usually does not.
+window.addEventListener('pagehide', () => {
+  if (!SAVE_ENABLED) return;
+  try {
+    navigator.sendBeacon(
+      SUBMIT_URL,
+      new Blob([JSON.stringify({ participantID: PARTICIPANT_ID, data: buildSummary(false) })],
+               { type: 'application/json' }));
+  } catch (_) {}
+});
+
 // ============ jsPsych init ============
 const jsPsych = initJsPsych({
   show_progress_bar: false,
+  // Write after every trial so an abandoned session still leaves data.
+  on_data_update: function (data: any) {
+    if (data && data.task === 'things_oddity') void saveProgress();
+  },
   on_finish: async function () {
-    const all = jsPsych.data.get().values();
-    const oddity = all.filter((d: any) => d.task === 'things_oddity');
-    const summary = {
-      participantID: PARTICIPANT_ID, study: STUDY,
-      prolific: IS_PROLIFIC
-        ? { pid: PROLIFIC_PID, study_id: PROLIFIC_STUDY, session_id: PROLIFIC_SESSION }
-        : null,
-      // True when the URL looked like a Prolific link but carried no usable
-      // id — flags sessions that cannot be reconciled against a submission.
-      prolific_id_missing: PROLIFIC_URL_SHAPE && !IS_PROLIFIC,
-      // The raw query string, so an id that never arrived can be diagnosed
-      // from the data instead of guessed at. Distinguishes "Prolific sent a
-      // literal {{%PROLIFIC_PID%}}" (study not set to use URL parameters)
-      // from "the param was absent entirely" (wrong link circulated).
-      url_query: window.location.search.slice(0, 500),
-      consent: CONSENT_INFO,
-      consent_version: CONSENT_MODE === 'adult' ? 'adult_irb_811123' : 'parental_kiosk',
-      debrief_comment: DEBRIEF_COMMENT || null,
-      assigned_block: ASSIGNED_BLOCK,
-      assigned_bank: ASSIGNED_BANK,
-      finishedAt: new Date().toISOString(),
-      n_trials: oddity.length,
-      n_correct: oddity.filter((d: any) => d.correct).length,
-      mean_rt: oddity.length ? oddity.reduce((a: number, d: any) => a + d.rt, 0) / oddity.length : null,
-      trials: oddity,
-      ua: navigator.userAgent,
-      screen: { w: screen.width, h: screen.height, dpr: window.devicePixelRatio },
-    };
+    const summary = buildSummary(true);
 
     document.body.innerHTML = `
       <div style="text-align:center; padding: 40px 24px; max-width: 760px; margin: 0 auto;">
