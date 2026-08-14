@@ -1,0 +1,350 @@
+
+  :root {
+    --bg: #fff8e1;
+    --accent: #ff6f61;
+    --accent-2: #6ec1e4;
+    --good: #6abf69;
+    --gold: #ffd166;
+    --soft-yellow: #F7E293; /* matches vislearnlab museumkiosk */
+    --text: #2b2b2b;
+  }
+  html, body {
+    background: var(--bg); color: var(--text); margin: 0;
+    /* Lock the viewport — no scrolling on any screen. Content is sized to
+       fit via dvh / flex-fill below. dvh adapts to mobile browser chrome
+       (URL bar collapse) better than vh. */
+    height: 100dvh;
+    overflow: hidden;
+    /* Respect iOS safe areas so the notch / status bar doesn't overlap.
+       viewport-fit=cover in index.html enables env() values. */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+    box-sizing: border-box;
+    font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  }
+  .jspsych-display-element {
+    height: 100%; overflow: hidden;
+    /* Lay the page out as a flex column so the jspsych button group can
+       be pinned to the bottom (always reachable) and the stimulus area
+       above takes the remaining space. */
+    display: flex; flex-direction: column;
+    /* Reserve space at the top for the fixed HUD (progress bar + score)
+       so its content never overlaps the trial title. iOS safe-area gets
+       added via env(). */
+    padding-top: calc(54px + env(safe-area-inset-top, 0px));
+    box-sizing: border-box;
+  }
+  .jspsych-content-wrapper {
+    flex: 1 1 auto; min-height: 0;
+    display: flex; flex-direction: column;
+  }
+  .jspsych-content {
+    flex: 1 1 auto; min-height: 0;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  /* The stimulus container (consent-wrap, howto-wrap, etc.) gets the
+     scroll-fallback so a too-tall stimulus scrolls internally instead
+     of pushing the button below the viewport. */
+  .jspsych-content > div:not(.jspsych-btn-group):first-child {
+    flex: 1 1 auto; min-height: 0;
+    overflow-y: auto;
+    width: 100%;
+  }
+  /* jsPsych v8 uses .jspsych-btn-group for the action button row. Pin it,
+     but leave plenty of breathing room at the bottom so the action button
+     ("Let's play!", "I'm ready!", etc.) doesn't sit flush with the iPad's
+     bottom bezel / home-bar area. ~12% of viewport height keeps it well
+     above the Stop icon too. */
+  .jspsych-btn-group, .jspsych-btn-group-flex, .jspsych-btn-group-grid {
+    flex: 0 0 auto;
+    padding: 8px 0 calc(12dvh + env(safe-area-inset-bottom, 0px));
+  }
+  .jspsych-display-element { font-size: 28px; }
+  .jspsych-content { max-width: 1200px; }
+
+  /* Schoolbell for cute headings (matches her drawing-task aesthetic) */
+  .bell { font-family: "Schoolbell", cursive; }
+
+  .kid-prompt {
+    font-family: "Schoolbell", cursive;
+    font-size: 48px; color: var(--accent); text-align: center;
+    margin: 8px 0 24px;
+  }
+  .kid-prompt .sub { display:block; font-size: 22px; color: #555; margin-top: 6px; font-family: inherit;}
+
+  .kid-row { display: flex; gap: 28px; justify-content: center; align-items: center; flex-wrap: wrap; position: relative;}
+  .kid-card {
+    background: white; border: 6px solid var(--gold); border-radius: 28px;
+    padding: 12px; cursor: pointer; position: relative;
+    transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+  }
+  .kid-card:hover { transform: translateY(-4px) scale(1.03); border-color: var(--accent); box-shadow: 0 10px 0 rgba(0,0,0,0.10); }
+  .kid-card:active { transform: translateY(0) scale(0.98); }
+  .kid-card img { display: block; width: 260px; height: 260px; object-fit: contain; border-radius: 18px; background: #fafafa; }
+  .kid-card.disabled { pointer-events: none; opacity: 0.85; }
+  .kid-card.correct { border-color: var(--good); animation: bounce 0.5s ease; }
+  .kid-card.wrong   { border-color: #d9534f; animation: shake 0.4s ease; }
+  @keyframes bounce { 0%{transform:scale(1)} 35%{transform:scale(1.14)} 65%{transform:scale(0.97)} 100%{transform:scale(1.05)} }
+  @keyframes shake  { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+
+  .sparkle {
+    position: absolute; pointer-events: none;
+    width: 14px; height: 14px; border-radius: 50%;
+    box-shadow: 0 0 8px 2px rgba(255,215,0,0.85);
+    animation: sparkle-fly 0.9s ease-out forwards;
+  }
+  @keyframes sparkle-fly {
+    0%   { transform: translate(0,0) scale(0.3); opacity: 1; }
+    100% { transform: translate(var(--dx),var(--dy)) scale(1.4); opacity: 0; }
+  }
+
+  .big-btn {
+    font-family: "Schoolbell", cursive;
+    font-size: 36px; padding: 14px 36px; border-radius: 999px;
+    border: none; background: var(--accent); color: white;
+    cursor: pointer; box-shadow: 0 6px 0 rgba(0,0,0,0.15);
+  }
+  .big-btn:hover { filter: brightness(1.05); }
+  .big-btn.secondary { background: var(--accent-2); }
+  .big-btn.warning  { background: var(--soft-yellow); color: #333; }
+
+  .hud {
+    position: fixed;
+    /* Sit below the iOS notch / status bar (env() falls back to 0). */
+    top:   calc(14px + env(safe-area-inset-top, 0px));
+    left:  calc(14px + env(safe-area-inset-left, 0px));
+    right: calc(14px + env(safe-area-inset-right, 0px));
+    display: flex; gap: 14px; align-items: center;
+    pointer-events: none; z-index: 50;
+  }
+  .hud .progress-bar { flex: 1; height: 16px; background: #ffe7c2; border-radius: 999px; overflow: hidden; }
+  .hud .progress-fill { height: 100%; background: linear-gradient(90deg,#ffd166,#ff6f61); transition: width 0.5s; }
+  .hud .progress-label { font-family: "Schoolbell", cursive; font-size: 22px; color: #993556; min-width: 64px; text-align: center; }
+  .hud .score-pill {
+    background: white; border: 2px solid var(--gold); color: #993556;
+    padding: 4px 14px; border-radius: 999px; font-family: "Schoolbell", cursive; font-size: 22px;
+    pointer-events: auto;
+  }
+  /* Persistent Stop icon (matches the museum-kiosk drawing-game style:
+     black circle with a white rounded square). Bottom-right, small,
+     slightly translucent so it stays out of the kid's primary tap zone
+     (trial cards in the middle, action buttons bottom-center) but always
+     reachable by an operator. */
+  #exit-btn {
+    position: fixed;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    right:  calc(10px + env(safe-area-inset-right, 0px));
+    z-index: 100;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    background: transparent;
+    border: none;
+    color: #111;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  #exit-btn svg { width: 44px; height: 44px; display: block; }
+  #exit-btn .exit-label {
+    font-family: "Schoolbell", cursive;
+    font-size: 14px;
+    color: #111;
+    line-height: 1;
+  }
+  #exit-btn:hover, #exit-btn:active { opacity: 1; transform: scale(1.05); }
+
+  .score-pop { animation: scorepop 0.45s ease; }
+  @keyframes scorepop { 0%{transform:scale(1)} 50%{transform:scale(1.25); color:#6abf69} 100%{transform:scale(1)} }
+
+  /* Zorpie sizes */
+  .zorpie { display: block; margin: 0 auto; image-rendering: -webkit-optimize-contrast; }
+  .zorpie.big { width: 280px; }
+  .zorpie.med { width: 180px; }
+  .zorpie.sm  { width: 120px; }
+
+  /* How-to-play screen */
+  .howto-wrap   { text-align: center; padding: 0 24px; }
+  .howto-title  { font-size: 48px; color: var(--accent); margin: 6px 0 14px; }
+  .howto-body   { font-size: 30px; max-width: 760px; margin: 0 auto 12px; line-height: 1.3; }
+  .howto-feedback { font-size: 26px; color: #666; max-width: 640px;
+                    margin: 8px auto 0; min-height: 40px; }
+
+  /* Demo mini-cards (used in tutorial intro) */
+  .demo-row { display:flex; gap:18px; justify-content:center; align-items:center; margin: 18px 0;}
+  .demo-card { width:120px; height:120px; border:5px solid var(--gold); border-radius:18px; background:white;
+               display:flex; align-items:center; justify-content:center; font-size: 64px;
+               cursor: pointer; user-select: none; transition: transform 0.15s, border-color 0.15s; position: relative;}
+  .demo-card:hover { transform: translateY(-4px) scale(1.04); }
+  .demo-card.diff { /* role marker only — no green border yet (would spoil the answer) */ }
+  .demo-card.correct { border-color: var(--good); animation: bounce 0.5s ease; }
+  .demo-card.wrong   { border-color: #d9534f; animation: shake 0.4s ease; }
+
+  /* Consent screen */
+  #consent-wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px; text-align: center; }
+  #consent-wrap h1 { font-family: "Schoolbell", cursive; color: var(--accent); font-size: 56px; margin: 0 0 12px; }
+  #consent-wrap .age-grid { display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 16px auto; max-width: 700px;}
+  #consent-wrap .age-btn {
+    font-family: "Schoolbell", cursive; font-size: 32px;
+    padding: 14px 0; border-radius: 14px;
+    border: 2px solid #999; background: white; cursor: pointer;
+  }
+  #consent-wrap .age-btn.selected { background: var(--soft-yellow); border-color: #b08c20; }
+  #consent-wrap .agree-row { font-family: "Schoolbell", cursive; font-size: 28px; margin: 16px 0;
+                             display:flex; align-items:center; justify-content:center; gap:10px; }
+  #consent-wrap .consent-text {
+    text-align: left; max-width: 760px; margin: 18px auto;
+    background: white; border: 2px solid #ddd; border-radius: 14px; padding: 18px;
+    font-size: 13px; line-height: 1.5; color: #333; max-height: 260px; overflow: auto;
+  }
+
+  /* ===== Tablet (≤ 900px) ===== */
+  @media (max-width: 900px) {
+    .kid-card img { width: 200px; height: 200px; }
+    .kid-prompt { font-size: 36px; }
+    .kid-prompt .sub { font-size: 18px; }
+    .zorpie.big { width: 220px; } .zorpie.med { width: 150px; }
+    .kid-row { gap: 18px; }
+    .big-btn { font-size: 32px; padding: 14px 28px; }
+    .speech { font-size: 22px; padding: 12px 18px; }
+    .demo-card { width: 90px; height: 90px; font-size: 48px; }
+  }
+
+  /* ===== Phone portrait (≤ 600px) — make all 3 cards visible ===== */
+  @media (max-width: 600px) {
+    .jspsych-display-element { font-size: 22px; }
+    .kid-prompt { font-size: 26px; margin: 6px 0 12px; }
+    .kid-prompt .sub { font-size: 14px; }
+    /* Force a 3-column grid — never wrap on phones */
+    .kid-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 6px; padding: 0 4px; max-width: 100vw;
+    }
+    .kid-card { padding: 4px; border-width: 4px; border-radius: 14px; min-width: 0; }
+    .kid-card img { width: 100%; height: auto; aspect-ratio: 1; border-radius: 10px; }
+    .big-btn { font-size: 24px; padding: 12px 24px; }
+    .zorpie.big { width: 150px; } .zorpie.med { width: 110px; }
+    .speech { font-size: 18px; padding: 10px 14px; max-width: 92vw; }
+    .demo-card { width: 70px; height: 70px; font-size: 36px; border-width: 4px; border-radius: 14px; }
+    .hud { top: 8px; left: 8px; right: 8px; gap: 8px; }
+    .hud .progress-label, .hud .score-pill { font-size: 16px; padding: 2px 10px; }
+    .hud .progress-bar { height: 12px; }
+    /* Consent screen: 5-button rows are tight on a phone — drop to 4 cols */
+    #consent-wrap h1 { font-size: 38px; }
+    #consent-wrap .age-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    #consent-wrap .age-btn { font-size: 22px; padding: 10px 0; }
+    #consent-wrap .agree-row { font-size: 22px; }
+    #consent-wrap .consent-text { font-size: 12px; padding: 12px; }
+  }
+
+  /* ===== Short viewports (iPad 11" landscape, iPad mini landscape, etc.) ===== */
+  @media (max-height: 900px) {
+    .jspsych-content { padding-top: 8px; padding-bottom: 8px; }
+    .zorpie.big { width: 180px; }
+    .zorpie.med { width: 130px; }
+    /* Consent screen: tighten spacing */
+    #consent-wrap { padding: 12px 24px; }
+    #consent-wrap h1 { font-size: 38px; margin: 0 0 6px; }
+    #consent-wrap .age-grid { margin: 8px auto; gap: 8px; }
+    #consent-wrap .age-btn { font-size: 26px; padding: 10px 0; }
+    #consent-wrap .agree-row { font-size: 24px; margin: 8px 0; }
+    #consent-wrap .consent-text { max-height: 140px; padding: 12px; }
+    /* How-to-play: smaller demo, tighter rows */
+    .kid-prompt { font-size: 36px; margin: 4px 0 12px; }
+    .demo-row { margin: 10px 0; gap: 14px; }
+    .demo-card { width: 100px; height: 100px; font-size: 56px; }
+    .big-btn { font-size: 30px; padding: 10px 28px; }
+  }
+
+  /* ===== Very short viewports (phone landscape) ===== */
+  @media (max-height: 500px) {
+    .zorpie.big { width: 90px; }
+    .zorpie.med { width: 70px; }
+    .zorpie.sm  { width: 60px; }
+    #consent-wrap { padding: 4px 18px; }
+    #consent-wrap h1 { font-size: 22px; margin: 0; }
+    #consent-wrap .bell { display: none; }    /* drop "Hi I'm Zorpie!" line */
+    #consent-wrap .age-grid {
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px; margin: 4px auto; max-width: 100%;
+    }
+    #consent-wrap .age-btn { font-size: 16px; padding: 4px 0; }
+    #consent-wrap .agree-row { font-size: 16px; margin: 4px 0; gap: 6px; }
+    #consent-wrap .agree-row input { width: 18px; height: 18px; }
+    #consent-wrap .consent-text { display: none; }   /* drop the parent details */
+    #consent-wrap details.consent-text { display: none; }
+    .kid-prompt { font-size: 22px; margin: 2px 0 4px; }
+    .kid-prompt .sub { font-size: 13px; }
+    .demo-row { margin: 4px 0; gap: 8px; }
+    .demo-card { width: 50px; height: 50px; font-size: 28px; border-width: 3px; }
+    .big-btn { font-size: 20px; padding: 4px 18px; }
+    /* "Pick your age and check the box to continue" hint */
+    #consent-wrap > div > p[style*="font-size:15px"] { display: none; }
+    /* Restore tight bottom padding — 48px would eat half the viewport on
+       a 393-tall phone in landscape. */
+    .jspsych-btn-group, .jspsych-btn-group-flex, .jspsych-btn-group-grid {
+      padding: 4px 0 8px;
+    }
+  }
+
+  /* ===== Portrait orientation: stack cards vertically =====
+     Each card image is sized to a fraction of the viewport height so the
+     full stack of 3 fits within the locked viewport. Numbers below
+     reserve roughly 22vh budget for prompt/HUD/margins; the rest split
+     evenly across 3 cards. Targets phones (portrait) and iPads in
+     portrait; desktop portrait monitors keep horizontal layout. */
+  @media (orientation: portrait) and (max-width: 1100px) {
+    .kid-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      grid-template-columns: none;
+      max-width: 100%;
+      padding: 0;
+    }
+    .kid-card {
+      padding: 6px;
+      border-width: 5px;
+      border-radius: 22px;
+      width: auto; min-width: 0;
+    }
+    .kid-card img {
+      width: min(70vw, 320px);
+      height: min(70vw, 320px);
+      max-height: 22dvh;      /* 3 × 22dvh = 66dvh, ~34dvh for chrome */
+      object-fit: contain;
+      aspect-ratio: 1;
+      background: #fafafa;
+      border-radius: 14px;
+    }
+  }
+
+  /* (HUD-clearing margin moved to the base .kid-prompt rule above so it
+     applies on every viewport, including desktop.) */
+
+  /* How-to-play compaction for phones — fit Zorpie + title + body + demo +
+     feedback + button in one screen without scrolling. */
+  @media (max-width: 600px) {
+    .howto-wrap   { padding: 0 16px; }
+    .howto-title  { font-size: 30px; margin: 4px 0 8px; }
+    .howto-body   { font-size: 20px; line-height: 1.25; margin: 0 auto 8px; }
+    .howto-feedback { font-size: 18px; min-height: 28px; margin-top: 4px; }
+  }
+  @media (max-height: 500px) {
+    .howto-wrap   { padding: 0 16px; }
+    .howto-title  { font-size: 24px; margin: 2px 0 4px; }
+    .howto-body   { font-size: 16px; line-height: 1.2; margin: 0 auto 4px; }
+    .howto-feedback { font-size: 14px; min-height: 20px; margin-top: 2px; }
+  }
+
+  /* Avoid the iOS double-tap-zoom delay on tappable elements */
+  .kid-card, .age-btn, .big-btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  /* On touch devices, hover transforms feel laggy — disable */
+  @media (hover: none) {
+    .kid-card:hover { transform: none; border-color: var(--gold); box-shadow: 0 6px 0 rgba(0,0,0,0.08); }
+  }

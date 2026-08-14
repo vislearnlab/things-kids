@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="theme-color" content="#fff8e1" />
+<title>Same-or-Different Detective — THINGS Kids</title>
+
+<link href="https://fonts.googleapis.com/css?family=Schoolbell" rel="stylesheet">
+</head>
+<body>
+<div class="hud" id="hud" style="display:none">
+  <div class="progress-label" id="prog-label">0 / 0</div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="score-pill" id="score-pill"><span id="score-val">0</span></div>
+</div>
+
+<button id="exit-btn" type="button" aria-label="Stop and return to home" title="Stop">
+  <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+    <circle cx="50" cy="50" r="48" fill="currentColor"/>
+    <rect x="32" y="32" width="36" height="36" rx="6" ry="6" fill="white"/>
+  </svg>
+  <span class="exit-label">Stop</span>
+</button>
+
+<!-- Visible loading + error overlay so the page is never silently blank -->
+<div id="boot-overlay" style="position:fixed;inset:0;background:#fff8e1;display:flex;align-items:center;justify-content:center;z-index:9999;font-family:'Comic Sans MS','Baloo 2',system-ui,sans-serif;">
+  <div style="text-align:center;max-width:680px;padding:24px;">
+    <div class="bell" style="font-size:44px;color:#ff6f61">Same-or-Different Detective is loading…</div>
+    <div id="boot-msg" style="font-size:18px;color:#666;margin-top:14px">starting up</div>
+    <div id="boot-error" style="display:none;margin-top:18px;padding:14px;background:#fff;border:2px solid #d9534f;border-radius:14px;color:#722;text-align:left;font-family:ui-monospace,monospace;font-size:13px;white-space:pre-wrap;max-height:300px;overflow:auto"></div>
+  </div>
+</div>
+
+<script type="module" src="/src/survey/experiment.ts"></script>
+</body>
+</html>

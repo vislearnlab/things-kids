@@ -1,0 +1,962 @@
+[
+  {
+    "bin": "very hard",
+    "concepts": [
+      "avocado",
+      "egg",
+      "sorbet"
+    ],
+    "odd": "sorbet",
+    "pair_category": "food",
+    "odd_category": "food",
+    "pair_sim": 0.886,
+    "sim_odd_to_a": 0.861,
+    "sim_odd_to_b": 0.842,
+    "p_correct_spose": 0.417,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/avocado.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/egg.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/sorbet.jpg"
+    ]
+  },
+  {
+    "bin": "very hard",
+    "concepts": [
+      "antelope",
+      "squirrel",
+      "chinchilla"
+    ],
+    "odd": "chinchilla",
+    "pair_category": "animal",
+    "odd_category": "animal",
+    "pair_sim": 0.945,
+    "sim_odd_to_a": 0.937,
+    "sim_odd_to_b": 0.931,
+    "p_correct_spose": 0.439,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/antelope.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/squirrel.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/chinchilla.jpg"
+    ]
+  },
+  {
+    "bin": "very hard",
+    "concepts": [
+      "cereal",
+      "pancake",
+      "corn"
+    ],
+    "odd": "corn",
+    "pair_category": "food",
+    "odd_category": "plant",
+    "pair_sim": 0.883,
+    "sim_odd_to_a": 0.849,
+    "sim_odd_to_b": 0.863,
+    "p_correct_spose": 0.447,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/cereal.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/pancake.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/corn.jpg"
+    ]
+  },
+  {
+    "bin": "very hard",
+    "concepts": [
+      "sorbet",
+      "soup",
+      "cinnamon"
+    ],
+    "odd": "cinnamon",
+    "pair_category": "food",
+    "odd_category": "food",
+    "pair_sim": 0.767,
+    "sim_odd_to_a": 0.691,
+    "sim_odd_to_b": 0.658,
+    "p_correct_spose": 0.456,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/sorbet.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/soup.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/cinnamon.jpg"
+    ]
+  },
+  {
+    "bin": "very hard",
+    "concepts": [
+      "koala",
+      "turtle",
+      "pheasant"
+    ],
+    "odd": "pheasant",
+    "pair_category": "animal",
+    "odd_category": "animal",
+    "pair_sim": 0.938,
+    "sim_odd_to_a": 0.912,
+    "sim_odd_to_b": 0.911,
+    "p_correct_spose": 0.467,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/koala.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/turtle.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/pheasant.jpg"
+    ]
+  },
+  {
+    "bin": "very hard",
+    "concepts": [
+      "dough",
+      "sauerkraut",
+      "orange"
+    ],
+    "odd": "orange",
+    "pair_category": "food",
+    "odd_category": "food",
+    "pair_sim": 0.844,
+    "sim_odd_to_a": 0.779,
+    "sim_odd_to_b": 0.759,
+    "p_correct_spose": 0.497,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dough.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/sauerkraut.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/orange.jpg"
+    ]
+  },
+  {
+    "bin": "very hard",
+    "concepts": [
+      "gazelle",
+      "otter",
+      "turkey"
+    ],
+    "odd": "turkey",
+    "pair_category": "animal",
+    "odd_category": "animal",
+    "pair_sim": 0.935,
+    "sim_odd_to_a": 0.906,
+    "sim_odd_to_b": 0.889,
+    "p_correct_spose": 0.515,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/gazelle.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/otter.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/turkey.jpg"
+    ]
+  },
+  {
+    "bin": "very hard",
+    "concepts": [
+      "meatball",
+      "rice",
+      "acorn"
+    ],
+    "odd": "acorn",
+    "pair_category": "food",
+    "odd_category": "fruit",
+    "pair_sim": 0.857,
+    "sim_odd_to_a": 0.81,
+    "sim_odd_to_b": 0.57,
+    "p_correct_spose": 0.535,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/meatball.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/rice.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/acorn.jpg"
+    ]
+  },
+  {
+    "bin": "hard",
+    "concepts": [
+      "dessert",
+      "dough",
+      "pineapple"
+    ],
+    "odd": "pineapple",
+    "pair_category": "food",
+    "odd_category": "food",
+    "pair_sim": 0.833,
+    "sim_odd_to_a": 0.736,
+    "sim_odd_to_b": 0.67,
+    "p_correct_spose": 0.571,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dessert.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dough.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/pineapple.jpg"
+    ]
+  },
+  {
+    "bin": "hard",
+    "concepts": [
+      "amplifier",
+      "dishwasher",
+      "cage"
+    ],
+    "odd": "cage",
+    "pair_category": "electronic device",
+    "odd_category": "container",
+    "pair_sim": 0.769,
+    "sim_odd_to_a": 0.492,
+    "sim_odd_to_b": 0.535,
+    "p_correct_spose": 0.642,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/amplifier.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dishwasher.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/cage.jpg"
+    ]
+  },
+  {
+    "bin": "hard",
+    "concepts": [
+      "butter",
+      "dessert",
+      "counter"
+    ],
+    "odd": "counter",
+    "pair_category": "food",
+    "odd_category": "furniture",
+    "pair_sim": 0.807,
+    "sim_odd_to_a": 0.569,
+    "sim_odd_to_b": 0.57,
+    "p_correct_spose": 0.649,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/butter.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dessert.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/counter.jpg"
+    ]
+  },
+  {
+    "bin": "hard",
+    "concepts": [
+      "baseball",
+      "tee",
+      "pumpkin"
+    ],
+    "odd": "pumpkin",
+    "pair_category": "sports equipment",
+    "odd_category": "food",
+    "pair_sim": 0.766,
+    "sim_odd_to_a": 0.544,
+    "sim_odd_to_b": 0.371,
+    "p_correct_spose": 0.651,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/baseball.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/tee.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/pumpkin.jpg"
+    ]
+  },
+  {
+    "bin": "hard",
+    "concepts": [
+      "fudge",
+      "sauce",
+      "beaker"
+    ],
+    "odd": "beaker",
+    "pair_category": "food",
+    "odd_category": "container",
+    "pair_sim": 0.763,
+    "sim_odd_to_a": 0.192,
+    "sim_odd_to_b": 0.582,
+    "p_correct_spose": 0.654,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/fudge.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/sauce.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/beaker.jpg"
+    ]
+  },
+  {
+    "bin": "hard",
+    "concepts": [
+      "buggy",
+      "kayak",
+      "tee"
+    ],
+    "odd": "tee",
+    "pair_category": "vehicle",
+    "odd_category": "sports equipment",
+    "pair_sim": 0.776,
+    "sim_odd_to_a": 0.361,
+    "sim_odd_to_b": 0.611,
+    "p_correct_spose": 0.66,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/buggy.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/kayak.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/tee.jpg"
+    ]
+  },
+  {
+    "bin": "hard",
+    "concepts": [
+      "cauliflower",
+      "raisin",
+      "bonsai"
+    ],
+    "odd": "bonsai",
+    "pair_category": "food",
+    "odd_category": "home decor",
+    "pair_sim": 0.821,
+    "sim_odd_to_a": 0.684,
+    "sim_odd_to_b": 0.488,
+    "p_correct_spose": 0.662,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/cauliflower.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/raisin.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/bonsai.jpg"
+    ]
+  },
+  {
+    "bin": "hard",
+    "concepts": [
+      "hedgehog",
+      "reindeer",
+      "tadpole"
+    ],
+    "odd": "tadpole",
+    "pair_category": "animal",
+    "odd_category": "animal",
+    "pair_sim": 0.914,
+    "sim_odd_to_a": 0.832,
+    "sim_odd_to_b": 0.786,
+    "p_correct_spose": 0.663,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/hedgehog.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/reindeer.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/tadpole.jpg"
+    ]
+  },
+  {
+    "bin": "medium",
+    "concepts": [
+      "almond",
+      "sauerkraut",
+      "tumbleweed"
+    ],
+    "odd": "tumbleweed",
+    "pair_category": "food",
+    "odd_category": "plant",
+    "pair_sim": 0.781,
+    "sim_odd_to_a": 0.371,
+    "sim_odd_to_b": 0.497,
+    "p_correct_spose": 0.745,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/almond.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/sauerkraut.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/tumbleweed.jpg"
+    ]
+  },
+  {
+    "bin": "medium",
+    "concepts": [
+      "omelet",
+      "stew",
+      "cheese"
+    ],
+    "odd": "cheese",
+    "pair_category": "food",
+    "odd_category": "food",
+    "pair_sim": 0.916,
+    "sim_odd_to_a": 0.773,
+    "sim_odd_to_b": 0.775,
+    "p_correct_spose": 0.747,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/omelet.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/stew.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/cheese.jpg"
+    ]
+  },
+  {
+    "bin": "medium",
+    "concepts": [
+      "hedgehog",
+      "orangutan",
+      "dragonfly"
+    ],
+    "odd": "dragonfly",
+    "pair_category": "animal",
+    "odd_category": "animal",
+    "pair_sim": 0.93,
+    "sim_odd_to_a": 0.805,
+    "sim_odd_to_b": 0.762,
+    "p_correct_spose": 0.755,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/hedgehog.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/orangutan.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dragonfly.jpg"
+    ]
+  },
+  {
+    "bin": "medium",
+    "concepts": [
+      "frog",
+      "snail",
+      "parsley"
+    ],
+    "odd": "parsley",
+    "pair_category": "animal",
+    "odd_category": "plant",
+    "pair_sim": 0.883,
+    "sim_odd_to_a": 0.66,
+    "sim_odd_to_b": 0.503,
+    "p_correct_spose": 0.755,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/frog.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/snail.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/parsley.jpg"
+    ]
+  },
+  {
+    "bin": "medium",
+    "concepts": [
+      "candy",
+      "salami",
+      "tapestry"
+    ],
+    "odd": "tapestry",
+    "pair_category": "food",
+    "odd_category": "home decor",
+    "pair_sim": 0.734,
+    "sim_odd_to_a": 0.383,
+    "sim_odd_to_b": 0.141,
+    "p_correct_spose": 0.783,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/candy.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/salami.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/tapestry.jpg"
+    ]
+  },
+  {
+    "bin": "medium",
+    "concepts": [
+      "dip",
+      "grain",
+      "chipmunk"
+    ],
+    "odd": "chipmunk",
+    "pair_category": "food",
+    "odd_category": "animal",
+    "pair_sim": 0.753,
+    "sim_odd_to_a": 0.209,
+    "sim_odd_to_b": 0.496,
+    "p_correct_spose": 0.785,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dip.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/grain.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/chipmunk.jpg"
+    ]
+  },
+  {
+    "bin": "medium",
+    "concepts": [
+      "organ",
+      "tuba",
+      "ship"
+    ],
+    "odd": "ship",
+    "pair_category": "musical instrument",
+    "odd_category": "vehicle",
+    "pair_sim": 0.908,
+    "sim_odd_to_a": 0.693,
+    "sim_odd_to_b": 0.508,
+    "p_correct_spose": 0.795,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/organ.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/tuba.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/ship.jpg"
+    ]
+  },
+  {
+    "bin": "medium",
+    "concepts": [
+      "microwave",
+      "mixer",
+      "trunk"
+    ],
+    "odd": "trunk",
+    "pair_category": "electronic device",
+    "odd_category": "container",
+    "pair_sim": 0.884,
+    "sim_odd_to_a": 0.652,
+    "sim_odd_to_b": 0.43,
+    "p_correct_spose": 0.798,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/microwave.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/mixer.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/trunk.jpg"
+    ]
+  },
+  {
+    "bin": "easy",
+    "concepts": [
+      "clove",
+      "dip",
+      "swordfish"
+    ],
+    "odd": "swordfish",
+    "pair_category": "food",
+    "odd_category": "animal",
+    "pair_sim": 0.731,
+    "sim_odd_to_a": 0.3,
+    "sim_odd_to_b": 0.236,
+    "p_correct_spose": 0.856,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/clove.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dip.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/swordfish.jpg"
+    ]
+  },
+  {
+    "bin": "easy",
+    "concepts": [
+      "crumb",
+      "oatmeal",
+      "violin"
+    ],
+    "odd": "violin",
+    "pair_category": "food",
+    "odd_category": "musical instrument",
+    "pair_sim": 0.703,
+    "sim_odd_to_a": 0.145,
+    "sim_odd_to_b": 0.087,
+    "p_correct_spose": 0.878,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/crumb.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/oatmeal.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/violin.jpg"
+    ]
+  },
+  {
+    "bin": "easy",
+    "concepts": [
+      "sloth",
+      "tadpole",
+      "album"
+    ],
+    "odd": "album",
+    "pair_category": "animal",
+    "odd_category": "home decor",
+    "pair_sim": 0.812,
+    "sim_odd_to_a": 0.222,
+    "sim_odd_to_b": 0.224,
+    "p_correct_spose": 0.879,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/sloth.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/tadpole.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/album.jpg"
+    ]
+  },
+  {
+    "bin": "easy",
+    "concepts": [
+      "aloe",
+      "rose",
+      "target"
+    ],
+    "odd": "target",
+    "pair_category": "plant",
+    "odd_category": "sports equipment",
+    "pair_sim": 0.866,
+    "sim_odd_to_a": 0.201,
+    "sim_odd_to_b": 0.373,
+    "p_correct_spose": 0.879,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/aloe.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/rose.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/target.jpg"
+    ]
+  },
+  {
+    "bin": "easy",
+    "concepts": [
+      "cheese",
+      "egg",
+      "trampoline"
+    ],
+    "odd": "trampoline",
+    "pair_category": "food",
+    "odd_category": "sports equipment",
+    "pair_sim": 0.734,
+    "sim_odd_to_a": 0.156,
+    "sim_odd_to_b": 0.197,
+    "p_correct_spose": 0.884,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/cheese.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/egg.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/trampoline.jpg"
+    ]
+  },
+  {
+    "bin": "easy",
+    "concepts": [
+      "panda",
+      "swordfish",
+      "anvil"
+    ],
+    "odd": "anvil",
+    "pair_category": "animal",
+    "odd_category": "tool",
+    "pair_sim": 0.789,
+    "sim_odd_to_a": 0.131,
+    "sim_odd_to_b": 0.215,
+    "p_correct_spose": 0.887,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/panda.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/swordfish.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/anvil.jpg"
+    ]
+  },
+  {
+    "bin": "easy",
+    "concepts": [
+      "mango",
+      "pancake",
+      "hammock"
+    ],
+    "odd": "hammock",
+    "pair_category": "food",
+    "odd_category": "furniture",
+    "pair_sim": 0.788,
+    "sim_odd_to_a": 0.214,
+    "sim_odd_to_b": 0.171,
+    "p_correct_spose": 0.898,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/mango.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/pancake.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/hammock.jpg"
+    ]
+  },
+  {
+    "bin": "easy",
+    "concepts": [
+      "dryer",
+      "turntable",
+      "submarine"
+    ],
+    "odd": "submarine",
+    "pair_category": "electronic device",
+    "odd_category": "vehicle",
+    "pair_sim": 0.876,
+    "sim_odd_to_a": 0.486,
+    "sim_odd_to_b": 0.411,
+    "p_correct_spose": 0.898,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dryer.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/turntable.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/submarine.jpg"
+    ]
+  },
+  {
+    "bin": "very easy",
+    "concepts": [
+      "subway",
+      "trolley",
+      "drill"
+    ],
+    "odd": "drill",
+    "pair_category": "vehicle",
+    "odd_category": "electronic device",
+    "pair_sim": 0.951,
+    "sim_odd_to_a": 0.579,
+    "sim_odd_to_b": 0.619,
+    "p_correct_spose": 0.905,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/subway.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/trolley.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/drill.jpg"
+    ]
+  },
+  {
+    "bin": "very easy",
+    "concepts": [
+      "garlic",
+      "pumpkin",
+      "koala"
+    ],
+    "odd": "koala",
+    "pair_category": "food",
+    "odd_category": "animal",
+    "pair_sim": 0.832,
+    "sim_odd_to_a": 0.306,
+    "sim_odd_to_b": 0.392,
+    "p_correct_spose": 0.912,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/garlic.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/pumpkin.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/koala.jpg"
+    ]
+  },
+  {
+    "bin": "very easy",
+    "concepts": [
+      "fondue",
+      "strawberry",
+      "trolley"
+    ],
+    "odd": "trolley",
+    "pair_category": "food",
+    "odd_category": "vehicle",
+    "pair_sim": 0.765,
+    "sim_odd_to_a": 0.159,
+    "sim_odd_to_b": 0.216,
+    "p_correct_spose": 0.916,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/fondue.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/strawberry.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/trolley.jpg"
+    ]
+  },
+  {
+    "bin": "very easy",
+    "concepts": [
+      "hubcap",
+      "rim",
+      "headrest"
+    ],
+    "odd": "headrest",
+    "pair_category": "part of car",
+    "odd_category": "part of car",
+    "pair_sim": 0.959,
+    "sim_odd_to_a": 0.659,
+    "sim_odd_to_b": 0.647,
+    "p_correct_spose": 0.922,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/hubcap.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/rim.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/headrest.jpg"
+    ]
+  },
+  {
+    "bin": "very easy",
+    "concepts": [
+      "almond",
+      "taco",
+      "catfish"
+    ],
+    "odd": "catfish",
+    "pair_category": "food",
+    "odd_category": "animal",
+    "pair_sim": 0.839,
+    "sim_odd_to_a": 0.362,
+    "sim_odd_to_b": 0.348,
+    "p_correct_spose": 0.924,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/almond.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/taco.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/catfish.jpg"
+    ]
+  },
+  {
+    "bin": "very easy",
+    "concepts": [
+      "apron",
+      "glove",
+      "warthog"
+    ],
+    "odd": "warthog",
+    "pair_category": "clothing",
+    "odd_category": "animal",
+    "pair_sim": 0.756,
+    "sim_odd_to_a": 0.099,
+    "sim_odd_to_b": 0.226,
+    "p_correct_spose": 0.926,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/apron.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/glove.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/warthog.jpg"
+    ]
+  },
+  {
+    "bin": "very easy",
+    "concepts": [
+      "garlic",
+      "olive",
+      "leopard"
+    ],
+    "odd": "leopard",
+    "pair_category": "food",
+    "odd_category": "animal",
+    "pair_sim": 0.826,
+    "sim_odd_to_a": 0.266,
+    "sim_odd_to_b": 0.222,
+    "p_correct_spose": 0.946,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/garlic.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/olive.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/leopard.jpg"
+    ]
+  },
+  {
+    "bin": "very easy",
+    "concepts": [
+      "rabbit",
+      "rooster",
+      "grain"
+    ],
+    "odd": "grain",
+    "pair_category": "animal",
+    "odd_category": "food",
+    "pair_sim": 0.937,
+    "sim_odd_to_a": 0.436,
+    "sim_odd_to_b": 0.574,
+    "p_correct_spose": 0.947,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/rabbit.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/rooster.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/grain.jpg"
+    ]
+  },
+  {
+    "bin": "ceiling",
+    "concepts": [
+      "jellyfish",
+      "swan",
+      "pants"
+    ],
+    "odd": "pants",
+    "pair_category": "animal",
+    "odd_category": "clothing",
+    "pair_sim": 0.847,
+    "sim_odd_to_a": 0.142,
+    "sim_odd_to_b": 0.182,
+    "p_correct_spose": 0.952,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/jellyfish.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/swan.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/pants.jpg"
+    ]
+  },
+  {
+    "bin": "ceiling",
+    "concepts": [
+      "batter",
+      "coleslaw",
+      "beaver"
+    ],
+    "odd": "beaver",
+    "pair_category": "food",
+    "odd_category": "animal",
+    "pair_sim": 0.83,
+    "sim_odd_to_a": 0.155,
+    "sim_odd_to_b": 0.251,
+    "p_correct_spose": 0.956,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/batter.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/coleslaw.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/beaver.jpg"
+    ]
+  },
+  {
+    "bin": "ceiling",
+    "concepts": [
+      "frog",
+      "gazelle",
+      "taco"
+    ],
+    "odd": "taco",
+    "pair_category": "animal",
+    "odd_category": "food",
+    "pair_sim": 0.905,
+    "sim_odd_to_a": 0.314,
+    "sim_odd_to_b": 0.309,
+    "p_correct_spose": 0.962,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/frog.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/gazelle.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/taco.jpg"
+    ]
+  },
+  {
+    "bin": "ceiling",
+    "concepts": [
+      "owl",
+      "squirrel",
+      "cereal"
+    ],
+    "odd": "cereal",
+    "pair_category": "animal",
+    "odd_category": "food",
+    "pair_sim": 0.911,
+    "sim_odd_to_a": 0.206,
+    "sim_odd_to_b": 0.247,
+    "p_correct_spose": 0.965,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/owl.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/squirrel.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/cereal.jpg"
+    ]
+  },
+  {
+    "bin": "ceiling",
+    "concepts": [
+      "coat",
+      "vest",
+      "rooster"
+    ],
+    "odd": "rooster",
+    "pair_category": "clothing",
+    "odd_category": "animal",
+    "pair_sim": 0.929,
+    "sim_odd_to_a": 0.11,
+    "sim_odd_to_b": 0.303,
+    "p_correct_spose": 0.978,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/coat.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/vest.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/rooster.jpg"
+    ]
+  },
+  {
+    "bin": "ceiling",
+    "concepts": [
+      "sloth",
+      "swan",
+      "taillight"
+    ],
+    "odd": "taillight",
+    "pair_category": "animal",
+    "odd_category": "part of car",
+    "pair_sim": 0.89,
+    "sim_odd_to_a": 0.096,
+    "sim_odd_to_b": 0.133,
+    "p_correct_spose": 0.978,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/sloth.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/swan.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/taillight.jpg"
+    ]
+  },
+  {
+    "bin": "ceiling",
+    "concepts": [
+      "arm",
+      "elbow",
+      "dishwasher"
+    ],
+    "odd": "dishwasher",
+    "pair_category": "body part",
+    "odd_category": "electronic device",
+    "pair_sim": 0.938,
+    "sim_odd_to_a": 0.138,
+    "sim_odd_to_b": 0.158,
+    "p_correct_spose": 0.982,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/arm.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/elbow.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/dishwasher.jpg"
+    ]
+  },
+  {
+    "bin": "ceiling",
+    "concepts": [
+      "owl",
+      "rhinoceros",
+      "bucket"
+    ],
+    "odd": "bucket",
+    "pair_category": "animal",
+    "odd_category": "container",
+    "pair_sim": 0.908,
+    "sim_odd_to_a": 0.11,
+    "sim_odd_to_b": 0.122,
+    "p_correct_spose": 0.982,
+    "images": [
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/owl.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/rhinoceros.jpg",
+      "../../vocab-gradient/stimuli/3_selected_stimuli/images_final2023-11-09/bucket.jpg"
+    ]
+  }
+]

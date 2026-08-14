@@ -1,0 +1,21 @@
+node_modules/
+dist/
+dist-server/
+.env
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+rendering/meshes/
+rendering/rotation_frames/
+analysis/data/
+analysis/sanity_check.html
+analysis/*_files/
+rendering/MOCHI/
+package-lock.json
+
+# Upstream source data, not ours to redistribute and far too large for git.
+# rendering/_raw holds a full vocab-gradient checkout (385 MB) plus the SPoSE
+# release files. Rebuild with the scripts in rendering/ — see rendering/README.md.
+rendering/_raw/
+analysis/pilot_data/
