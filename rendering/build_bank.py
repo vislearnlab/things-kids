@@ -61,9 +61,20 @@ JPEG_MAX_DIM = 512
 JPEG_QUALITY = 88
 
 CORE_N = 20          # fixed trials every child sees
-BLOCK_N = 20         # rotating trials per session
+BLOCK_N = 20         # rotating trials per child session
 N_BLOCKS = 20        # blocks built (bank = CORE_N + N_BLOCKS * BLOCK_N)
 ACTIVE_BLOCKS = 10   # blocks actually served; raise as N grows
+
+# Adults are far faster than children and are here for item coverage, not
+# depth, so they get double the rotating trials. Blocks cannot simply be
+# doubled up: each child block is drawn from the same ~229-concept pool left
+# after core+intro, so any two of them share ~49 of 60 concepts. Adult blocks
+# are therefore built as their own 40-trial units, each internally free of
+# repeats. 40 x 3 = 120 concepts, comfortably inside the 229 available; the
+# hard ceiling is 76 trials.
+ADULT_BLOCK_N = 40
+N_ADULT_BLOCKS = 10
+ACTIVE_ADULT_BLOCKS = 10
 TRAINING_N = 4
 WARMUP_N = 4
 CATCH_N = 3
@@ -286,16 +297,32 @@ def main():
     print(f"blocks: {len(blocks)} x {min(sizes)}-{max(sizes)} trials, "
           f"conflict per block {min(conf)}-{max(conf)}")
 
-    all_trials = intro + core + [t for blk in blocks for t in blk]
+    # Adult blocks: same construction, twice the length, drawn fresh so each
+    # is internally repeat-free rather than a concatenation of child blocks.
+    adult_blocks = []
+    for k in range(N_ADULT_BLOCKS):
+        blk = b.build_set(f"adlt{k:02d}", ADULT_BLOCK_N, set(fixed))
+        adult_blocks.append(blk)
+    asizes = [len(x) for x in adult_blocks]
+    aconf = [sum(t["condition"] == "visual_conflict" for t in x) for x in adult_blocks]
+    print(f"adult blocks: {len(adult_blocks)} x {min(asizes)}-{max(asizes)} trials, "
+          f"conflict per block {min(aconf)}-{max(aconf)}")
+
+    all_trials = (intro + core + [t for blk in blocks for t in blk]
+                  + [t for blk in adult_blocks for t in blk])
     concepts = sorted({c for t in all_trials for c in t["concepts"]})
     write_stimuli(concepts)
 
-    n_rot = sum(sizes)
+    n_rot = sum(sizes) + sum(asizes)
     manifest = {
         "meta": {
             "core_n": len(core), "block_n": BLOCK_N,
             "n_blocks": len(blocks), "active_blocks": ACTIVE_BLOCKS,
+            "adult_block_n": ADULT_BLOCK_N,
+            "n_adult_blocks": len(adult_blocks),
+            "active_adult_blocks": ACTIVE_ADULT_BLOCKS,
             "session_length": len(intro) + len(core) + BLOCK_N,
+            "adult_session_length": len(intro) + len(core) + ADULT_BLOCK_N,
             "bank_size": len(core) + n_rot,
             "distinct_concepts": len(concepts),
             "note": "Each child does intro + core + ONE block chosen at random "
@@ -305,6 +332,7 @@ def main():
         "intro": intro,
         "core": core,
         "blocks": blocks,
+        "adult_blocks": adult_blocks,
     }
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=1))
     print(f"\nbank: {len(core)+n_rot} trials, session = "

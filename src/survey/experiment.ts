@@ -237,6 +237,8 @@ let DEBRIEF_COMMENT = '';
 let CONSENT_INFO: { age: string | null; agreed: boolean } = { age: null, agreed: false };
 // Which rotating block this child was assigned (banked manifests only).
 let ASSIGNED_BLOCK: number | null = null;
+// Which bank the block came from — 'adult' (40 trials) or 'child' (20).
+let ASSIGNED_BANK: 'adult' | 'child' | null = null;
 let SCORE = 0;
 
 // ============ types ============
@@ -552,6 +554,7 @@ const jsPsych = initJsPsych({
       consent_version: CONSENT_MODE === 'adult' ? 'adult_irb_811123' : 'parental_kiosk',
       debrief_comment: DEBRIEF_COMMENT || null,
       assigned_block: ASSIGNED_BLOCK,
+      assigned_bank: ASSIGNED_BANK,
       finishedAt: new Date().toISOString(),
       n_trials: oddity.length,
       n_correct: oddity.filter((d: any) => d.correct).length,
@@ -699,8 +702,8 @@ async function main(): Promise<void> {
   // accumulates across children). Only `active_blocks` are served, so the
   // bank can be built large now and opened up as the sample grows.
   type Banked = {
-    meta?: { active_blocks?: number };
-    intro?: Trial[]; core?: Trial[]; blocks?: Trial[][];
+    meta?: { active_blocks?: number; active_adult_blocks?: number };
+    intro?: Trial[]; core?: Trial[]; blocks?: Trial[][]; adult_blocks?: Trial[][];
   };
   let manifest: { trials?: Trial[] } & Banked;
   try {
@@ -714,10 +717,19 @@ async function main(): Promise<void> {
 
   let assignedBlock: number | null = null;
   let trials: Trial[];
-  if (manifest.blocks && manifest.blocks.length) {
-    const active = Math.max(1, Math.min(
-      manifest.meta?.active_blocks ?? manifest.blocks.length,
-      manifest.blocks.length));
+  // Adults draw from adult_blocks (40 trials): they are much faster than
+  // children and are here for item coverage, so doubling their rotating
+  // trials halves the participants needed for the same per-item precision.
+  // Children keep the 20-trial blocks — 51 trials is already the limit for
+  // a 3-year-old. The two sets are built separately because child blocks
+  // overlap each other heavily and cannot simply be concatenated.
+  const useAdultBank = IS_ADULT && !!manifest.adult_blocks?.length;
+  const pool = useAdultBank ? manifest.adult_blocks! : manifest.blocks;
+  if (pool && pool.length) {
+    const activeCount = useAdultBank
+      ? (manifest.meta?.active_adult_blocks ?? pool.length)
+      : (manifest.meta?.active_blocks ?? pool.length);
+    const active = Math.max(1, Math.min(activeCount, pool.length));
     // ?block=N pins the block, for piloting a specific one.
     const forced = parseInt(getURLParam('block', '') as string, 10);
     assignedBlock = Number.isFinite(forced) && forced >= 0 && forced < active
@@ -726,9 +738,10 @@ async function main(): Promise<void> {
     trials = [
       ...(manifest.intro || []),
       ...(manifest.core || []),
-      ...manifest.blocks[assignedBlock],
+      ...pool[assignedBlock],
     ];
     ASSIGNED_BLOCK = assignedBlock;
+    ASSIGNED_BANK = useAdultBank ? 'adult' : 'child';
   } else {
     trials = manifest.trials || [];
   }
