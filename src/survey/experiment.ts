@@ -173,6 +173,13 @@ const COMPLETION_CODE = getURLParam('cc', IS_PROLIFIC ? 'CHO0PAQJ' : null);
 const CONSENT_MODE = (getURLParam('consent', null) ||
   (IS_PROLIFIC ? 'adult' : 'kid')) as 'adult' | 'kid';
 const IS_ADULT = CONSENT_MODE === 'adult';
+
+// Response lockout: ignore taps for this many ms after a trial appears.
+// Adults on Prolific are paid per session and some will mash through; a
+// short lockout makes that strictly slower than looking. Kids get 0 —
+// a 3-year-old's slow deliberate tap should never be swallowed.
+const LOCKOUT_MS = parseInt(
+  getURLParam('lockout_ms', IS_ADULT ? '400' : '0') as string, 10);
 const COMPLETION_URL = getURLParam('completion_url', null)
   || (COMPLETION_CODE ? `https://app.prolific.com/submissions/complete?cc=${COMPLETION_CODE}` : null);
 
@@ -281,8 +288,26 @@ function makeOddityTrial(
 
       const start = performance.now();
       const cards = document.querySelectorAll(`#row-${t.trial_id} .kid-card`);
+
+      // Locked until LOCKOUT_MS has passed. `responded` replaces the old
+      // { once: true }: with `once`, a tap during the lockout would remove
+      // the listener even though we ignored it, killing that card for the
+      // rest of the trial.
+      let locked = LOCKOUT_MS > 0;
+      let responded = false;
+      if (locked) {
+        const row = document.getElementById(`row-${t.trial_id}`);
+        row?.classList.add('locked');
+        setTimeout(() => {
+          locked = false;
+          row?.classList.remove('locked');
+        }, LOCKOUT_MS);
+      }
+
       cards.forEach((card) => {
         card.addEventListener('click', () => {
+          if (locked || responded) return;
+          responded = true;
           const rt = performance.now() - start;
           const chosenOrig = parseInt(card.getAttribute('data-orig')!, 10);
           const chosenPos  = parseInt(card.getAttribute('data-pos')!, 10);
@@ -312,8 +337,9 @@ function makeOddityTrial(
             human_avg_adult: t.human_avg_adult,
             rt_avg_adult: t.rt_avg_adult ?? null,
             score_after: SCORE,
+            lockout_ms: LOCKOUT_MS,
           });
-        }, { once: true });
+        });
       });
     },
     data: { task_block: 'things_oddity', trial_id: t.trial_id, condition: t.condition },

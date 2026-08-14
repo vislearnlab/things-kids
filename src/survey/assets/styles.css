@@ -82,7 +82,18 @@
   }
   .kid-card:hover { transform: translateY(-4px) scale(1.03); border-color: var(--accent); box-shadow: 0 10px 0 rgba(0,0,0,0.10); }
   .kid-card:active { transform: translateY(0) scale(0.98); }
-  .kid-card img { display: block; width: 260px; height: 260px; object-fit: contain; border-radius: 18px; background: #fafafa; }
+  /* Scale with the viewport instead of a fixed 260px. The kiosk runs
+     landscape on a tablet, where a fixed size left ~40% of the screen empty
+     and gave children smaller targets than the hardware allows. Bounded three
+     ways: 26vw keeps three across plus gaps, 50dvh leaves room for the prompt
+     and HUD, and 420px stops it ballooning on a desktop monitor. The portrait
+     block below overrides this with its own stacked sizing. */
+  .kid-card img {
+    display: block;
+    width: min(26vw, 50dvh, 420px);
+    height: min(26vw, 50dvh, 420px);
+    object-fit: contain; border-radius: 18px; background: #fafafa;
+  }
   .kid-card.disabled { pointer-events: none; opacity: 0.85; }
   .kid-card.correct { border-color: var(--good); animation: bounce 0.5s ease; }
   .kid-card.wrong   { border-color: #d9534f; animation: shake 0.4s ease; }
@@ -363,6 +374,7 @@
 #consent-adult {
   max-width: 760px;
   width: 100%;
+  max-height: 100%;
   margin: 0 auto;
   text-align: left;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -381,7 +393,14 @@
 }
 /* The only scrolling region on the screen. */
 #consent-adult .ca-scroll {
+  /* max-height in dvh, not just flex growth. flex:1 1 auto only bounds the
+     box if every ancestor resolves a definite height, and in portrait that
+     chain breaks — the form rendered at ~3800px and pushed the agree
+     checkbox thousands of pixels below the fold. A viewport-relative cap
+     cannot depend on ancestors. dvh (not vh) so mobile browser chrome is
+     accounted for. */
   flex: 1 1 auto; min-height: 120px;
+  max-height: 46dvh;
   overflow-y: auto;
   border: 1px solid #d7d9dd; border-radius: 8px;
   padding: 18px 22px; background: #fff;
@@ -467,3 +486,14 @@
    failed, which was the old kiosk-only behaviour. */
 .end-downloads { margin-top: 18px; font-size: 14px; }
 .end-downloads .sep { color: #b9bcc2; margin: 0 8px; }
+
+/* Response lockout (adult version). pointer-events belt-and-braces on top of
+   the JS guard, plus a brief fade so the delay reads as "not yet" rather than
+   as an unresponsive page. Kept subtle — at 400ms a loud animation would be
+   more distracting than the mashing it prevents. */
+.kid-row.locked { pointer-events: none; }
+.kid-row.locked .kid-card { opacity: 0.72; transition: opacity 140ms ease-out; }
+.kid-row .kid-card { transition: opacity 140ms ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .kid-row.locked .kid-card, .kid-row .kid-card { transition: none; }
+}

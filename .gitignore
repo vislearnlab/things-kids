@@ -19,3 +19,4 @@ package-lock.json
 # release files. Rebuild with the scripts in rendering/ — see rendering/README.md.
 rendering/_raw/
 analysis/pilot_data/
+tests/_shot_*.png
