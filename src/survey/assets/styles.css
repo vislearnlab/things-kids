@@ -348,3 +348,122 @@
   @media (hover: none) {
     .kid-card:hover { transform: none; border-color: var(--gold); box-shadow: 0 6px 0 rgba(0,0,0,0.08); }
   }
+
+/* ---- Adult consent form (Prolific). Deliberately plain and document-like:
+   this is a regulatory instrument, not part of the game, and it should not
+   look like it. The kiosk keeps its own playful consent screen. ---- */
+
+/* The global rule above gives .jspsych-content's first child overflow-y:auto.
+   Left alone that makes the whole form a scroller AND the text box a second
+   one, and the agree checkbox ends up below the fold in the outer scroller —
+   invisible unless you happen to scroll past the form. Override it: this
+   screen is a fixed column where only the form text scrolls, so the checkbox
+   is always on screen. */
+.jspsych-content > #consent-adult:first-child { overflow: hidden; }
+#consent-adult {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: left;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #24262b;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 10px;
+}
+#consent-adult .ca-title {
+  font-size: 24px; line-height: 1.25; font-weight: 700;
+  margin: 0; color: #24262b; text-align: left; flex: none;
+}
+#consent-adult .ca-sub {
+  font-size: 14px; color: #6c6f76; margin: 0; flex: none;
+}
+/* The only scrolling region on the screen. */
+#consent-adult .ca-scroll {
+  flex: 1 1 auto; min-height: 120px;
+  overflow-y: auto;
+  border: 1px solid #d7d9dd; border-radius: 8px;
+  padding: 18px 22px; background: #fff;
+  font-size: 15px; line-height: 1.6;
+}
+#consent-adult .ca-scroll:focus-visible { outline: 2px solid #2a78d6; outline-offset: 2px; }
+#consent-adult .ca-scroll h3 {
+  font-size: 15px; font-weight: 700; margin: 22px 0 8px; color: #24262b;
+}
+#consent-adult .ca-scroll h3:first-child { margin-top: 0; }
+#consent-adult .ca-scroll p { margin: 0 0 12px; }
+#consent-adult .ca-scroll ul { margin: 0 0 12px; padding-left: 22px; }
+#consent-adult .ca-scroll li { margin-bottom: 7px; }
+#consent-adult .ca-tools { margin: 0; flex: none; }
+#consent-adult .ca-link {
+  background: none; border: none; padding: 0;
+  color: #2a78d6; font-size: 14px; text-decoration: underline; cursor: pointer;
+  font-family: inherit;
+}
+#consent-adult .ca-link:focus-visible { outline: 2px solid #2a78d6; outline-offset: 3px; }
+
+/* Pinned below the form and made unmissable — this is the action the whole
+   screen exists for, so it gets the only saturated colour on the page. */
+#consent-adult .ca-agree {
+  flex: none;
+  display: flex; align-items: center; gap: 14px;
+  margin: 0; padding: 16px 18px;
+  background: #eef4fc;
+  border: 2px solid #2a78d6; border-radius: 10px;
+  font-size: 17px; font-weight: 600; color: #17324f;
+  cursor: pointer;
+  transition: background .12s, border-color .12s;
+}
+#consent-adult .ca-agree:hover { background: #e3edfa; }
+#consent-adult .ca-agree input {
+  width: 28px; height: 28px; margin: 0; flex: none; cursor: pointer;
+  accent-color: #2a78d6;
+}
+#consent-adult .ca-agree:focus-within {
+  outline: 3px solid #2a78d6; outline-offset: 2px;
+}
+/* Once ticked, drop the shouting — the job is done. */
+#consent-adult .ca-agree:has(input:checked) {
+  background: #eef7f0; border-color: #27ae60; color: #17402a;
+}
+#consent-adult .ca-agree:has(input:checked) input { accent-color: #27ae60; }
+#consent-adult .ca-note { font-size: 13px; color: #6c6f76; margin: 0; flex: none; }
+
+@media (max-height: 700px) {
+  #consent-adult .ca-title { font-size: 20px; }
+  #consent-adult .ca-agree { padding: 12px 14px; font-size: 16px; }
+  #consent-adult .ca-scroll { padding: 14px 16px; font-size: 14px; }
+}
+
+/* ---- Adult-only screens: instructions and debrief. Same plain register as
+   the consent form, so the adult-facing frame around the game reads as one
+   thing rather than three. ---- */
+.adult-instructions {
+  max-width: 620px; margin: 0 auto; padding: 24px 20px;
+  text-align: left;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #24262b;
+}
+.adult-instructions h2 {
+  font-size: 24px; font-weight: 700; margin: 0 0 16px; line-height: 1.25;
+}
+.adult-instructions p { font-size: 17px; line-height: 1.6; margin: 0 0 14px; }
+.adult-instructions a { color: #2a78d6; }
+.adult-instructions textarea {
+  width: 100%; box-sizing: border-box; margin-top: 6px;
+  font-family: inherit; font-size: 16px; line-height: 1.5;
+  padding: 12px 14px; border: 1px solid #c8ccd2; border-radius: 8px;
+  resize: vertical; background: #fff; color: #24262b;
+}
+.adult-instructions textarea:focus-visible {
+  outline: 2px solid #2a78d6; outline-offset: 1px; border-color: #2a78d6;
+}
+.adult-instructions .ai-note { font-size: 13px; color: #6c6f76; margin: 6px 0 0; }
+
+/* Consent + response downloads on the final adult screen. Always present:
+   the consent form states a copy may be kept, and a participant should be
+   able to leave with what they actually submitted — not only when the save
+   failed, which was the old kiosk-only behaviour. */
+.end-downloads { margin-top: 18px; font-size: 14px; }
+.end-downloads .sep { color: #b9bcc2; margin: 0 8px; }

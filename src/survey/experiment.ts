@@ -10,6 +10,8 @@ import { initJsPsych } from 'jspsych';
 import jsPsychHtmlButtonResponse from '@jspsych/plugin-html-button-response';
 import jsPsychHtmlKeyboardResponse from '@jspsych/plugin-html-keyboard-response';
 import jsPsychPreload from '@jspsych/plugin-preload';
+import { consentHTML, consentPlainText, CONSENT_AGREEMENT_LINE,
+         CONSENT_STUDY_TITLE, CONSENT_STUDY_NUMBER } from './consent_adult';
 import 'jspsych/css/jspsych.css';
 import './assets/styles.css';
 
@@ -164,6 +166,13 @@ const STUDY = getURLParam('study', IS_PROLIFIC ? 'things_kids_prolific' : 'thing
 // their completion URL or they cannot be paid; pass it as ?completion_url=...
 // (URL-encoded), or set the completion code with ?cc=XXXXXXXX.
 const COMPLETION_CODE = getURLParam('cc', IS_PROLIFIC ? 'CHO0PAQJ' : null);
+
+// Which consent screen to show. Defaults to the adult IRB form for Prolific
+// and the parental/kiosk screen otherwise; ?consent=adult or ?consent=kid
+// forces either one so both can be previewed without faking a Prolific ID.
+const CONSENT_MODE = (getURLParam('consent', null) ||
+  (IS_PROLIFIC ? 'adult' : 'kid')) as 'adult' | 'kid';
+const IS_ADULT = CONSENT_MODE === 'adult';
 const COMPLETION_URL = getURLParam('completion_url', null)
   || (COMPLETION_CODE ? `https://app.prolific.com/submissions/complete?cc=${COMPLETION_CODE}` : null);
 
@@ -187,11 +196,23 @@ const BREAK_EVERY    = parseInt(getURLParam('break_every', '0') as string, 10);
 const EXIT_URL = getURLParam('exit_url', 'https://stanford-cogsci.org:8880/landing_page.html') as string;
 const END_REDIRECT_MS = parseInt(getURLParam('end_redirect_ms', '8000') as string, 10);
 
-// Wire up the persistent Stop button as soon as the script loads.
+// Wire up the persistent Stop button as soon as the script loads. It exists
+// for kiosk staff to bail a child out; on the adult/Prolific version it would
+// dump the participant on the museum landing page with no way back and no
+// completion code, so it is removed entirely rather than hidden.
 {
   const btn = document.getElementById('exit-btn') as HTMLButtonElement | null;
-  if (btn) btn.addEventListener('click', () => { window.location.href = EXIT_URL; });
+  if (btn) {
+    if (CONSENT_MODE === 'adult') {
+      btn.remove();
+    } else {
+      btn.addEventListener('click', () => { window.location.href = EXIT_URL; });
+    }
+  }
 }
+
+// Free-text comment from the debrief screen, saved with the session.
+let DEBRIEF_COMMENT = '';
 
 let CONSENT_INFO: { age: string | null; agreed: boolean } = { age: null, agreed: false };
 // Which rotating block this child was assigned (banked manifests only).
@@ -301,6 +322,66 @@ function makeOddityTrial(
 
 // ============ consent + age screen ============
 function consentTrial(): any {
+  return CONSENT_MODE === 'adult' ? consentTrialAdult() : consentTrialKid();
+}
+
+// ---- Adult consent: the IRB-approved form for study #811123, shown verbatim.
+function consentTrialAdult(): any {
+  const stimulus = `
+    <div id="consent-adult">
+      <h1 class="ca-title">${CONSENT_STUDY_TITLE}</h1>
+      <p class="ca-sub">UC San Diego &middot; Study #${CONSENT_STUDY_NUMBER} &middot; Please read before taking part</p>
+      <div class="ca-scroll" id="ca-scroll" tabindex="0">${consentHTML()}</div>
+      <p class="ca-tools">
+        <button type="button" class="ca-link" id="ca-download">Download a copy of this form</button>
+      </p>
+      <label class="ca-agree" for="ca-cb">
+        <input id="ca-cb" type="checkbox" />
+        <span>${CONSENT_AGREEMENT_LINE}</span>
+      </label>
+      <p class="ca-note" id="ca-note">Please read the form and tick the box to continue.</p>
+    </div>
+  `;
+  return {
+    type: jsPsychHtmlButtonResponse,
+    stimulus,
+    choices: ['Continue'],
+    button_html: (c: string) =>
+      `<button class="big-btn" id="consent-go" disabled style="opacity:0.45;cursor:not-allowed">${c}</button>`,
+    on_load: function () {
+      ac();
+      // Prolific participants are adults by definition; no age grid is shown,
+      // and precise age comes from Prolific's own demographics export.
+      CONSENT_INFO.age = 'adult';
+      const cb = document.getElementById('ca-cb') as HTMLInputElement;
+      const note = document.getElementById('ca-note');
+      cb.addEventListener('change', () => {
+        CONSENT_INFO.agreed = cb.checked;
+        const go = document.getElementById('consent-go') as HTMLButtonElement | null;
+        if (!go) return;
+        go.disabled = !cb.checked;
+        go.style.opacity = cb.checked ? '1' : '0.45';
+        go.style.cursor = cb.checked ? 'pointer' : 'not-allowed';
+        if (note) note.style.visibility = cb.checked ? 'hidden' : 'visible';
+      });
+      document.getElementById('ca-download')?.addEventListener('click', () => {
+        const blob = new Blob([consentPlainText()], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `consent_study_${CONSENT_STUDY_NUMBER}.txt`;
+        a.click();
+      });
+    },
+    data: { task: 'consent', consent_version: 'adult_irb_811123' },
+    on_finish: function (data: any) {
+      data.consent_age = CONSENT_INFO.age;
+      data.consent_agreed = CONSENT_INFO.agreed;
+    },
+  };
+}
+
+// ---- Parental / museum-kiosk consent, unchanged.
+function consentTrialKid(): any {
   const stimulus = `
     <div id="consent-wrap">
       <h1>Picture Detective!</h1>
@@ -374,7 +455,7 @@ function consentTrial(): any {
         refresh();
       });
     },
-    data: { task: 'consent' },
+    data: { task: 'consent', consent_version: 'parental_kiosk' },
     on_finish: function (data: any) {
       data.consent_age = CONSENT_INFO.age;
       data.consent_agreed = CONSENT_INFO.agreed;
@@ -426,6 +507,8 @@ const jsPsych = initJsPsych({
         ? { pid: PROLIFIC_PID, study_id: PROLIFIC_STUDY, session_id: PROLIFIC_SESSION }
         : null,
       consent: CONSENT_INFO,
+      consent_version: CONSENT_MODE === 'adult' ? 'adult_irb_811123' : 'parental_kiosk',
+      debrief_comment: DEBRIEF_COMMENT || null,
       assigned_block: ASSIGNED_BLOCK,
       finishedAt: new Date().toISOString(),
       n_trials: oddity.length,
@@ -445,6 +528,12 @@ const jsPsych = initJsPsych({
         </div>
         <div id="save-status" style="margin-top:24px; font-size:15px; color:#888;">saving your answers…</div>
         <div id="prolific-code" style="display:none; margin-top:14px; font-size:16px; color:#444;"></div>
+        ${IS_ADULT ? `
+        <p class="end-downloads">
+          <button type="button" class="ca-link" id="dl-consent">Download a copy of the consent form</button>
+          <span class="sep">&middot;</span>
+          <button type="button" class="ca-link" id="dl-responses">Download my responses</button>
+        </p>` : ''}
         <div style="margin-top:24px;">
           <button class="big-btn" id="back-home">Back to home</button>
         </div>
@@ -472,6 +561,23 @@ const jsPsych = initJsPsych({
       // below once the data is actually stored.
     } else if (END_REDIRECT_MS > 0) {
       setTimeout(goHome, END_REDIRECT_MS);
+    }
+
+    if (IS_ADULT) {
+      document.getElementById('dl-consent')?.addEventListener('click', () => {
+        const blob = new Blob([consentPlainText()], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `consent_study_${CONSENT_STUDY_NUMBER}.txt`;
+        a.click();
+      });
+      document.getElementById('dl-responses')?.addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(summary, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `responses_${PARTICIPANT_ID}.json`;
+        a.click();
+      });
     }
 
     // Called once the save resolves, either way.
@@ -608,6 +714,26 @@ async function main(): Promise<void> {
   // unlocks audio playback for the rest of the session — browsers block
   // audio on freshly loaded pages until the first interaction.
   timeline.push(consentTrial());
+
+  // 1b. Adult instructions. The task itself is built for 3-10 year olds, so
+  // it is worth saying plainly that the cartoon and the spoken prompts are
+  // meant for children — otherwise adults read the tone as a mistake.
+  if (CONSENT_MODE === 'adult') {
+    timeline.push({
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="adult-instructions">
+          <h2>Before you start</h2>
+          <p><b>Please turn your audio on so you can hear the instructions.</b></p>
+          <p>These instructions are for children, so they might feel a little odd.</p>
+          <p>Please complete all trials to the best of your ability.</p>
+        </div>`,
+      choices: ['Start'],
+      button_html: (c: string) => `<button class="big-btn">${c}</button>`,
+      on_load: () => { ac(); setHud(false); },
+      data: { task: 'adult_instructions' },
+    });
+  }
 
   // 2. Welcome screen — just Zorpie waving. intro.m4a plays automatically
   // (audio is unlocked by the consent click) and the screen auto-advances
@@ -782,6 +908,35 @@ async function main(): Promise<void> {
       }
       trialIndex++;
     }
+  }
+
+  // Final screen for adults: debrief plus an optional comment. It is the last
+  // timeline entry so the comment is captured before jsPsych's on_finish
+  // assembles and POSTs the payload — the comment ships in that same request
+  // rather than needing a second one that could fail on its own.
+  if (CONSENT_MODE === 'adult') {
+    timeline.push({
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <div class="adult-instructions">
+          <h2>Thanks for helping us with our study!</h2>
+          <p>You can contact us at <a href="mailto:vislearnlab@ucsd.edu">vislearnlab@ucsd.edu</a>.</p>
+          <p>If you have any comments, feel free to leave them below.</p>
+          <textarea id="debrief-comment" rows="5"
+            placeholder="Optional — anything you noticed, found confusing, or want to tell us."
+            aria-label="Optional comments"></textarea>
+          <p class="ai-note">Optional. Leave blank if you have nothing to add.</p>
+        </div>`,
+      choices: ['Finish'],
+      button_html: (c: string) => `<button class="big-btn">${c}</button>`,
+      on_load: () => { setHud(false); document.getElementById('debrief-comment')?.focus(); },
+      on_finish: (data: any) => {
+        const box = document.getElementById('debrief-comment') as HTMLTextAreaElement | null;
+        DEBRIEF_COMMENT = (box?.value || '').trim().slice(0, 5000);
+        data.debrief_comment = DEBRIEF_COMMENT;
+      },
+      data: { task: 'debrief' },
+    });
   }
 
   jsPsych.run(timeline);
