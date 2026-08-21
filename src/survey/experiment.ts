@@ -249,9 +249,9 @@ interface Trial {
   trial_id: string;
   tier: 'training' | 'warmup' | 'familiar' | 'novel' | 'catch' | 'basic_level';
   // Set when the session is assembled, not present in the manifest: says whether
-  // this basic-level trial rides along with the warm-up or is spread through the
-  // test block. Placement is a session-assembly decision, tier is what the item is.
-  placement?: 'warmup' | 'spread';
+  // this basic-level trial opens the session or is spread through the test block.
+  // Placement is a session-assembly decision, tier is what the item is.
+  placement?: 'open' | 'spread';
   dataset: string;
   condition: string;
   n_objects: number;
@@ -784,11 +784,13 @@ const jsPsych = initJsPsych({
 
 async function main(): Promise<void> {
   // Basic-level trials -- two photographs of one concept against a different
-  // concept from the same category. The first `basic_warmup_n` are fixed, so every
-  // child meets the same ones and they are comparable across the sample; the rest
-  // are sampled per child, so the whole pool accumulates coverage the way the
-  // rotating blocks do. Warm-up placement matters because most kiosk sessions end
-  // early -- items placed there are seen by nearly everyone who starts.
+  // concept from the same category. The first `basic_open_n` are fixed and open
+  // the session, so every child meets the same ones and they are comparable across
+  // the sample. Opening with them matters twice over: most kiosk sessions end
+  // early, so anything placed here is seen by nearly everyone who starts, and
+  // "two dogs and a cat" teaches the rule far more plainly than the fine-grained
+  // items do. The rest are sampled per child, so the whole pool accumulates
+  // coverage the way the rotating blocks do.
   function pickBasicLevel(m: Banked): Trial[] {
     const poolB = m.basic_level || [];
     if (!poolB.length) return [];
@@ -800,19 +802,19 @@ async function main(): Promise<void> {
     const fits = (t: Trial) => !(t.concepts || []).some(c => taken.has(c));
     const claim = (t: Trial) => (t.concepts || []).forEach(c => taken.add(c));
 
-    // Fixed warm-up items: scanned in manifest order, so every child gets the
+    // Fixed opening items: scanned in manifest order, so every child gets the
     // same ones and they are comparable across the whole sample.
-    const warm: Trial[] = [];
-    const nWarm = m.meta?.basic_warmup_n ?? 0;
+    const open: Trial[] = [];
+    const nOpen = m.meta?.basic_open_n ?? 0;
     for (const t of poolB) {
-      if (warm.length >= nWarm) break;
+      if (open.length >= nOpen) break;
       if (!fits(t)) continue;
-      claim(t); warm.push({ ...t, placement: 'warmup' });
+      claim(t); open.push({ ...t, placement: 'open' });
     }
 
     // The rest are sampled per child, so the pool accumulates coverage the way
     // the rotating blocks do.
-    const rest = poolB.filter(t => !warm.some(w => w.trial_id === t.trial_id));
+    const rest = poolB.filter(t => !open.some(w => w.trial_id === t.trial_id));
     for (let i = rest.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [rest[i], rest[j]] = [rest[j], rest[i]];
@@ -824,7 +826,7 @@ async function main(): Promise<void> {
       if (!fits(t)) continue;
       claim(t); spread.push({ ...t, placement: 'spread' });
     }
-    return warm.concat(spread);
+    return open.concat(spread);
   }
 
   bootSay('loading trial manifest…');
@@ -836,7 +838,7 @@ async function main(): Promise<void> {
   // bank can be built large now and opened up as the sample grows.
   type Banked = {
     meta?: { active_blocks?: number; active_adult_blocks?: number;
-             basic_warmup_n?: number; basic_interleave_n?: number };
+             basic_open_n?: number; basic_interleave_n?: number };
     intro?: Trial[]; core?: Trial[]; blocks?: Trial[][]; adult_blocks?: Trial[][];
     basic_level?: Trial[];
   };
@@ -1040,11 +1042,11 @@ async function main(): Promise<void> {
   }
 
   // Basic-level trials split by where the session assembler put them: the fixed
-  // few ride with the warm-up, the sampled rest are spread through the test block
-  // so that a child who leaves partway still contributes some of them.
+  // few open the session, the sampled rest are spread through the test block so
+  // that a child who leaves partway still contributes some of them.
   const basics = byTier.basic_level || [];
-  const basicWarm   = basics.filter(t => t.placement === 'warmup');
-  const basicSpread = basics.filter(t => t.placement !== 'warmup');
+  const basicOpen   = basics.filter(t => t.placement === 'open');
+  const basicSpread = basics.filter(t => t.placement !== 'open');
 
   const interleaved: Trial[] = testTrials.slice();
   spreadEvenly(interleaved, byTier.catch || []);
@@ -1052,9 +1054,9 @@ async function main(): Promise<void> {
 
   type Block = { tier: string; trials: Trial[] };
   const blockOrder: Block[] = [
+    ...(basicOpen.length ? [{ tier: 'basic_open', trials: basicOpen }] : []),
     ...(byTier.training ? [{ tier: 'training', trials: byTier.training }] : []),
-    ...((byTier.warmup || basicWarm.length)
-      ? [{ tier: 'warmup', trials: [...(byTier.warmup || []), ...basicWarm] }] : []),
+    ...(byTier.warmup ? [{ tier: 'warmup', trials: byTier.warmup }] : []),
     ...(interleaved.length ? [{ tier: 'mixed', trials: interleaved }] : []),
   ];
 
@@ -1062,8 +1064,9 @@ async function main(): Promise<void> {
   const totalTrials = trials.length;
   for (const block of blockOrder) {
     const { tier, trials: blockTrials } = block;
-    // Training already follows the global "How to play" screen, so skip its intro.
-    if (tier !== 'training') {
+    // The opening block and training both follow the global "How to play" screen,
+    // so neither needs its own intro on top of it.
+    if (tier !== 'training' && tier !== 'basic_open') {
       const intro = blockIntro(tier);
       if (intro) timeline.push(intro);
     }
@@ -1072,7 +1075,8 @@ async function main(): Promise<void> {
       // Tiers without a separate intro screen (training, warmup) cue the
       // rule audio on the first trial of the block so non-readers know
       // when to start listening for instructions.
-      const cueAudio = bi === 0 && (tier === 'training' || tier === 'warmup');
+      const cueAudio = bi === 0 &&
+        (tier === 'basic_open' || tier === 'training' || tier === 'warmup');
       timeline.push(makeOddityTrial(t, trialIndex, totalTrials, cueAudio));
       const completed = trialIndex + 1;
       const isLast = completed === totalTrials;

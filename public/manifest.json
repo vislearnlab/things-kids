@@ -7,14 +7,14 @@
   "adult_block_n": 40,
   "n_adult_blocks": 10,
   "active_adult_blocks": 10,
-  "session_length": 59,
-  "adult_session_length": 79,
+  "session_length": 63,
+  "adult_session_length": 83,
   "bank_size": 820,
   "distinct_concepts": 292,
-  "note": "Each child does intro + core + ONE block chosen at random from the first `active_blocks`, plus basic_warmup_n fixed basic-level trials in the warm-up and basic_interleave_n more sampled per child and spread through the test block. No concept repeats within a session.",
-  "basic_warmup_n": 3,
-  "basic_interleave_n": 5,
-  "n_basic_level": 30
+  "note": "Each child does basic_open_n basic-level trials, then intro + core + ONE block chosen at random from the first `active_blocks`, with basic_interleave_n more basic-level trials sampled per child and spread through the test block. No concept repeats within a session.",
+  "basic_interleave_n": 6,
+  "n_basic_level": 30,
+  "basic_open_n": 6
  },
  "intro": [
   {
