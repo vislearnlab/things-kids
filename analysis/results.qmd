@@ -1,6 +1,6 @@
 ---
-title: "THINGS-Kids"
-subtitle: "Every session, every trial — mixed-effects models over the full, unbalanced sample"
+title: "THINGS-Kids: developmental oddity task"
+subtitle: "Mixed-effects analysis of the museum kiosk and Prolific adult samples"
 date: today
 date-format: "D MMMM YYYY"
 format:
@@ -17,7 +17,7 @@ format:
     fig-width: 8
     fig-height: 4.6
     code-fold: true
-    code-summary: "code"
+    code-summary: "Show code"
     code-tools: false
     df-print: paged
     tbl-cap-location: top
@@ -182,20 +182,19 @@ n_ad <- nrow(adults)
 ```
 
 ::: {.callout-important appearance="simple"}
-## The headline
+## Summary
 
 **All `r n_kid_started` children who answered at least one trial are in this analysis, not
-just the `r n_kid_complete` who finished.** That more than doubles the child sample and
-reverses the result: accuracy rises with age at
+just the `r n_kid_complete` who finished.** This doubles the child sample and reverses the
+result: accuracy rises with age at
 **β = `r sprintf('%+.2f', b_age$estimate)`, *p* = `r fp(b_age$p.value)`** (logit, per SD of
-age), where the completers-only analysis could not detect it (*p* ≈ .09). The effect is
-*stronger*, not weaker, among the most engaged children — so it is not an artefact of young
-children tapping through.
+age), where the completers-only analysis could not detect it (*p* ≈ .09). The effect is *stronger*, not weaker, among the most
+engaged children, so it is not an artefact of young children tapping through.
 :::
 
 ---
 
-# 1. Why include partial sessions
+# Why partial sessions are included
 
 A museum kiosk produces mostly partial sessions. Discarding them is not a neutral choice:
 
@@ -228,13 +227,13 @@ the partials:
 
 - Short sessions are not random trials. The session runs training (trials 1–4) → warmup
   (5–8) → test (9+), so a child who stopped early contributes mostly *easy* items. Comparing
-  raw accuracy across session lengths is therefore confounded — but an item random intercept
-  absorbs exactly this, which is why the models below are mixed rather than aggregate.
+  raw accuracy across session lengths is therefore confounded. An item random intercept
+  absorbs this, which is why the models below are mixed rather than aggregate.
 - Unbalanced data is what mixed models are for. A child with 8 trials is partially pooled
   toward the group mean and contributes proportionally less than a child with 51, instead of
   either counting equally or being thrown away.
 
-# 2. Who is in the data
+# Sample
 
 ```{r accounting}
 sessions %>%
@@ -283,14 +282,14 @@ kable(broom::tidy(md), digits = 3,
 ```
 
 `r sum(kids_all$n_trials == 0)` children consented but never answered a trial. Among those who
-started, the commonest stopping point is **trial 8** — the boundary where training and warmup
-end and the real test trials begin. That is a design signal, not noise: children leave when
-the pop-out items stop and the hard ones start.
+started, the commonest stopping point is **trial 8**, the boundary where training and warmup
+end and the test trials begin. Attrition is therefore concentrated at the transition to the
+harder items rather than distributed across the session.
 
-# 3. Accuracy and age — the primary model
+# Accuracy and age
 
 Accuracy is binary, so these are mixed-effects **logistic** regressions (GLMMs): a linear
-mixed model on the log-odds scale. Both grouping factors are crossed random intercepts —
+mixed model on the log-odds scale. Both grouping factors are crossed random intercepts,
 child and item. Random slopes for condition by child were fitted first and were singular, so
 the models below retain random intercepts only.
 
@@ -352,7 +351,7 @@ another more than items differ from one another. That is the variation the model
 accounting for, and the reason a fixed-effects comparison of group means would overstate its
 own precision.
 
-# 4. Robustness: does the age effect depend on who you keep?
+# Robustness to inclusion criteria
 
 ```{r robust}
 spec <- function(lab, d) {
@@ -388,10 +387,10 @@ ggplot(rob, aes(x = reorder(specification, beta), y = beta)) +
        x = NULL, y = "β for age (logit, per SD)")
 ```
 
-The estimate barely moves — every specification lands near
-β = `r sprintf('%.2f', mean(rob$beta))`. What changes is the interval. The two
-completers-only rows are the previous report's analysis, and they are non-significant simply
-because they discard half the children.
+The estimate is stable across specifications, every one landing near
+β = `r sprintf('%.2f', mean(rob$beta))`. What changes is the width of the interval. The two
+completers-only rows correspond to the earlier analysis; they are non-significant because
+they discard half the children, not because the effect differs.
 
 ```{r tap-check}
 tapper <- kids_started %>% left_join(delib, by = "participantID") %>%
@@ -411,7 +410,7 @@ age mechanically. It does not hold. Tapping is unrelated to age
 `r round(mean(tapper$age[!tapper$taps], na.rm=TRUE), 1)`), the age effect *strengthens* when
 only deliberate children are kept, and age survives controlling for deliberation directly.
 
-# 5. Is the age effect just vocabulary?
+# Vocabulary as an alternative account
 
 An oddity trial is unanswerable if the child does not know the target concept, so an age
 effect could be nothing more than older children knowing more words. Every concept carries an
@@ -479,32 +478,33 @@ a_alone <- aoa_tab %>% filter(model == "A. age alone")
 **No, it is not vocabulary.** Target AoA does not predict child accuracy on its own
 (β = `r sprintf('%+.3f', aoa_tab$estimate[aoa_tab$model=="B. AoA alone"])`,
 *p* = `r fp(aoa_tab$p.value[aoa_tab$model=="B. AoA alone"])`), and adding it leaves the age
-effect untouched — β = `r sprintf('%.3f', a_alone$estimate)` alone versus
+effect unchanged: β = `r sprintf('%.3f', a_alone$estimate)` alone versus
 `r sprintf('%.3f', a_age_c$estimate)` with AoA in the model. The two variables are not
 competing for the same variance.
 
 The interaction is the sharper test: if late-acquired words were the obstacle, they should
 penalise 3-year-olds far more than 9-year-olds. The age × AoA term is
-β = `r sprintf('%+.3f', a_int$estimate)` (*p* = `r fp(a_int$p.value)`) — indistinguishable
-from zero, and the plot shows the age bands running parallel rather than fanning out. Adults,
-as expected, show no AoA effect either
+β = `r sprintf('%+.3f', a_int$estimate)` (*p* = `r fp(a_int$p.value)`), indistinguishable
+from zero, and the age bands run parallel rather than fanning out. Adults show no AoA effect
+either,
 (*p* = `r fp(aoa_tab$p.value[aoa_tab$model=="F. adults, AoA"])`).
 
 Meanwhile SPoSE difficulty *does* survive alongside both
 (*p* = `r fp(aoa_tab$p.value[aoa_tab$model=="E. + SPoSE difficulty"] [aoa_tab$term[aoa_tab$model=="E. + SPoSE difficulty"]=="scale(p_correct_spose)"])`),
-so item difficulty is real — it is specifically the *word-learning* account that fails.
+so item difficulty is measurable in these data. It is specifically the *word-learning*
+account that fails.
 
-Two honest limits. The task is picture-based and never asks a child to name anything, so
+Two limits apply. The task is picture-based and never asks a child to name anything, so
 word-AoA is an imperfect proxy for whether a child holds the concept; and these are
-adult-rated norms. But within this design the vocabulary explanation has been given a fair
-test and does not account for the age effect — which makes the developmental result more
-interesting, not less, since it points at the conceptual comparison itself rather than at
+adult-rated norms. Within this design, however, the vocabulary explanation has been given a fair
+test and does not account for the age effect, which locates the developmental change in the
+conceptual comparison rather than at
 knowing the words.
 
-## Sensitivity: which AoA should gate the trial?
+## Which AoA should gate a trial
 
 `aoa_target` is the odd-one-out alone, but an oddity judgement arguably needs all three
-concepts — the child must see that the pair goes together *and* that the target does not. So
+concepts: the child must see that the pair goes together *and* that the target does not. So
 the binding constraint may be the **latest-acquired** of the three (`aoa_max`, mean
 `r sprintf('%.1f', mean(items$aoa_max, na.rm=TRUE))` years) rather than the target's own AoA.
 The two are only moderately related (*r* = `r sprintf('%.2f', cor(kv$aoa_target, kv$aoa_max))`),
@@ -551,14 +551,14 @@ The null survives intact. Scoring each trial by its latest-acquired concept give
 β = `r sprintf('%+.3f', smax$estimate)` (*p* = `r fp(smax$p.value)`), the interaction with age
 is *p* = `r fp(sint$p.value)`, and the age coefficient stays at
 `r sprintf('%.3f', sens_aoa$estimate[sens_aoa$term=="scale(age)"][1])` in all three
-specifications. The top quartile averages `r sprintf('%.1f', mean(top_q$aoa))`-year AoA —
-later than almost every child tested — yet 2–4 year-olds answer it at
+specifications. The top quartile averages `r sprintf('%.1f', mean(top_q$aoa))`-year AoA,
+later than almost every child tested, yet 2–4 year-olds answer it at
 `r pct(top_q$acc[top_q$band=="2–4"])`, their *best* quartile rather than their worst.
 
 That is about as clean as a null gets: three operationalisations, no main effect, no
 interaction, and no movement in the age estimate.
 
-# 6. The developmental prediction
+# The developmental prediction
 
 ```{r cond-model}
 cond_all <- bind_rows(
@@ -643,12 +643,12 @@ fs %>% mutate(p = vapply(p, fp, character(1))) %>%
 ```
 
 Children lose `r pct(cc$cost[cc$grp=="children"])` to visual conflict, adults
-`r pct(cc$cost[cc$grp=="adults"])` — and the group × condition interaction is
+`r pct(cc$cost[cc$grp=="adults"])`, and the group × condition interaction is
 *p* = `r fp(i_p)`. **This is significant in the direction opposite to the prediction:
 children pay a *smaller* appearance penalty than adults, not a larger one.**
 
 That result needs one caveat taken seriously. Chance on this task is 1/3, not 0, and a child
-responding at chance in both conditions has a zero cost by construction — so including
+responding at chance in both conditions has a zero cost by construction, so including
 near-chance children mechanically shrinks the child estimate. The table above removes them
 stepwise. The child cost does grow as they are dropped
 (`r pct(fs$child_cost[1])` → `r pct(fs$child_cost[nrow(fs)])`), but the interaction estimate
@@ -657,13 +657,13 @@ barely moves (β `r sprintf('%.2f', fs$interaction_beta[1])` →
 shrinks, not because the effect does. Even among children scoring in the adult range the cost
 is `r pct(fs$child_cost[nrow(fs)])` against the adults' `r pct(cc$cost[cc$grp=="adults"])`.
 
-So the honest reading is **a stable reversal that is not yet established**: the point estimate
+The reading supported by these data is **a stable reversal that is not yet established**: the point estimate
 consistently says children weight appearance *less* than adults, compression explains part but
 not all of it, and within children the cost does not change with age (*p* = `r fp(ca_p)`).
-If it holds up, the study's founding prediction is backwards — which is worth powering
-properly rather than settling at *n* = `r n_kid_started`.
+If it holds, the study's founding prediction is inverted, which warrants
+adequate powering rather than settling at *n* = `r n_kid_started`.
 
-# 7. Response times — a genuine linear mixed model
+# Response times
 
 RT is continuous, so this is an ordinary LMM on log RT, with the same crossed random effects.
 
@@ -692,7 +692,7 @@ p6 <- kds %>% group_by(participantID, age) %>% summarise(mrt = median(rt), .grou
 p5 + p6
 ```
 
-# 8. Does SPoSE rank difficulty for children?
+# SPoSE difficulty in children
 
 ```{r spose}
 sp <- kds %>% filter(!is.na(p_correct_spose))
@@ -728,10 +728,10 @@ sp %>% group_by(trial_id) %>%
   kable(digits=3, caption="Hardest child items (>= 4 observations, all children).")
 ```
 
-## Individual trials: predicted vs. what children actually did
+## Item-level predictions and observed performance
 
-The quartile view above averages the model's errors away. This is the item-level
-version — every well-observed trial as its own point, split by age.
+The quartile view above averages over the model's errors. This section reports the
+item-level version, with every well-observed trial as its own point, split by age.
 
 ```{r item-density}
 item_age <- kds %>% filter(!is.na(p_correct_spose), !is.na(age)) %>%
@@ -752,8 +752,8 @@ data.frame(
 
 A rotating bank buys breadth, not depth: the median trial has been seen
 `r median(count(item_age, trial_id)$n)` times, which cannot support an item-level estimate,
-let alone one split three ways by age. Only the **`r length(well)` core and warm-up trials**
-— the ones every child receives — carry enough observations. Everything below is those.
+let alone one split three ways by age. Only the **`r length(well)` core and warm-up trials**,
+the ones every child receives, carry enough observations. This section uses those.
 
 ```{r item-scatter, fig.height = 4.6}
 ia <- item_age %>% filter(trial_id %in% well) %>%
@@ -830,26 +830,26 @@ Two things show up that the quartile summary hid.
 **The model's ranking works better for older children than younger ones.** The item-level
 correlation runs
 `r paste(sprintf("%s %+.2f", cr$band, cr$r), collapse = ", ")`. For the 2–4s the prediction
-carries little item-level information — unsurprising, since many of them are near chance on
-everything, which flattens the range the correlation is computed over.
+carries little item-level information, as expected given that many are near chance on
+every item, which flattens the range over which the correlation is computed.
 
 **The calibration gap flips with age.** Mean observed minus mean predicted is
 `r paste(sprintf("%s %+.1f pts", cr$band, 100*cr$gap), collapse = ", ")`. Every band still
-falls short of the adult-derived prediction, but the shortfall shrinks steadily with age —
+falls short of the adult-derived prediction, but the shortfall shrinks steadily with age:
 the youngest miss it by `r sprintf('%.0f', -100*cr$gap[1])` points, the oldest by only
 `r sprintf('%.0f', -100*cr$gap[3])`. SPoSE was fit to adults, so this is what you would
 expect if it describes a mature similarity space that children are still moving toward.
 
-The per-trial extremes are worth eyeballing directly: **`r worst$trial_id`**
+The per-trial extremes are informative. **`r worst$trial_id`**
 (*`r worst$odd`*) is predicted at `r pct(worst$predicted)` and the 2–4s get
-`r pct(worst_young)`, while **`r best$trial_id`** (*`r best$odd`*) runs the other way —
+`r pct(worst_young)`, while **`r best$trial_id`** (*`r best$odd`*) runs the other way,
 predicted `r pct(best$predicted)`, observed `r pct(best_young)`. Items like the latter are
 the ones to mine when building a bank that works for the youngest children.
 
 # The basic-level tier {#sec-basic}
 
 A second kind of item went live on **21 August 2026**: two photographs of *one* concept
-against a different concept from the same category — two dogs and a cat. The pair are
+against a different concept from the same category, for example two dogs and a cat. The pair are
 different exemplars, so the trial cannot be solved by matching pictures; a child has to see
 that two things which look unalike are the same kind. Six open every session and six more are
 sampled per child and spread through the test block, taking a session from 51 to 63 trials.
@@ -893,7 +893,7 @@ if (nrow(adb) > 0) {
 ```
 
 ::: {.callout-note}
-## Too early to read anything into it
+## Insufficient data for interpretation
 
 `r n_bt` basic-level trials from `r n_bk` kiosk `r ifelse(n_bk == 1, "child", "children")`.
 No child has yet finished a 63-trial session. What the data *do* confirm is that the tier is
@@ -902,18 +902,18 @@ wired up correctly: scoring is consistent on every trial recorded
 sampled six are spread through the block as intended.
 :::
 
-The first thing worth checking once real sessions accumulate is whether these trials are
-actually the floor they are meant to be. The premise is that a child who cannot do the
-fine-grained discrimination can still do *two dogs and a cat* — so basic-level accuracy
-should sit **above** vocab-gradient accuracy, especially for the 2–4s. If it does not, the
-tier is not buying what it was added for.
+The first question to check once sessions accumulate is whether these trials function as the
+intended floor. The premise is that a child who cannot make the fine-grained discrimination
+can still identify the odd item among two dogs and a cat, so basic-level accuracy should sit
+**above** vocab-gradient accuracy, particularly for the 2–4s. If it does not, the tier is
+not serving the purpose it was added for.
 
 The second is completion. The session grew by 12 trials against a completion rate that was
 already `r pct(sum(kids_all$complete) / sum(kids_all$n_trials > 0), 0)`. The opening six may
-pull the other way — an easier, friendlier start is a plausible retention win — and the
-pre-change cohort in the table above is the comparison that settles it.
+act in the opposite direction, since an easier start is a plausible retention benefit. The
+pre-change cohort in the table above provides the comparison.
 
-# 9. What to do next
+# Conclusions
 
 ```{r final-numbers}
 b_fin <- tidy(m_age, effects="fixed") %>% filter(term=="scale(age)")
@@ -927,16 +927,16 @@ b_fin <- tidy(m_age, effects="fixed") %>% filter(term=="scale(age)")
 2. **The age effect is not a vocabulary effect.** Target AoA does not predict child accuracy
    (*p* = `r fp(aoa_tab$p.value[aoa_tab$model=="B. AoA alone"])`), does not interact with age
    (*p* = `r fp(a_int$p.value)`), and does not shift the age estimate at all. Whatever is
-   developing here is the conceptual comparison, not knowing the words — so the next design
-   iteration should not spend its effort on vocabulary controls.
+   developing is the conceptual comparison rather than word knowledge, so the next design
+   iteration need not prioritise vocabulary controls.
 
 3. **Screen trials, not children.** A `r RT_FLOOR` ms trial-level floor removes fast taps
-   while keeping every child's considered responses — strictly better than dropping five
-   children whole, and it lets deliberation enter the model as a covariate.
+   while keeping every child's considered responses. This retains more data than dropping five
+   children entirely, and allows deliberation to enter the model as a covariate.
 
 4. **Shorten the session, or reprofile it.** The commonest stopping point is trial 8, exactly
    where warmup ends and test trials begin. Interleaving easy items, or cutting the session
-   below `r RUN_LEN` trials, should raise completion where it is lowest — ages 2–4.
+   below `r RUN_LEN` trials, should raise completion where it is lowest, at ages 2–4.
 
 5. **The conflict prediction is still open.** Interaction *p* = `r fp(i_p)` with the full
    sample. Both groups sit off floor and ceiling, so this is answerable with more children
