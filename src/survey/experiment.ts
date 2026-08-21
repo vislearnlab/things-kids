@@ -247,12 +247,19 @@ let SCORE = 0;
 // ============ types ============
 interface Trial {
   trial_id: string;
-  tier: 'training' | 'warmup' | 'familiar' | 'novel' | 'catch';
+  tier: 'training' | 'warmup' | 'familiar' | 'novel' | 'catch' | 'basic_level';
+  // Set when the session is assembled, not present in the manifest: says whether
+  // this basic-level trial rides along with the warm-up or is spread through the
+  // test block. Placement is a session-assembly decision, tier is what the item is.
+  placement?: 'warmup' | 'spread';
   dataset: string;
   condition: string;
   n_objects: number;
   oddity_index: number;
   images: string[];
+  // Concept names behind each image, parallel to `images`. Used to keep a session
+  // free of repeats when extra tiers are mixed in.
+  concepts?: string[];
   human_avg_adult: number;
   rt_avg_adult?: number | null;
 }
@@ -776,6 +783,50 @@ const jsPsych = initJsPsych({
 (window as any).jsPsych = jsPsych;
 
 async function main(): Promise<void> {
+  // Basic-level trials -- two photographs of one concept against a different
+  // concept from the same category. The first `basic_warmup_n` are fixed, so every
+  // child meets the same ones and they are comparable across the sample; the rest
+  // are sampled per child, so the whole pool accumulates coverage the way the
+  // rotating blocks do. Warm-up placement matters because most kiosk sessions end
+  // early -- items placed there are seen by nearly everyone who starts.
+  function pickBasicLevel(m: Banked): Trial[] {
+    const poolB = m.basic_level || [];
+    if (!poolB.length) return [];
+    // The pool deliberately reuses concepts to counterbalance which side is the
+    // target (dog/cat AND cat/dog), and one concept can head several contrasts.
+    // A session must still never show a concept twice, so selection is greedy on
+    // concepts already spoken for rather than a plain slice or sample.
+    const taken = new Set<string>();
+    const fits = (t: Trial) => !(t.concepts || []).some(c => taken.has(c));
+    const claim = (t: Trial) => (t.concepts || []).forEach(c => taken.add(c));
+
+    // Fixed warm-up items: scanned in manifest order, so every child gets the
+    // same ones and they are comparable across the whole sample.
+    const warm: Trial[] = [];
+    const nWarm = m.meta?.basic_warmup_n ?? 0;
+    for (const t of poolB) {
+      if (warm.length >= nWarm) break;
+      if (!fits(t)) continue;
+      claim(t); warm.push({ ...t, placement: 'warmup' });
+    }
+
+    // The rest are sampled per child, so the pool accumulates coverage the way
+    // the rotating blocks do.
+    const rest = poolB.filter(t => !warm.some(w => w.trial_id === t.trial_id));
+    for (let i = rest.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rest[i], rest[j]] = [rest[j], rest[i]];
+    }
+    const spread: Trial[] = [];
+    const nSpread = m.meta?.basic_interleave_n ?? 0;
+    for (const t of rest) {
+      if (spread.length >= nSpread) break;
+      if (!fits(t)) continue;
+      claim(t); spread.push({ ...t, placement: 'spread' });
+    }
+    return warm.concat(spread);
+  }
+
   bootSay('loading trial manifest…');
   // Two manifest shapes are supported. The flat {trials: [...]} form is the
   // original fixed set. The banked form — {intro, core, blocks} — is the
@@ -784,8 +835,10 @@ async function main(): Promise<void> {
   // accumulates across children). Only `active_blocks` are served, so the
   // bank can be built large now and opened up as the sample grows.
   type Banked = {
-    meta?: { active_blocks?: number; active_adult_blocks?: number };
+    meta?: { active_blocks?: number; active_adult_blocks?: number;
+             basic_warmup_n?: number; basic_interleave_n?: number };
     intro?: Trial[]; core?: Trial[]; blocks?: Trial[][]; adult_blocks?: Trial[][];
+    basic_level?: Trial[];
   };
   let manifest: { trials?: Trial[] } & Banked;
   try {
@@ -821,6 +874,7 @@ async function main(): Promise<void> {
       ...(manifest.intro || []),
       ...(manifest.core || []),
       ...pool[assignedBlock],
+      ...pickBasicLevel(manifest),
     ];
     ASSIGNED_BLOCK = assignedBlock;
     ASSIGNED_BANK = useAdultBank ? 'adult' : 'child';
@@ -968,28 +1022,39 @@ async function main(): Promise<void> {
     [testTrials[i], testTrials[j]] = [testTrials[j], testTrials[i]];
   }
 
-  // Catch trials are spread evenly rather than shuffled in with the rest.
-  // A uniform shuffle regularly drops two or three of them back-to-back,
+  // Catch and basic-level trials are spread evenly rather than shuffled in with
+  // the rest. A uniform shuffle regularly drops two or three of them back-to-back,
   // which reads as a run of trivially easy trials and wastes them as an
   // attention measure — they only tell you anything if they sample attention
   // across the whole session. Each is placed at random within its own even
   // slice, so spacing is enforced but position is still jittered.
-  const catchTrials = byTier.catch || [];
-  const interleaved: Trial[] = testTrials.slice();
-  if (catchTrials.length) {
-    const stride = (interleaved.length + catchTrials.length) / (catchTrials.length + 1);
-    catchTrials.forEach((c, k) => {
+  function spreadEvenly(into: Trial[], extras: Trial[]): void {
+    if (!extras.length) return;
+    const stride = (into.length + extras.length) / (extras.length + 1);
+    extras.forEach((c, k) => {
       const centre = Math.round(stride * (k + 1));
       const jitter = Math.floor(Math.random() * 3) - 1;   // -1, 0, or +1
-      const at = Math.max(1, Math.min(interleaved.length, centre + jitter));
-      interleaved.splice(at, 0, c);
+      const at = Math.max(1, Math.min(into.length, centre + jitter));
+      into.splice(at, 0, c);
     });
   }
+
+  // Basic-level trials split by where the session assembler put them: the fixed
+  // few ride with the warm-up, the sampled rest are spread through the test block
+  // so that a child who leaves partway still contributes some of them.
+  const basics = byTier.basic_level || [];
+  const basicWarm   = basics.filter(t => t.placement === 'warmup');
+  const basicSpread = basics.filter(t => t.placement !== 'warmup');
+
+  const interleaved: Trial[] = testTrials.slice();
+  spreadEvenly(interleaved, byTier.catch || []);
+  spreadEvenly(interleaved, basicSpread);
 
   type Block = { tier: string; trials: Trial[] };
   const blockOrder: Block[] = [
     ...(byTier.training ? [{ tier: 'training', trials: byTier.training }] : []),
-    ...(byTier.warmup ? [{ tier: 'warmup', trials: byTier.warmup }] : []),
+    ...((byTier.warmup || basicWarm.length)
+      ? [{ tier: 'warmup', trials: [...(byTier.warmup || []), ...basicWarm] }] : []),
     ...(interleaved.length ? [{ tier: 'mixed', trials: interleaved }] : []),
   ];
 

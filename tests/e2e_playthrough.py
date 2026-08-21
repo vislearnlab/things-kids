@@ -53,7 +53,10 @@ async def play_once(page, click_correct=True):
         bank = manifest['trials']
         session_length = len(bank)
     else:
-        bank = list(manifest.get('intro') or []) + list(manifest.get('core') or [])
+        # basic_level is a pool the client samples from, so every one of its
+        # trials is a possible id even though only a few appear in a session.
+        bank = (list(manifest.get('intro') or []) + list(manifest.get('core') or [])
+                + list(manifest.get('basic_level') or []))
         for blocks in (manifest.get('blocks') or []) + (manifest.get('adult_blocks') or []):
             bank.extend(blocks)
         session_length = (manifest.get('meta') or {}).get('session_length')

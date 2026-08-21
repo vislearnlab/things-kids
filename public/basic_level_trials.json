@@ -1,0 +1,1084 @@
+{
+ "basic_level": [
+  {
+   "trial_id": "basic_00",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "dog_vs_cat",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/cat_09.jpg",
+    "stimuli_basic/dog_05.jpg",
+    "stimuli_basic/dog_01.jpg"
+   ],
+   "concepts": [
+    "cat",
+    "dog",
+    "dog"
+   ],
+   "odd_concept": "cat",
+   "pair_concepts": [
+    "dog",
+    "dog"
+   ],
+   "pair_category": "animal",
+   "odd_category": "animal",
+   "clip_within_pair": 0.484,
+   "clip_pair_to_odd": 0.512,
+   "appearance": "conflict",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_01",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "cat_vs_dog",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/cat_06.jpg",
+    "stimuli_basic/dog_07.jpg",
+    "stimuli_basic/cat_10.jpg"
+   ],
+   "concepts": [
+    "cat",
+    "dog",
+    "cat"
+   ],
+   "odd_concept": "dog",
+   "pair_concepts": [
+    "cat",
+    "cat"
+   ],
+   "pair_category": "animal",
+   "odd_category": "animal",
+   "clip_within_pair": 0.636,
+   "clip_pair_to_odd": 0.475,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_02",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "horse_vs_cow",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 2,
+   "images": [
+    "stimuli_basic/horse_11.jpg",
+    "stimuli_basic/horse_07.jpg",
+    "stimuli_basic/cow_11.jpg"
+   ],
+   "concepts": [
+    "horse",
+    "horse",
+    "cow"
+   ],
+   "odd_concept": "cow",
+   "pair_concepts": [
+    "horse",
+    "horse"
+   ],
+   "pair_category": "animal",
+   "odd_category": "animal",
+   "clip_within_pair": 0.664,
+   "clip_pair_to_odd": 0.541,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_03",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "pig_vs_sheep",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/sheep_00.jpg",
+    "stimuli_basic/pig_03.jpg",
+    "stimuli_basic/pig_07.jpg"
+   ],
+   "concepts": [
+    "sheep",
+    "pig",
+    "pig"
+   ],
+   "odd_concept": "sheep",
+   "pair_concepts": [
+    "pig",
+    "pig"
+   ],
+   "pair_category": "animal",
+   "odd_category": "animal",
+   "clip_within_pair": 0.805,
+   "clip_pair_to_odd": 0.616,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_04",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "duck_vs_crow",
+   "contrast_distance": "far",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/crow_17.jpg",
+    "stimuli_basic/duck_00.jpg",
+    "stimuli_basic/duck_05.jpg"
+   ],
+   "concepts": [
+    "crow",
+    "duck",
+    "duck"
+   ],
+   "odd_concept": "crow",
+   "pair_concepts": [
+    "duck",
+    "duck"
+   ],
+   "pair_category": "bird",
+   "odd_category": "bird",
+   "clip_within_pair": 0.68,
+   "clip_pair_to_odd": 0.516,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_far"
+  },
+  {
+   "trial_id": "basic_05",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "crow_vs_duck",
+   "contrast_distance": "far",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/duck_08.jpg",
+    "stimuli_basic/crow_07.jpg",
+    "stimuli_basic/crow_08.jpg"
+   ],
+   "concepts": [
+    "duck",
+    "crow",
+    "crow"
+   ],
+   "odd_concept": "duck",
+   "pair_concepts": [
+    "crow",
+    "crow"
+   ],
+   "pair_category": "bird",
+   "odd_category": "bird",
+   "clip_within_pair": 0.769,
+   "clip_pair_to_odd": 0.507,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_far"
+  },
+  {
+   "trial_id": "basic_06",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "owl_vs_parrot",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 2,
+   "images": [
+    "stimuli_basic/owl_20.jpg",
+    "stimuli_basic/owl_02.jpg",
+    "stimuli_basic/parrot_25.jpg"
+   ],
+   "concepts": [
+    "owl",
+    "owl",
+    "parrot"
+   ],
+   "odd_concept": "parrot",
+   "pair_concepts": [
+    "owl",
+    "owl"
+   ],
+   "pair_category": "bird",
+   "odd_category": "bird",
+   "clip_within_pair": 0.703,
+   "clip_pair_to_odd": 0.633,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_07",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "parrot_vs_owl",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/parrot_26.jpg",
+    "stimuli_basic/owl_04.jpg",
+    "stimuli_basic/parrot_11.jpg"
+   ],
+   "concepts": [
+    "parrot",
+    "owl",
+    "parrot"
+   ],
+   "odd_concept": "owl",
+   "pair_concepts": [
+    "parrot",
+    "parrot"
+   ],
+   "pair_category": "bird",
+   "odd_category": "bird",
+   "clip_within_pair": 0.778,
+   "clip_pair_to_odd": 0.617,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_08",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "car_vs_truck",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 2,
+   "images": [
+    "stimuli_basic/car_05.jpg",
+    "stimuli_basic/car_09.jpg",
+    "stimuli_basic/truck_05.jpg"
+   ],
+   "concepts": [
+    "car",
+    "car",
+    "truck"
+   ],
+   "odd_concept": "truck",
+   "pair_concepts": [
+    "car",
+    "car"
+   ],
+   "pair_category": "vehicle",
+   "odd_category": "vehicle",
+   "clip_within_pair": 0.383,
+   "clip_pair_to_odd": 0.234,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_09",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "truck_vs_car",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/car_11.jpg",
+    "stimuli_basic/truck_04.jpg",
+    "stimuli_basic/truck_02.jpg"
+   ],
+   "concepts": [
+    "car",
+    "truck",
+    "truck"
+   ],
+   "odd_concept": "car",
+   "pair_concepts": [
+    "truck",
+    "truck"
+   ],
+   "pair_category": "vehicle",
+   "odd_category": "vehicle",
+   "clip_within_pair": 0.516,
+   "clip_pair_to_odd": 0.234,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_10",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "bus_vs_train",
+   "contrast_distance": "far",
+   "n_objects": 3,
+   "oddity_index": 2,
+   "images": [
+    "stimuli_basic/bus_03.jpg",
+    "stimuli_basic/bus_11.jpg",
+    "stimuli_basic/train_03.jpg"
+   ],
+   "concepts": [
+    "bus",
+    "bus",
+    "train"
+   ],
+   "odd_concept": "train",
+   "pair_concepts": [
+    "bus",
+    "bus"
+   ],
+   "pair_category": "vehicle",
+   "odd_category": "vehicle",
+   "clip_within_pair": 0.689,
+   "clip_pair_to_odd": 0.432,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_far"
+  },
+  {
+   "trial_id": "basic_11",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "airplane_vs_helicopter",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/airplane_02.jpg",
+    "stimuli_basic/helicopter_06.jpg",
+    "stimuli_basic/airplane_03.jpg"
+   ],
+   "concepts": [
+    "airplane",
+    "helicopter",
+    "airplane"
+   ],
+   "odd_concept": "helicopter",
+   "pair_concepts": [
+    "airplane",
+    "airplane"
+   ],
+   "pair_category": "vehicle",
+   "odd_category": "vehicle",
+   "clip_within_pair": 0.446,
+   "clip_pair_to_odd": 0.457,
+   "appearance": "conflict",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_12",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "bike_vs_motorcycle",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 2,
+   "images": [
+    "stimuli_basic/bike_08.jpg",
+    "stimuli_basic/bike_15.jpg",
+    "stimuli_basic/motorcycle_11.jpg"
+   ],
+   "concepts": [
+    "bike",
+    "bike",
+    "motorcycle"
+   ],
+   "odd_concept": "motorcycle",
+   "pair_concepts": [
+    "bike",
+    "bike"
+   ],
+   "pair_category": "vehicle",
+   "odd_category": "vehicle",
+   "clip_within_pair": 0.522,
+   "clip_pair_to_odd": 0.39,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_13",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "bike_vs_tricycle",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/tricycle_11.jpg",
+    "stimuli_basic/bike_06.jpg",
+    "stimuli_basic/bike_17.jpg"
+   ],
+   "concepts": [
+    "tricycle",
+    "bike",
+    "bike"
+   ],
+   "odd_concept": "tricycle",
+   "pair_concepts": [
+    "bike",
+    "bike"
+   ],
+   "pair_category": "vehicle",
+   "odd_category": "vehicle",
+   "clip_within_pair": 0.578,
+   "clip_pair_to_odd": 0.535,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_14",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "apple_vs_orange",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/orange_08.jpg",
+    "stimuli_basic/apple_09.jpg",
+    "stimuli_basic/apple_07.jpg"
+   ],
+   "concepts": [
+    "orange",
+    "apple",
+    "apple"
+   ],
+   "odd_concept": "orange",
+   "pair_concepts": [
+    "apple",
+    "apple"
+   ],
+   "pair_category": "fruit",
+   "odd_category": "fruit",
+   "clip_within_pair": 0.794,
+   "clip_pair_to_odd": 0.589,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_15",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "orange_vs_apple",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/apple_00.jpg",
+    "stimuli_basic/orange_02.jpg",
+    "stimuli_basic/orange_05.jpg"
+   ],
+   "concepts": [
+    "apple",
+    "orange",
+    "orange"
+   ],
+   "odd_concept": "apple",
+   "pair_concepts": [
+    "orange",
+    "orange"
+   ],
+   "pair_category": "fruit",
+   "odd_category": "fruit",
+   "clip_within_pair": 0.783,
+   "clip_pair_to_odd": 0.541,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_16",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "banana_vs_pear",
+   "contrast_distance": "far",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/banana_08.jpg",
+    "stimuli_basic/pear_09.jpg",
+    "stimuli_basic/banana_00.jpg"
+   ],
+   "concepts": [
+    "banana",
+    "pear",
+    "banana"
+   ],
+   "odd_concept": "pear",
+   "pair_concepts": [
+    "banana",
+    "banana"
+   ],
+   "pair_category": "fruit",
+   "odd_category": "fruit",
+   "clip_within_pair": 0.72,
+   "clip_pair_to_odd": 0.587,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_far"
+  },
+  {
+   "trial_id": "basic_17",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "raspberry_vs_peach",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/peach_12.jpg",
+    "stimuli_basic/raspberry_09.jpg",
+    "stimuli_basic/raspberry_02.jpg"
+   ],
+   "concepts": [
+    "peach",
+    "raspberry",
+    "raspberry"
+   ],
+   "odd_concept": "peach",
+   "pair_concepts": [
+    "raspberry",
+    "raspberry"
+   ],
+   "pair_category": "fruit",
+   "odd_category": "fruit",
+   "clip_within_pair": 0.71,
+   "clip_pair_to_odd": 0.576,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_18",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "chair_vs_table",
+   "contrast_distance": "far",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/table_02.jpg",
+    "stimuli_basic/chair_03.jpg",
+    "stimuli_basic/chair_04.jpg"
+   ],
+   "concepts": [
+    "table",
+    "chair",
+    "chair"
+   ],
+   "odd_concept": "table",
+   "pair_concepts": [
+    "chair",
+    "chair"
+   ],
+   "pair_category": "furniture",
+   "odd_category": "furniture",
+   "clip_within_pair": 0.563,
+   "clip_pair_to_odd": 0.559,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_far"
+  },
+  {
+   "trial_id": "basic_19",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "table_vs_chair",
+   "contrast_distance": "far",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/chair_00.jpg",
+    "stimuli_basic/table_07.jpg",
+    "stimuli_basic/table_01.jpg"
+   ],
+   "concepts": [
+    "chair",
+    "table",
+    "table"
+   ],
+   "odd_concept": "chair",
+   "pair_concepts": [
+    "table",
+    "table"
+   ],
+   "pair_category": "furniture",
+   "odd_category": "furniture",
+   "clip_within_pair": 0.476,
+   "clip_pair_to_odd": 0.529,
+   "appearance": "conflict",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_far"
+  },
+  {
+   "trial_id": "basic_20",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "couch_vs_mattress",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 0,
+   "images": [
+    "stimuli_basic/mattress_11.jpg",
+    "stimuli_basic/couch_00.jpg",
+    "stimuli_basic/couch_04.jpg"
+   ],
+   "concepts": [
+    "mattress",
+    "couch",
+    "couch"
+   ],
+   "odd_concept": "mattress",
+   "pair_concepts": [
+    "couch",
+    "couch"
+   ],
+   "pair_category": "furniture",
+   "odd_category": "furniture",
+   "clip_within_pair": 0.518,
+   "clip_pair_to_odd": 0.529,
+   "appearance": "conflict",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_21",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "dresser_vs_stool",
+   "contrast_distance": "far",
+   "n_objects": 3,
+   "oddity_index": 2,
+   "images": [
+    "stimuli_basic/dresser_01.jpg",
+    "stimuli_basic/dresser_11.jpg",
+    "stimuli_basic/stool_02.jpg"
+   ],
+   "concepts": [
+    "dresser",
+    "dresser",
+    "stool"
+   ],
+   "odd_concept": "stool",
+   "pair_concepts": [
+    "dresser",
+    "dresser"
+   ],
+   "pair_category": "furniture",
+   "odd_category": "furniture",
+   "clip_within_pair": 0.526,
+   "clip_pair_to_odd": 0.395,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_far"
+  },
+  {
+   "trial_id": "basic_22",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "cup_vs_glass",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/cup_08.jpg",
+    "stimuli_basic/glass_02.jpg",
+    "stimuli_basic/cup_14.jpg"
+   ],
+   "concepts": [
+    "cup",
+    "glass",
+    "cup"
+   ],
+   "odd_concept": "glass",
+   "pair_concepts": [
+    "cup",
+    "cup"
+   ],
+   "pair_category": "tableware",
+   "odd_category": "tableware",
+   "clip_within_pair": 0.663,
+   "clip_pair_to_odd": 0.489,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_23",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "bowl_vs_plate",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 2,
+   "images": [
+    "stimuli_basic/bowl_01.jpg",
+    "stimuli_basic/bowl_07.jpg",
+    "stimuli_basic/plate_05.jpg"
+   ],
+   "concepts": [
+    "bowl",
+    "bowl",
+    "plate"
+   ],
+   "odd_concept": "plate",
+   "pair_concepts": [
+    "bowl",
+    "bowl"
+   ],
+   "pair_category": "tableware",
+   "odd_category": "tableware",
+   "clip_within_pair": 0.64,
+   "clip_pair_to_odd": 0.631,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_24",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "spoon_vs_fork",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/spoon_07.jpg",
+    "stimuli_basic/fork_11.jpg",
+    "stimuli_basic/spoon_04.jpg"
+   ],
+   "concepts": [
+    "spoon",
+    "fork",
+    "spoon"
+   ],
+   "odd_concept": "fork",
+   "pair_concepts": [
+    "spoon",
+    "spoon"
+   ],
+   "pair_category": "tableware",
+   "odd_category": "tableware",
+   "clip_within_pair": 0.7,
+   "clip_pair_to_odd": 0.658,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_25",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "kettle_vs_pan",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/kettle_10.jpg",
+    "stimuli_basic/pan_01.jpg",
+    "stimuli_basic/kettle_09.jpg"
+   ],
+   "concepts": [
+    "kettle",
+    "pan",
+    "kettle"
+   ],
+   "odd_concept": "pan",
+   "pair_concepts": [
+    "kettle",
+    "kettle"
+   ],
+   "pair_category": "tableware",
+   "odd_category": "tableware",
+   "clip_within_pair": 0.624,
+   "clip_pair_to_odd": 0.559,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_26",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "shoe_vs_boot",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/shoe_14.jpg",
+    "stimuli_basic/boot_05.jpg",
+    "stimuli_basic/shoe_13.jpg"
+   ],
+   "concepts": [
+    "shoe",
+    "boot",
+    "shoe"
+   ],
+   "odd_concept": "boot",
+   "pair_concepts": [
+    "shoe",
+    "shoe"
+   ],
+   "pair_category": "clothing",
+   "odd_category": "clothing",
+   "clip_within_pair": 0.381,
+   "clip_pair_to_odd": 0.431,
+   "appearance": "conflict",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_27",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "boot_vs_shoe",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/boot_09.jpg",
+    "stimuli_basic/shoe_05.jpg",
+    "stimuli_basic/boot_14.jpg"
+   ],
+   "concepts": [
+    "boot",
+    "shoe",
+    "boot"
+   ],
+   "odd_concept": "shoe",
+   "pair_concepts": [
+    "boot",
+    "boot"
+   ],
+   "pair_category": "clothing",
+   "odd_category": "clothing",
+   "clip_within_pair": 0.594,
+   "clip_pair_to_odd": 0.462,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_28",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "pants_vs_shorts",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 1,
+   "images": [
+    "stimuli_basic/pants_06.jpg",
+    "stimuli_basic/shorts_12.jpg",
+    "stimuli_basic/pants_02.jpg"
+   ],
+   "concepts": [
+    "pants",
+    "shorts",
+    "pants"
+   ],
+   "odd_concept": "shorts",
+   "pair_concepts": [
+    "pants",
+    "pants"
+   ],
+   "pair_category": "clothing",
+   "odd_category": "clothing",
+   "clip_within_pair": 0.521,
+   "clip_pair_to_odd": 0.53,
+   "appearance": "conflict",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  },
+  {
+   "trial_id": "basic_29",
+   "tier": "basic_level",
+   "dataset": "things_basic_level",
+   "condition": "hat_vs_beanie",
+   "contrast_distance": "near",
+   "n_objects": 3,
+   "oddity_index": 2,
+   "images": [
+    "stimuli_basic/hat_00.jpg",
+    "stimuli_basic/hat_03.jpg",
+    "stimuli_basic/beanie_05.jpg"
+   ],
+   "concepts": [
+    "hat",
+    "hat",
+    "beanie"
+   ],
+   "odd_concept": "beanie",
+   "pair_concepts": [
+    "hat",
+    "hat"
+   ],
+   "pair_category": "clothing",
+   "odd_category": "clothing",
+   "clip_within_pair": 0.546,
+   "clip_pair_to_odd": 0.486,
+   "appearance": "congruent",
+   "spose_sim_pair": null,
+   "p_correct_spose": null,
+   "vis_sim_pair": null,
+   "vis_margin": null,
+   "human_avg_adult": null,
+   "rt_avg_adult": null,
+   "difficulty_bin": "basic_near"
+  }
+ ]
+}

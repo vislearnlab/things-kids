@@ -19,7 +19,7 @@ PUBLIC = PROJECT / 'public'
 
 REQUIRED_TRIAL_FIELDS = {'trial_id', 'tier', 'dataset', 'condition',
                          'n_objects', 'oddity_index', 'images', 'human_avg_adult'}
-ALLOWED_TIERS = {'training', 'warmup', 'familiar', 'novel', 'catch'}
+ALLOWED_TIERS = {'training', 'warmup', 'familiar', 'novel', 'catch', 'basic_level'}
 
 errors = []
 
@@ -42,7 +42,7 @@ def check_manifest():
     trials = flatten(m)
     if trials is None:
         fail("manifest must have a 'trials' list, or the banked "
-             "{intro, core, blocks, adult_blocks} shape")
+             "{intro, core, blocks, adult_blocks, basic_level} shape")
         return None
     ok(f"loaded {len(trials)} trials")
     return trials
@@ -60,7 +60,7 @@ def flatten(m):
     """
     if isinstance(m.get('trials'), list):
         return m['trials']
-    keys = ('intro', 'core', 'blocks', 'adult_blocks')
+    keys = ('intro', 'core', 'blocks', 'adult_blocks', 'basic_level')
     if not any(k in m for k in keys):
         return None
     trials = []

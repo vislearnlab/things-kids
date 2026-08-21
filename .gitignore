@@ -20,3 +20,11 @@ package-lock.json
 rendering/_raw/
 analysis/pilot_data/
 tests/_shot_*.png
+
+# Knitted analysis output and stimulus contact sheets — regenerate with
+# `Rscript -e 'rmarkdown::render("analysis/results.Rmd")'` or the scripts in
+# scripts/. Same reasoning as analysis/sanity_check.html above.
+analysis/results.html
+analysis/*_preview.html
+analysis/*_contactsheet.png
+analysis/_examples.png
