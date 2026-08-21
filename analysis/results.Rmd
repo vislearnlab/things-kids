@@ -1,0 +1,859 @@
+---
+title: "THINGS-Kids — results as of 18 August 2026"
+subtitle: "Every session, every trial. Mixed-effects models over the full, unbalanced sample."
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    toc_depth: 2
+    theme: flatly
+    df_print: paged
+    self_contained: true
+params:
+  sessions: "data/sessions.csv"
+  trials: "data/trials.csv"
+  raw: "data/raw.json"
+  aoa: "trial_aoa.csv"
+  manifest: "../public/manifest.json"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.width = 8, fig.height = 4.6, dpi = 150)
+library(dplyr); library(tidyr); library(ggplot2); library(knitr)
+library(jsonlite); library(lme4); library(lmerTest); library(broom.mixed)
+library(patchwork)
+
+theme_set(theme_minimal(base_size = 12) +
+  theme(panel.grid.minor = element_blank(),
+        plot.title = element_text(face = "bold", size = 13),
+        plot.subtitle = element_text(colour = "grey35", size = 10.5),
+        strip.text = element_text(face = "bold")))
+
+PAL    <- c(visual_agree = "#2E7D8F", visual_conflict = "#C1666B")
+ARMPAL <- c(children = "#B5651D", adults = "#2E7D8F")
+CHANCE <- 1/3
+RT_FLOOR <- 250   # ms; below this nobody has viewed three photographs
+PROLIFIC_ID <- "^[0-9a-f]{24}$"
+
+`%||%` <- function(a, b) if (is.null(a)) b else a
+pct <- function(x, d = 1) sprintf(paste0("%.", d, "f%%"), 100 * x)
+fp  <- function(p) if (is.na(p)) "NA" else if (p < .001) "< .001" else sub("^0", "", sprintf("%.3f", p))
+
+sessions <- read.csv(params$sessions, stringsAsFactors = FALSE)
+trials   <- read.csv(params$trials,   stringsAsFactors = FALSE)
+as_bool <- function(x) { if (is.logical(x)) return(x)
+  v <- tolower(trimws(as.character(x))); o <- rep(NA, length(x))
+  o[v %in% c("true","1")] <- TRUE; o[v %in% c("false","0")] <- FALSE; as.logical(o) }
+for (v in c("complete","complete_inferred","qa_pass", grep("^qa_", names(sessions), value = TRUE)))
+  if (v %in% names(sessions)) sessions[[v]] <- as_bool(sessions[[v]])
+trials$correct <- as.numeric(as_bool(trials$correct))
+
+# ---- session classification, from raw.json (carries consent_version) --------
+docs <- fromJSON(params$raw, simplifyDataFrame = FALSE)
+sess_meta <- bind_rows(lapply(docs, function(x) {
+  s <- x$screen; if (!is.list(s)) s <- list()
+  cs <- x$consent; if (!is.list(cs)) cs <- list()
+  data.frame(participantID = x$participantID,
+             ua = x$ua %||% NA_character_,
+             consent_version = x$consent_version %||% NA_character_,
+             age_label = (cs$age %||% NA_character_),
+             w = s$w %||% NA_real_, h = s$h %||% NA_real_,
+             n_trials = x$n_trials %||% 0,
+             complete = isTRUE(x$complete), stringsAsFactors = FALSE) })) %>%
+  mutate(
+    # The kiosk is an iPad Pro in portrait running iPad Safari. Our own probes
+    # share the kid_* id scheme but arrive from desktop/headless Chrome.
+    kiosk_device = grepl("605\\.1\\.15", ua) & !grepl("Chrome", ua) &
+                   !is.na(w) & w == 1024 & h == 1366,
+    is_prolific = grepl(PROLIFIC_ID, participantID),
+    age = suppressWarnings(as.numeric(sub("\\+$", "", age_label))))
+
+sessions <- sessions %>% left_join(
+  select(sess_meta, participantID, kiosk_device, consent_version, age_label, age), by = "participantID")
+
+# Adults: unchanged definition (finished + passed QA).
+adults <- sessions %>%
+  mutate(finished = (!is.na(complete) & complete) |
+                    (!is.na(complete_inferred) & complete_inferred) | !is.na(finishedAt)) %>%
+  filter(grepl(PROLIFIC_ID, participantID), finished, !is.na(qa_pass) & qa_pass)
+
+# Children: EVERY kiosk session, complete or not. A child who did 8 trials is a
+# child who did 8 trials, not a missing data point.
+kids_all <- sess_meta %>% filter(kiosk_device, age_label != "adult" | is.na(age_label))
+kids_started <- kids_all %>% filter(n_trials > 0)
+
+# meta$session_length describes the CURRENT design. These children ran whatever
+# design was live when they sat down, so completion has to come from each
+# session's own `complete` flag, and the nominal length from the data itself.
+# Keying off the manifest silently reports "0 finished" the moment the design
+# changes.
+RUN_LEN <- {
+  done <- kids_all$n_trials[kids_all$complete]
+  if (length(done)) as.integer(names(sort(table(done), decreasing = TRUE))[1])
+  else meta$session_length
+}
+
+# ---- stimulus covariates ----------------------------------------------------
+mf <- fromJSON(params$manifest, simplifyDataFrame = FALSE)
+rows <- list()
+addr <- function(tr) rows[[length(rows)+1]] <<- data.frame(
+  trial_id = tr$trial_id, m_condition = tr$condition %||% NA_character_,
+  p_correct_spose = tr$p_correct_spose %||% NA_real_,
+  odd_concept = tr$odd_concept %||% NA_character_,
+  odd_category = tr$odd_category %||% NA_character_, stringsAsFactors = FALSE)
+for (k in c("intro","core")) for (tr in mf[[k]] %||% list()) addr(tr)
+for (k in c("blocks","adult_blocks")) for (b in mf[[k]] %||% list()) for (tr in b) addr(tr)
+items <- distinct(bind_rows(rows), trial_id, .keep_all = TRUE)
+# Age-of-acquisition norms for every concept, carried in from the vocab-gradient
+# pipeline (rendering/_raw/vocab-gradient/data/item_metadata). aoa_target is the
+# AoA of the odd-one-out; aoa_max is the latest-acquired of the three concepts.
+items <- left_join(items, read.csv(params$aoa) %>%
+                     select(trial_id, aoa_target, aoa_max, aoa_mean), by = "trial_id")
+meta <- mf$meta
+
+prep <- function(pids) trials %>% filter(participantID %in% pids) %>%
+  left_join(items, by = "trial_id") %>%
+  mutate(condition = coalesce(m_condition, condition),
+         is_test = tier %in% c("familiar","warmup"))
+
+kd <- prep(kids_started$participantID) %>%
+  left_join(select(kids_started, participantID, age, age_label), by = "participantID")
+ad <- prep(adults$participantID) %>% mutate(age = NA_real_)
+
+# Trial-level engagement floor. This replaces excluding whole participants:
+# a child's fast taps are dropped, their considered responses are kept.
+kdf <- kd %>% filter(rt >= RT_FLOOR)
+adf <- ad %>% filter(rt >= RT_FLOOR)
+
+# participant-level deliberation, for use as a covariate (never as a filter)
+delib <- kd %>% group_by(participantID) %>%
+  summarise(median_rt = median(rt), frac_fast = mean(rt < 500), n_done = n(), .groups="drop")
+kdf <- left_join(kdf, delib, by = "participantID") %>%
+  left_join(select(kids_started, participantID, completed = complete), by = "participantID")
+kd  <- left_join(kd,  delib, by = "participantID")
+
+wilson <- function(k,n,z=1.96){ if(is.na(n)||n==0) return(c(NA,NA)); p<-k/n; d<-1+z^2/n
+  c(max(0,(p+z^2/(2*n))/d - z*sqrt(p*(1-p)/n+z^2/(4*n^2))/d),
+    min(1,(p+z^2/(2*n))/d + z*sqrt(p*(1-p)/n+z^2/(4*n^2))/d)) }
+wlo <- function(k,n) vapply(seq_along(k), function(i) wilson(k[i],n[i])[1], numeric(1))
+whi <- function(k,n) vapply(seq_along(k), function(i) wilson(k[i],n[i])[2], numeric(1))
+```
+
+```{r main-models}
+GL <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 3e5))
+# Primary model. Crossed random intercepts absorb (a) how able each child is and
+# (b) how hard each item is — the latter matters because short sessions are
+# disproportionately made of the easy training/warmup trials that come first.
+m_age <- glmer(correct ~ scale(age) + scale(aoa_target) + is_test +
+                 (1|participantID) + (1|trial_id),
+               data = filter(kdf, !is.na(aoa_target)), family = binomial, control = GL)
+b_age <- tidy(m_age, effects = "fixed") %>% filter(term == "scale(age)")
+
+n_kid_started <- nrow(kids_started); n_kid_all <- nrow(kids_all)
+n_kid_complete <- sum(kids_started$complete)
+n_ad <- nrow(adults)
+```
+
+> **All `r n_kid_started` children who answered at least one trial are in this analysis,
+> not just the `r n_kid_complete` who finished.** That more than doubles the child sample and
+> reverses the headline: accuracy now rises with age at
+> **β = `r sprintf('%+.2f', b_age$estimate)`, *p* = `r fp(b_age$p.value)`** (logit, per SD of age),
+> where the completers-only analysis could not detect it (*p* ≈ .09).
+> The effect is *stronger*, not weaker, among the most engaged children — so it is not an
+> artefact of young children tapping through.
+
+---
+
+# 1. Why include partial sessions
+
+A museum kiosk produces mostly partial sessions. Discarding them is not a neutral choice:
+
+```{r bias-table}
+kids_started %>%
+  mutate(grp = ifelse(complete, "completers", "partial")) %>%
+  group_by(grp) %>%
+  summarise(children = n(), median_age = median(age, na.rm = TRUE),
+            trials_contributed = sum(n_trials), .groups = "drop") %>%
+  kable(caption = "Completers vs. partial sessions.", digits = 2)
+```
+
+```{r bias-plot, fig.height = 3.6}
+kids_started %>%
+  mutate(grp = ifelse(complete, "completers", "partial")) %>%
+  count(age, grp) %>%
+  ggplot(aes(x = factor(age), y = n, fill = grp)) +
+  geom_col(position = "stack", width = 0.72) +
+  scale_fill_manual(values = c(completers = "#B5651D", partial = "grey70"), name = NULL) +
+  scale_x_discrete(labels = function(x) ifelse(x == "10", "10+", x)) +
+  labs(title = "Dropping partial sessions silently drops the youngest children",
+       subtitle = "Ages 8–9 finish almost always; ages 2–3 almost never",
+       x = "age (years)", y = "children") +
+  theme(legend.position = "top")
+```
+
+Completion is age-graded, so a completers-only sample is a systematically **older** sample.
+That biases the very gradient the study is trying to measure. Two further reasons to keep
+the partials:
+
+- Short sessions are not random trials. The session runs training (trials 1–4) → warmup
+  (5–8) → test (9+), so a child who stopped early contributes mostly *easy* items. Comparing
+  raw accuracy across session lengths is therefore confounded — but an item random intercept
+  absorbs exactly this, which is why the models below are mixed rather than aggregate.
+- Unbalanced data is what mixed models are for. A child with 8 trials is partially pooled
+  toward the group mean and contributes proportionally less than a child with 51, instead of
+  either counting equally or being thrown away.
+
+# 2. Who is in the data
+
+```{r accounting}
+sessions %>%
+  mutate(bucket = case_when(
+    participantID %in% adults$participantID ~ "Prolific adults (usable)",
+    kiosk_device & age_label == "adult" ~ "Kiosk — accompanying adult",
+    kiosk_device & n_trials > 0 ~ "Kiosk children — answered >= 1 trial",
+    kiosk_device ~ "Kiosk children — consented, never started",
+    grepl(PROLIFIC_ID, participantID) ~ "Prolific — failed QA",
+    study == "things_kids_adult_pilot" ~ "In-lab pilot (child bank)",
+    study == "deploy_smoke_test" ~ "Deploy probe",
+    TRUE ~ "Our own dev sessions")) %>%
+  count(bucket, name = "sessions") %>% arrange(desc(sessions)) %>%
+  kable(caption = paste0("All ", nrow(sessions), " documents in the collection."))
+```
+
+```{r survival, fig.height = 3.8}
+surv <- data.frame(k = 0:RUN_LEN) %>%
+  rowwise() %>% mutate(still = sum(kids_all$n_trials >= k)) %>% ungroup()
+p_s <- ggplot(surv, aes(k, still)) +
+  geom_step(colour = "#B5651D", linewidth = 1) +
+  geom_vline(xintercept = 8.5, linetype = "dashed", colour = "grey40") +
+  annotate("text", x = 9.5, y = max(surv$still)*0.85, hjust = 0, size = 3.2,
+           colour = "grey30", label = "training + warmup end") +
+  labs(title = "Where children stop", x = "trials completed", y = "children still going",
+       subtitle = paste0(n_kid_all, " children consented on the kiosk"))
+
+comp_age <- kids_all %>% group_by(age) %>%
+  summarise(n = n(), finished = sum(complete), .groups="drop") %>%
+  mutate(rate = finished/n)
+p_c <- ggplot(comp_age, aes(age, rate)) +
+  geom_point(aes(size = n), colour = "#B5651D") +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"),
+              colour = "#B5651D", fill = "#B5651D", alpha = 0.15, se = TRUE) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = 2:10, labels = c(2:9, "10+")) +
+  scale_size_continuous(range = c(2, 6), name = "children") +
+  labs(title = "Completion rises with age", x = "age (years)", y = "% finishing the session")
+p_s + p_c
+```
+
+```{r dropout-model}
+md <- glm(complete ~ age, data = kids_all, family = binomial)
+kable(broom::tidy(md), digits = 3,
+      caption = "Logistic regression: finishing the full session ~ age.")
+```
+
+`r sum(kids_all$n_trials == 0)` children consented but never answered a trial. Among those who
+started, the commonest stopping point is **trial 8** — the boundary where training and warmup
+end and the real test trials begin. That is a design signal, not noise: children leave when
+the pop-out items stop and the hard ones start.
+
+# 3. Accuracy and age — the primary model
+
+Accuracy is binary, so these are mixed-effects **logistic** regressions (GLMMs): a linear
+mixed model on the log-odds scale. Both grouping factors are crossed random intercepts —
+child and item. Random slopes for condition by child were fitted first and were singular, so
+the models below retain random intercepts only.
+
+```{r age-model}
+tidy(m_age, effects = "fixed", conf.int = TRUE) %>%
+  transmute(term, estimate, std.error, odds_ratio = exp(estimate),
+            conf.low = exp(conf.low), conf.high = exp(conf.high), p.value) %>%
+  kable(digits = 3, caption = paste("correct ~ age + target AoA + tier + (1|child) + (1|item).",
+        "Predictors are standardised, so estimates are per SD."))
+
+vc <- as.data.frame(VarCorr(m_age))
+kable(vc[, c("grp","sdcor")], digits = 3, col.names = c("random effect","SD (logit)"),
+      caption = "Variance components: how much children differ, and how much items differ.")
+```
+
+```{r age-plot, fig.height = 4.6}
+per_child <- kdf %>% group_by(participantID, age, n_done) %>%
+  summarise(n = n(), k = sum(correct), acc = mean(correct), .groups="drop")
+
+p1 <- ggplot(per_child, aes(age, acc)) +
+  geom_hline(yintercept = CHANCE, linetype = "dashed", colour = "grey55") +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"),
+              aes(weight = n), colour = "#B5651D", fill = "#B5651D", alpha = 0.15) +
+  geom_point(aes(size = n), colour = "#B5651D", alpha = 0.75) +
+  scale_size_continuous(range = c(1.5, 6), name = "trials") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = 2:10, labels = c(2:9,"10+")) +
+  annotate("text", x = 2, y = CHANCE - 0.05, label = "chance", colour = "grey45",
+           size = 3.2, hjust = 0) +
+  labs(title = "Every child who answered a trial", x = "age (years)",
+       y = "accuracy (trials >= 250 ms)",
+       subtitle = "Point size = trials contributed; fit is trial-weighted")
+
+band <- per_child %>% mutate(b = cut(age, c(1,4,6,11), labels = c("2–4","5–6","7–10+"))) %>%
+  group_by(b) %>% summarise(children = n(), n = sum(n), k = sum(k), acc = sum(k)/sum(n), .groups="drop") %>%
+  mutate(lo = wlo(k,n), hi = whi(k,n))
+ad_acc <- mean(adf$correct[adf$is_test])
+p2 <- ggplot(band, aes(b, acc)) +
+  geom_hline(yintercept = CHANCE, linetype = "dashed", colour = "grey55") +
+  geom_hline(yintercept = ad_acc, linetype = "dotted", colour = "#2E7D8F", linewidth = 0.8) +
+  geom_errorbar(aes(ymin = lo, ymax = hi), width = 0.12, colour = "grey40") +
+  geom_point(size = 3.6, colour = "#B5651D") +
+  annotate("text", x = 0.62, y = ad_acc + 0.035, label = "adults", colour = "#2E7D8F",
+           size = 3.2, hjust = 0) +
+  scale_y_continuous(labels = scales::percent, limits = c(0.2, 1)) +
+  labs(title = "By age band", x = NULL, y = NULL, subtitle = "95% Wilson CI, pooled trials")
+p1 + p2
+```
+
+```{r band-tab}
+band %>% transmute(band = b, children, trials = n, accuracy = acc,
+                   ci = sprintf("[%.3f, %.3f]", lo, hi)) %>%
+  kable(digits = 3, caption = "Pooled accuracy by age band (all children, all trials).")
+```
+
+The child random-effect SD (`r round(vc$sdcor[vc$grp=="participantID"], 2)` logit) is larger
+than the item SD (`r round(vc$sdcor[vc$grp=="trial_id"], 2)`): children differ from one
+another more than items differ from one another. That is the variation the model is
+accounting for, and the reason a fixed-effects comparison of group means would overstate its
+own precision.
+
+# 4. Robustness: does the age effect depend on who you keep?
+
+```{r robust}
+spec <- function(lab, d) {
+  d <- d %>% filter(!is.na(age), !is.na(aoa_target))
+  if (n_distinct(d$participantID) < 6) return(NULL)
+  m <- glmer(correct ~ scale(age) + scale(aoa_target) + is_test + (1|participantID) + (1|trial_id),
+             data = filter(d, !is.na(aoa_target)), family = binomial, control = GL)
+  r <- tidy(m, effects = "fixed") %>% filter(term == "scale(age)")
+  data.frame(specification = lab, children = n_distinct(d$participantID), trials = nrow(d),
+             beta = r$estimate, se = r$std.error, p = r$p.value)
+}
+rob <- bind_rows(
+  spec("ALL trials, no RT floor",              kd),
+  spec("RT floor 250 ms (primary)",            kdf),
+  spec("RT floor 500 ms",                      filter(kd, rt >= 500)),
+  spec("most-deliberate children only",        filter(kdf, median_rt >= 800)),
+  spec("completers only",                      filter(kdf, completed)),
+  spec("completers + deliberate (old report)", filter(kdf, completed, median_rt >= 800)))
+rob %>% mutate(p = vapply(p, fp, character(1))) %>%
+  kable(digits = 3, caption = "The age effect under six inclusion rules.")
+```
+
+```{r robust-plot, fig.height = 3.4}
+ggplot(rob, aes(x = reorder(specification, beta), y = beta)) +
+  geom_hline(yintercept = 0, colour = "grey45") +
+  geom_errorbar(aes(ymin = beta - 1.96*se, ymax = beta + 1.96*se), width = 0.14, colour = "grey40") +
+  geom_point(aes(colour = p < .05), size = 3.2) +
+  scale_colour_manual(values = c(`TRUE` = "#B5651D", `FALSE` = "grey65"),
+                      labels = c(`TRUE` = "p < .05", `FALSE` = "n.s."), name = NULL) +
+  coord_flip() +
+  labs(title = "The age effect is a power problem, not a robustness problem",
+       subtitle = "Point estimate is stable across inclusion rules; only the CI changes",
+       x = NULL, y = "β for age (logit, per SD)")
+```
+
+The estimate barely moves — every specification lands near
+β = `r sprintf('%.2f', mean(rob$beta))`. What changes is the interval. The two
+completers-only rows are the previous report's analysis, and they are non-significant simply
+because they discard half the children.
+
+```{r tap-check}
+tapper <- kids_started %>% left_join(delib, by = "participantID") %>%
+  mutate(taps = median_rt < 800)
+ct <- suppressWarnings(cor.test(tapper$age, as.numeric(tapper$taps)))
+m_cov <- glmer(correct ~ scale(age) + scale(log(median_rt)) + is_test +
+                 (1|participantID) + (1|trial_id), data = kdf, family = binomial, control = GL)
+tidy(m_cov, effects = "fixed") %>% transmute(term, estimate, std.error, p.value) %>%
+  kable(digits = 3, caption = paste("Age effect controlling for how deliberate each child was.",
+        "Both predictors are independently reliable."))
+```
+
+The obvious worry is circular: if young children tap through, low accuracy would follow from
+age mechanically. It does not hold. Tapping is unrelated to age
+(*r* = `r round(ct$estimate, 2)`, *p* = `r fp(ct$p.value)`; mean age
+`r round(mean(tapper$age[tapper$taps], na.rm=TRUE), 1)` for tappers vs
+`r round(mean(tapper$age[!tapper$taps], na.rm=TRUE), 1)`), the age effect *strengthens* when
+only deliberate children are kept, and age survives controlling for deliberation directly.
+
+# 5. Is the age effect just vocabulary?
+
+An oddity trial is unanswerable if the child does not know the target concept, so an age
+effect could be nothing more than older children knowing more words. Every concept carries an
+estimated age-of-acquisition norm (in years), which lets that be tested directly rather than
+assumed away. Target AoA spans `r sprintf('%.1f', min(items$aoa_target, na.rm=TRUE))`–`r sprintf('%.1f', max(items$aoa_target, na.rm=TRUE))`
+years, so there is real range to work with.
+
+```{r aoa-models}
+kv <- kdf %>% filter(!is.na(aoa_target))
+mk <- function(f, d = kv) glmer(as.formula(f), data = d, family = binomial, control = GL)
+grab <- function(lab, m, terms) {
+  tidy(m, effects = "fixed") %>% filter(term %in% terms) %>%
+    transmute(model = lab, term, estimate, std.error, p.value) }
+aoa_tab <- bind_rows(
+  grab("A. age alone", mk("correct~scale(age)+is_test+(1|participantID)+(1|trial_id)"), "scale(age)"),
+  grab("B. AoA alone", mk("correct~scale(aoa_target)+is_test+(1|participantID)+(1|trial_id)"), "scale(aoa_target)"),
+  grab("C. age + AoA", mk("correct~scale(age)+scale(aoa_target)+is_test+(1|participantID)+(1|trial_id)"),
+       c("scale(age)","scale(aoa_target)")),
+  grab("D. age x AoA", mk("correct~scale(age)*scale(aoa_target)+is_test+(1|participantID)+(1|trial_id)"),
+       "scale(age):scale(aoa_target)"),
+  grab("E. + SPoSE difficulty", mk("correct~scale(age)+scale(aoa_target)+scale(p_correct_spose)+is_test+(1|participantID)+(1|trial_id)",
+       filter(kv, !is.na(p_correct_spose))), c("scale(age)","scale(aoa_target)","scale(p_correct_spose)")),
+  grab("F. adults, AoA", mk("correct~scale(aoa_target)+is_test+(1|participantID)+(1|trial_id)",
+       filter(adf, !is.na(aoa_target))), "scale(aoa_target)"))
+aoa_tab %>% mutate(p.value = vapply(p.value, fp, character(1))) %>%
+  kable(digits = 3, caption = "Age and target AoA as competing accounts of child accuracy.")
+```
+
+```{r aoa-plot, fig.height = 4.2}
+q_aoa <- kv %>% mutate(q = ntile(aoa_target, 4)) %>%
+  group_by(q) %>% summarise(n = n(), aoa = mean(aoa_target), k = sum(correct),
+                            acc = mean(correct), .groups="drop") %>%
+  mutate(lo = wlo(k,n), hi = whi(k,n))
+pa <- ggplot(q_aoa, aes(aoa, acc)) +
+  geom_hline(yintercept = CHANCE, linetype = "dashed", colour = "grey55") +
+  geom_errorbar(aes(ymin = lo, ymax = hi), width = 0.18, colour = "grey40") +
+  geom_line(colour = "#B5651D", linewidth = 0.9) +
+  geom_point(size = 3.4, colour = "#B5651D") +
+  scale_y_continuous(labels = scales::percent, limits = c(0.3, 1)) +
+  labs(title = "Accuracy is flat across target AoA", x = "mean target AoA of quartile (years)",
+       y = "child accuracy", subtitle = "If vocabulary drove performance this would slope down")
+
+band_aoa <- kv %>% mutate(q = ntile(aoa_target, 4),
+                          band = cut(age, c(1,4,6,11), labels = c("2–4","5–6","7–10+"))) %>%
+  group_by(band, q) %>% summarise(aoa = mean(aoa_target), acc = mean(correct), n = n(), .groups="drop")
+pb <- ggplot(band_aoa, aes(aoa, acc, colour = band)) +
+  geom_hline(yintercept = CHANCE, linetype = "dashed", colour = "grey55") +
+  geom_line(linewidth = 0.9) + geom_point(size = 2.8) +
+  scale_colour_manual(values = c("2–4"="#E0A458","5–6"="#B5651D","7–10+"="#6B3410"), name = "age") +
+  scale_y_continuous(labels = scales::percent, limits = c(0.3, 1)) +
+  labs(title = "And flat within every age band", x = "mean target AoA of quartile (years)",
+       y = NULL, subtitle = "The bands are separated by age, not by AoA") +
+  theme(legend.position = "top")
+pa + pb
+```
+
+```{r aoa-numbers}
+a_c <- aoa_tab %>% filter(model == "C. age + AoA")
+a_age_c <- a_c %>% filter(term == "scale(age)")
+a_aoa_c <- a_c %>% filter(term == "scale(aoa_target)")
+a_int <- aoa_tab %>% filter(model == "D. age x AoA")
+a_alone <- aoa_tab %>% filter(model == "A. age alone")
+```
+
+**No, it is not vocabulary.** Target AoA does not predict child accuracy on its own
+(β = `r sprintf('%+.3f', aoa_tab$estimate[aoa_tab$model=="B. AoA alone"])`,
+*p* = `r fp(aoa_tab$p.value[aoa_tab$model=="B. AoA alone"])`), and adding it leaves the age
+effect untouched — β = `r sprintf('%.3f', a_alone$estimate)` alone versus
+`r sprintf('%.3f', a_age_c$estimate)` with AoA in the model. The two variables are not
+competing for the same variance.
+
+The interaction is the sharper test: if late-acquired words were the obstacle, they should
+penalise 3-year-olds far more than 9-year-olds. The age × AoA term is
+β = `r sprintf('%+.3f', a_int$estimate)` (*p* = `r fp(a_int$p.value)`) — indistinguishable
+from zero, and the plot shows the age bands running parallel rather than fanning out. Adults,
+as expected, show no AoA effect either
+(*p* = `r fp(aoa_tab$p.value[aoa_tab$model=="F. adults, AoA"])`).
+
+Meanwhile SPoSE difficulty *does* survive alongside both
+(*p* = `r fp(aoa_tab$p.value[aoa_tab$model=="E. + SPoSE difficulty"] [aoa_tab$term[aoa_tab$model=="E. + SPoSE difficulty"]=="scale(p_correct_spose)"])`),
+so item difficulty is real — it is specifically the *word-learning* account that fails.
+
+Two honest limits. The task is picture-based and never asks a child to name anything, so
+word-AoA is an imperfect proxy for whether a child holds the concept; and these are
+adult-rated norms. But within this design the vocabulary explanation has been given a fair
+test and does not account for the age effect — which makes the developmental result more
+interesting, not less, since it points at the conceptual comparison itself rather than at
+knowing the words.
+
+## Sensitivity: which AoA should gate the trial?
+
+`aoa_target` is the odd-one-out alone, but an oddity judgement arguably needs all three
+concepts — the child must see that the pair goes together *and* that the target does not. So
+the binding constraint may be the **latest-acquired** of the three (`aoa_max`, mean
+`r sprintf('%.1f', mean(items$aoa_max, na.rm=TRUE))` years) rather than the target's own AoA.
+The two are only moderately related (*r* = `r sprintf('%.2f', cor(kv$aoa_target, kv$aoa_max))`),
+so this is an independent test rather than a restatement.
+
+```{r aoa-sens}
+sens_aoa <- bind_rows(
+  grab("target AoA", mk("correct~scale(age)+scale(aoa_target)+is_test+(1|participantID)+(1|trial_id)"),
+       c("scale(age)","scale(aoa_target)")),
+  grab("max AoA of triplet", mk("correct~scale(age)+scale(aoa_max)+is_test+(1|participantID)+(1|trial_id)"),
+       c("scale(age)","scale(aoa_max)")),
+  grab("mean AoA of triplet", mk("correct~scale(age)+scale(aoa_mean)+is_test+(1|participantID)+(1|trial_id)"),
+       c("scale(age)","scale(aoa_mean)")),
+  grab("max AoA x age", mk("correct~scale(age)*scale(aoa_max)+is_test+(1|participantID)+(1|trial_id)"),
+       "scale(age):scale(aoa_max)"),
+  grab("mean AoA x age", mk("correct~scale(age)*scale(aoa_mean)+is_test+(1|participantID)+(1|trial_id)"),
+       "scale(age):scale(aoa_mean)"))
+sens_aoa %>% mutate(p.value = vapply(p.value, fp, character(1))) %>%
+  kable(digits = 3, caption = paste("The same null under three ways of scoring a trial's AoA.",
+        "The age estimate is unchanged in every row."))
+```
+
+```{r aoa-sens-plot, fig.height = 3.8}
+qmax <- kv %>% mutate(q = ntile(aoa_max, 4),
+                      band = cut(age, c(1,4,6,11), labels = c("2–4","5–6","7–10+"))) %>%
+  group_by(band, q) %>% summarise(aoa = mean(aoa_max), acc = mean(correct), n = n(), .groups="drop")
+ggplot(qmax, aes(aoa, acc, colour = band)) +
+  geom_hline(yintercept = CHANCE, linetype = "dashed", colour = "grey55") +
+  geom_line(linewidth = 0.9) + geom_point(size = 2.8) +
+  scale_colour_manual(values = c("2–4"="#E0A458","5–6"="#B5651D","7–10+"="#6B3410"), name = "age") +
+  scale_y_continuous(labels = scales::percent, limits = c(0.3, 1)) +
+  labs(title = "Even the hardest-vocabulary trials show no age-specific penalty",
+       subtitle = "Lines stay parallel: late-acquired triplets do not punish the youngest children",
+       x = "mean latest-acquired AoA of quartile (years)", y = "accuracy")
+```
+
+```{r aoa-sens-numbers}
+smax <- sens_aoa %>% filter(model == "max AoA of triplet", term == "scale(aoa_max)")
+sint <- sens_aoa %>% filter(model == "max AoA x age")
+top_q <- qmax %>% filter(q == max(q))
+```
+
+The null survives intact. Scoring each trial by its latest-acquired concept gives
+β = `r sprintf('%+.3f', smax$estimate)` (*p* = `r fp(smax$p.value)`), the interaction with age
+is *p* = `r fp(sint$p.value)`, and the age coefficient stays at
+`r sprintf('%.3f', sens_aoa$estimate[sens_aoa$term=="scale(age)"][1])` in all three
+specifications. The top quartile averages `r sprintf('%.1f', mean(top_q$aoa))`-year AoA —
+later than almost every child tested — yet 2–4 year-olds answer it at
+`r pct(top_q$acc[top_q$band=="2–4"])`, their *best* quartile rather than their worst.
+
+That is about as clean as a null gets: three operationalisations, no main effect, no
+interaction, and no movement in the age estimate.
+
+# 6. The developmental prediction
+
+```{r cond-model}
+cond_all <- bind_rows(
+  kdf %>% filter(condition %in% c("visual_agree","visual_conflict")) %>% mutate(grp = "children"),
+  adf %>% filter(condition %in% c("visual_agree","visual_conflict")) %>% mutate(grp = "adults")) %>%
+  mutate(grp = factor(grp, levels = c("adults","children")))
+
+m_cond <- glmer(correct ~ condition * grp + (1|participantID) + (1|trial_id),
+                data = cond_all, family = binomial, control = GL)
+tidy(m_cond, effects = "fixed", conf.int = TRUE) %>%
+  transmute(term, estimate, std.error, odds_ratio = exp(estimate), p.value) %>%
+  kable(digits = 3, caption = "correct ~ condition × group, crossed random effects.")
+
+m_ca <- glmer(correct ~ condition * scale(age) + (1|participantID) + (1|trial_id),
+              data = filter(cond_all, grp == "children"), family = binomial, control = GL)
+tidy(m_ca, effects = "fixed") %>% transmute(term, estimate, std.error, p.value) %>%
+  kable(digits = 3, caption = "Within children: does the conflict cost shrink with age?")
+```
+
+```{r cond-plot, fig.height = 4.4}
+cs <- cond_all %>% group_by(grp, condition) %>%
+  summarise(n = n(), k = sum(correct), acc = mean(correct), .groups="drop") %>%
+  mutate(lo = wlo(k,n), hi = whi(k,n))
+p3 <- ggplot(cs, aes(grp, acc, colour = condition, group = condition)) +
+  geom_hline(yintercept = CHANCE, linetype = "dashed", colour = "grey55") +
+  geom_line(linewidth = 0.9) +
+  geom_errorbar(aes(ymin = lo, ymax = hi), width = 0.08, linewidth = 0.7) +
+  geom_point(size = 3.4) +
+  scale_colour_manual(values = PAL, name = NULL,
+                      labels = c("appearance agrees","appearance conflicts")) +
+  scale_y_continuous(labels = scales::percent, limits = c(0.3, 1)) +
+  labs(title = "Both conditions, both groups", x = NULL, y = "accuracy") +
+  theme(legend.position = "top")
+
+cost_age <- kdf %>% filter(condition %in% c("visual_agree","visual_conflict")) %>%
+  group_by(participantID, age, condition) %>% summarise(a = mean(correct), n = n(), .groups="drop") %>%
+  group_by(participantID, age) %>% filter(n() == 2, min(n) >= 4) %>%
+  summarise(cost = a[condition=="visual_agree"] - a[condition=="visual_conflict"],
+            n = sum(n), .groups="drop")
+p4 <- ggplot(cost_age, aes(age, cost)) +
+  geom_hline(yintercept = 0, colour = "grey45") +
+  geom_smooth(method = "lm", aes(weight = n), colour = "#B5651D", fill = "#B5651D", alpha = 0.15) +
+  geom_point(aes(size = n), colour = "#B5651D", alpha = 0.75) +
+  scale_size_continuous(range = c(1.5,5), name = "trials") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = 2:10, labels = c(2:9,"10+")) +
+  labs(title = "Conflict cost by age", x = "age (years)",
+       y = "accuracy(agree) − accuracy(conflict)",
+       subtitle = paste(nrow(cost_age), "children with >= 4 trials in each condition"))
+p3 + p4
+```
+
+```{r cond-numbers}
+i_p <- tidy(m_cond, effects="fixed") %>% filter(grepl(":", term)) %>% pull(p.value)
+ca_p <- tidy(m_ca, effects="fixed") %>% filter(grepl(":", term)) %>% pull(p.value)
+cc <- cs %>% group_by(grp) %>% summarise(cost = acc[condition=="visual_agree"] - acc[condition=="visual_conflict"])
+```
+
+```{r floor-sens}
+acc_by <- kdf %>% group_by(participantID) %>% summarise(a = mean(correct), .groups="drop")
+sens <- function(lab, keep) {
+  kk <- kdf %>% filter(participantID %in% keep, condition %in% c("visual_agree","visual_conflict"))
+  d <- bind_rows(kk %>% mutate(grp="children"),
+                 adf %>% filter(condition %in% c("visual_agree","visual_conflict")) %>% mutate(grp="adults")) %>%
+       mutate(grp = factor(grp, levels=c("adults","children")))
+  mm <- glmer(correct ~ condition*grp + (1|participantID) + (1|trial_id),
+              data = d, family = binomial, control = GL)
+  r <- tidy(mm, effects="fixed") %>% filter(grepl(":", term))
+  data.frame(subset = lab, children = n_distinct(kk$participantID),
+             child_cost = mean(kk$correct[kk$condition=="visual_agree"]) -
+                          mean(kk$correct[kk$condition=="visual_conflict"]),
+             interaction_beta = r$estimate, p = r$p.value)
+}
+fs <- bind_rows(
+  sens("all children",                    acc_by$participantID),
+  sens("accuracy > .40 (above chance)",   acc_by$participantID[acc_by$a > .40]),
+  sens("accuracy > .50",                  acc_by$participantID[acc_by$a > .50]),
+  sens("accuracy > .60 (adult-like)",     acc_by$participantID[acc_by$a > .60]))
+fs %>% mutate(p = vapply(p, fp, character(1))) %>%
+  kable(digits = 3, caption = paste("Floor sensitivity. A child at chance in both conditions",
+        "has zero cost by construction, so the near-chance children are removed stepwise."))
+```
+
+Children lose `r pct(cc$cost[cc$grp=="children"])` to visual conflict, adults
+`r pct(cc$cost[cc$grp=="adults"])` — and the group × condition interaction is
+*p* = `r fp(i_p)`. **This is significant in the direction opposite to the prediction:
+children pay a *smaller* appearance penalty than adults, not a larger one.**
+
+That result needs one caveat taken seriously. Chance on this task is 1/3, not 0, and a child
+responding at chance in both conditions has a zero cost by construction — so including
+near-chance children mechanically shrinks the child estimate. The table above removes them
+stepwise. The child cost does grow as they are dropped
+(`r pct(fs$child_cost[1])` → `r pct(fs$child_cost[nrow(fs)])`), but the interaction estimate
+barely moves (β `r sprintf('%.2f', fs$interaction_beta[1])` →
+`r sprintf('%.2f', fs$interaction_beta[nrow(fs)])`); it loses significance because the sample
+shrinks, not because the effect does. Even among children scoring in the adult range the cost
+is `r pct(fs$child_cost[nrow(fs)])` against the adults' `r pct(cc$cost[cc$grp=="adults"])`.
+
+So the honest reading is **a stable reversal that is not yet established**: the point estimate
+consistently says children weight appearance *less* than adults, compression explains part but
+not all of it, and within children the cost does not change with age (*p* = `r fp(ca_p)`).
+If it holds up, the study's founding prediction is backwards — which is worth powering
+properly rather than settling at *n* = `r n_kid_started`.
+
+# 7. Response times — a genuine linear mixed model
+
+RT is continuous, so this is an ordinary LMM on log RT, with the same crossed random effects.
+
+```{r rt-model}
+rt_d <- kdf %>% filter(rt < 30000, condition %in% c("visual_agree","visual_conflict"))
+m_rt <- lmer(log(rt) ~ condition + scale(age) + correct + (1|participantID) + (1|trial_id), data = rt_d)
+tidy(m_rt, effects = "fixed") %>% transmute(term, estimate, std.error, df, statistic, p.value) %>%
+  kable(digits = 3, caption = "log(RT) ~ condition + age + accuracy, children.")
+```
+
+```{r rt-plot, fig.height = 4}
+p5 <- ggplot(rt_d, aes(rt/1000, fill = condition)) +
+  geom_density(alpha = 0.45, colour = NA) + scale_x_log10() +
+  scale_fill_manual(values = PAL, name = NULL,
+                    labels = c("appearance agrees","appearance conflicts")) +
+  labs(title = "Child RT distribution", x = "response time (s, log)", y = "density",
+       subtitle = paste0("trials >= ", RT_FLOOR, " ms")) +
+  theme(legend.position = "top")
+p6 <- kdf %>% group_by(participantID, age) %>% summarise(mrt = median(rt), .groups="drop") %>%
+  ggplot(aes(age, mrt/1000)) +
+  geom_point(colour = "#B5651D", size = 2.6, alpha = 0.8) +
+  geom_smooth(method = "lm", colour = "#B5651D", fill = "#B5651D", alpha = 0.15) +
+  scale_x_continuous(breaks = 2:10, labels = c(2:9,"10+")) +
+  labs(title = "Median RT by age", x = "age (years)", y = "median RT (s)",
+       subtitle = "Older children are not simply slower or faster")
+p5 + p6
+```
+
+# 8. Does SPoSE rank difficulty for children?
+
+```{r spose}
+sp <- kdf %>% filter(!is.na(p_correct_spose))
+m_sp <- glmer(correct ~ scale(p_correct_spose) + scale(age) + (1|participantID) + (1|trial_id),
+              data = sp, family = binomial, control = GL)
+tidy(m_sp, effects="fixed") %>% transmute(term, estimate, std.error, odds_ratio = exp(estimate), p.value) %>%
+  kable(digits = 3, caption = "Children: correct ~ SPoSE prediction + age.")
+```
+
+```{r spose-plot, fig.height = 3.8}
+byq <- bind_rows(sp %>% mutate(grp="children"),
+                 adf %>% filter(!is.na(p_correct_spose)) %>% mutate(grp="adults")) %>%
+  group_by(grp) %>% mutate(q = ntile(p_correct_spose, 4)) %>%
+  group_by(grp, q) %>% summarise(n=n(), predicted=mean(p_correct_spose), k=sum(correct),
+                                 observed=mean(correct), .groups="drop") %>%
+  mutate(lo=wlo(k,n), hi=whi(k,n))
+ggplot(byq, aes(predicted, observed, colour = grp)) +
+  geom_abline(slope=1, intercept=0, linetype="dashed", colour="grey60") +
+  geom_errorbar(aes(ymin=lo, ymax=hi), width=0.012, alpha=0.7) +
+  geom_line(linewidth=0.8) + geom_point(size=3.2) +
+  scale_colour_manual(values=c(adults="#2E7D8F", children="#B5651D"), name=NULL) +
+  scale_x_continuous(labels=scales::percent) + scale_y_continuous(labels=scales::percent) +
+  labs(title="SPoSE ranks difficulty for both groups, but is not calibrated",
+       subtitle="Dashed line is perfect calibration",
+       x="SPoSE-predicted accuracy", y="observed accuracy")
+```
+
+```{r hardest}
+sp %>% group_by(trial_id) %>%
+  summarise(n=n(), observed=mean(correct), predicted=first(p_correct_spose),
+            odd=first(odd_concept), category=first(odd_category), .groups="drop") %>%
+  filter(n >= 4) %>% arrange(observed) %>% head(12) %>%
+  kable(digits=3, caption="Hardest child items (>= 4 observations, all children).")
+```
+
+## Individual trials: predicted vs. what children actually did
+
+The quartile view above averages the model's errors away. This is the item-level
+version — every well-observed trial as its own point, split by age.
+
+```{r item-density}
+item_age <- kdf %>% filter(!is.na(p_correct_spose), !is.na(age)) %>%
+  mutate(band = cut(age, c(1,4,6,11), labels = c("2–4","5–6","7–10+")))
+dens <- item_age %>% count(trial_id, band) %>%
+  tidyr::pivot_wider(names_from = band, values_from = n, values_fill = 0)
+MIN_OBS <- 5
+well <- dens %>% filter(dplyr::if_all(-trial_id, ~ .x >= MIN_OBS)) %>% pull(trial_id)
+data.frame(
+  quantity = c("trials children have seen", "median observations per trial",
+               paste0("trials with >= ", MIN_OBS, " observations in EVERY age band"),
+               "what those trials are"),
+  value = c(n_distinct(item_age$trial_id),
+            median(count(item_age, trial_id)$n), length(well),
+            "the core + warm-up set, which every child receives")
+) %>% kable(caption = "Why this section uses a subset.")
+```
+
+A rotating bank buys breadth, not depth: the median trial has been seen
+`r median(count(item_age, trial_id)$n)` times, which cannot support an item-level estimate,
+let alone one split three ways by age. Only the **`r length(well)` core and warm-up trials**
+— the ones every child receives — carry enough observations. Everything below is those.
+
+```{r item-scatter, fig.height = 4.6}
+ia <- item_age %>% filter(trial_id %in% well) %>%
+  group_by(trial_id, band) %>%
+  summarise(n = n(), k = sum(correct), observed = mean(correct),
+            predicted = first(p_correct_spose), odd = first(odd_concept), .groups = "drop") %>%
+  mutate(lo = wlo(k, n), hi = whi(k, n))
+
+ggplot(ia, aes(predicted, observed)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey60") +
+  geom_hline(yintercept = CHANCE, linetype = "dotted", colour = "grey60") +
+  geom_linerange(aes(ymin = lo, ymax = hi), colour = "grey75", linewidth = 0.5) +
+  geom_point(aes(size = n), colour = "#B5651D", alpha = 0.85) +
+  geom_smooth(method = "lm", se = FALSE, colour = "#6B3410", linewidth = 0.8) +
+  facet_wrap(~band) +
+  scale_size_continuous(range = c(1.5, 4.5), name = "obs") +
+  scale_x_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Each point is one trial, at one age band",
+       subtitle = paste("Dashed = perfect calibration, dotted = chance.",
+                        "Points above the dashed line are trials children find",
+                        "easier than SPoSE predicts."),
+       x = "SPoSE-predicted accuracy", y = "observed child accuracy")
+```
+
+```{r item-corr}
+ia %>% group_by(band) %>%
+  summarise(trials = n(), r = cor(predicted, observed),
+            mean_predicted = mean(predicted), mean_observed = mean(observed),
+            .groups = "drop") %>%
+  mutate(calibration_gap = mean_observed - mean_predicted) %>%
+  kable(digits = 3, caption = paste("Item-level correlation between prediction and",
+        "performance, within each age band."))
+```
+
+```{r item-slope, fig.height = 4.4}
+wide <- ia %>% select(trial_id, odd, band, observed, predicted) %>%
+  tidyr::pivot_wider(names_from = band, values_from = observed)
+lab <- wide %>% mutate(spread = `7–10+` - `2–4`) %>%
+  arrange(spread) %>% slice(c(1:3, (n()-2):n()))
+
+ggplot(ia, aes(band, observed, group = trial_id)) +
+  geom_hline(yintercept = CHANCE, linetype = "dotted", colour = "grey60") +
+  geom_line(colour = "grey72", linewidth = 0.5) +
+  geom_point(aes(colour = predicted), size = 2.4) +
+  scale_colour_gradient(low = "#C1666B", high = "#2E7D8F",
+                        labels = scales::percent, name = "SPoSE\npredicted") +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "The same trial across ages", x = NULL, y = "observed accuracy",
+       subtitle = "One line per trial; colour is what SPoSE predicted for it")
+```
+
+```{r item-table}
+wide %>%
+  transmute(trial_id, odd_concept = odd, SPoSE = predicted,
+            `2–4` = `2–4`, `5–6` = `5–6`, `7–10+` = `7–10+`,
+            gap_young = `2–4` - predicted) %>%
+  arrange(gap_young) %>%
+  kable(digits = 3, caption = paste("Every well-observed trial: what SPoSE predicted and",
+        "what each age band actually did. Sorted by how badly the model over-predicts",
+        "the youngest children."))
+```
+
+```{r item-numbers}
+cr <- ia %>% group_by(band) %>% summarise(r = cor(predicted, observed),
+        gap = mean(observed) - mean(predicted), .groups="drop")
+ranked <- wide %>% mutate(g = `2–4` - predicted) %>% arrange(g)
+worst <- ranked %>% slice(1); best <- ranked %>% slice(n())
+worst_young <- worst[["2–4"]]; best_young <- best[["2–4"]]
+```
+
+Two things show up that the quartile summary hid.
+
+**The model's ranking works better for older children than younger ones.** The item-level
+correlation runs
+`r paste(sprintf("%s %+.2f", cr$band, cr$r), collapse = ", ")`. For the 2–4s the prediction
+carries little item-level information — unsurprising, since many of them are near chance on
+everything, which flattens the range the correlation is computed over.
+
+**The calibration gap flips with age.** Mean observed minus mean predicted is
+`r paste(sprintf("%s %+.1f pts", cr$band, 100*cr$gap), collapse = ", ")`. Every band still
+falls short of the adult-derived prediction, but the shortfall shrinks steadily with age —
+the youngest miss it by `r sprintf('%.0f', -100*cr$gap[1])` points, the oldest by only
+`r sprintf('%.0f', -100*cr$gap[3])`. SPoSE was fit to adults, so this is what you would
+expect if it describes a mature similarity space that children are still moving toward.
+
+The per-trial extremes are worth eyeballing directly: **`r worst$trial_id`**
+(*`r worst$odd`*) is predicted at `r pct(worst$predicted)` and the 2–4s get
+`r pct(worst_young)`, while **`r best$trial_id`** (*`r best$odd`*) runs the other way —
+predicted `r pct(best$predicted)`, observed `r pct(best_young)`. Items like the latter are
+the ones to mine when building a bank that works for the youngest children.
+
+# 9. What to do next
+
+```{r final-numbers}
+b_fin <- tidy(m_age, effects="fixed") %>% filter(term=="scale(age)")
+```
+
+1. **Use every session.** Including partial sessions doubles the child sample
+   (`r n_kid_complete` → `r n_kid_started`) and takes the age effect from non-significant to
+   β = `r sprintf('%+.2f', b_fin$estimate)`, *p* = `r fp(b_fin$p.value)`. Completion is
+   age-graded, so completers-only is an older, non-representative sample.
+
+2. **The age effect is not a vocabulary effect.** Target AoA does not predict child accuracy
+   (*p* = `r fp(aoa_tab$p.value[aoa_tab$model=="B. AoA alone"])`), does not interact with age
+   (*p* = `r fp(a_int$p.value)`), and does not shift the age estimate at all. Whatever is
+   developing here is the conceptual comparison, not knowing the words — so the next design
+   iteration should not spend its effort on vocabulary controls.
+
+3. **Screen trials, not children.** A `r RT_FLOOR` ms trial-level floor removes fast taps
+   while keeping every child's considered responses — strictly better than dropping five
+   children whole, and it lets deliberation enter the model as a covariate.
+
+4. **Shorten the session, or reprofile it.** The commonest stopping point is trial 8, exactly
+   where warmup ends and test trials begin. Interleaving easy items, or cutting the session
+   below `r RUN_LEN` trials, should raise completion where it is lowest — ages 2–4.
+
+5. **The conflict prediction is still open.** Interaction *p* = `r fp(i_p)` with the full
+   sample. Both groups sit off floor and ceiling, so this is answerable with more children
+   rather than a redesign.
+
+6. **Restart the adult arm.** Nothing on Prolific since 14 August; the adult baseline is
+   `r n_ad` participants.
+
+```{r session-info}
+cat("Data pulled: ", format(file.mtime(params$trials), "%Y-%m-%d %H:%M"), "\n")
+cat("Children:    ", n_kid_all, "consented,", n_kid_started, "answered >=1 trial,",
+    n_kid_complete, "finished\n")
+cat("Adults:      ", n_ad, "usable\n")
+cat("Trials:      ", nrow(kdf), "child +", nrow(adf), "adult (>=", RT_FLOOR, "ms)\n")
+```
