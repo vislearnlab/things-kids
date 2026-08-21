@@ -1,0 +1,35 @@
+/*-- scss:defaults --*/
+// A lab report, not a landing page: a warm ink on cool paper, one accent
+// borrowed from the figures so the prose and the plots read as one document.
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !default;
+$font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !default;
+$body-bg:    #FBFBF9 !default;
+$body-color: #1B1D1F !default;
+$link-color: #96541C !default;   // the ochre used for children in every figure
+$primary:    #96541C !default;
+$font-size-root: 16px !default;
+$h1-font-size: 1.9rem !default;
+$h2-font-size: 1.35rem !default;
+$h3-font-size: 1.1rem !default;
+$toc-font-size: 0.85rem !default;
+
+/*-- scss:rules --*/
+body { -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { letter-spacing: -0.015em; text-wrap: balance; }
+h2 { margin-top: 2.4rem; padding-bottom: .3rem; border-bottom: 1px solid #E4E2DC; }
+
+// Numbers in tables should line up.
+table { font-variant-numeric: tabular-nums; font-size: .92rem; }
+table thead th { border-bottom: 1.5px solid #D8D6D0; font-weight: 620; }
+.table > :not(caption) > * > * { padding: .38rem .6rem; }
+caption, .caption { color: #5C6166; font-size: .86rem; }
+
+// Wide tables scroll inside their own box rather than pushing the page sideways.
+.cell-output-display { overflow-x: auto; }
+
+// The two-tone accent used throughout: ochre = children, teal = adults.
+a { text-underline-offset: 2px; }
+code:not(.sourceCode) { color: #7A4415; background: #F4EFE9; padding: .1em .35em; border-radius: 3px; }
+
+#quarto-margin-sidebar, #TOC { font-size: .85rem; }
+.callout { border-left-width: 4px; }

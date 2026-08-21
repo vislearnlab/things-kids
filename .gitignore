@@ -28,3 +28,5 @@ analysis/results.html
 analysis/*_preview.html
 analysis/*_contactsheet.png
 analysis/_examples.png
+analysis/results_files/
+analysis/.quarto/

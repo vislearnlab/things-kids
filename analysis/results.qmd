@@ -1,22 +1,38 @@
 ---
-title: "THINGS-Kids — results as of 18 August 2026"
-subtitle: "Every session, every trial. Mixed-effects models over the full, unbalanced sample."
-date: "`r format(Sys.Date(), '%d %B %Y')`"
-output:
-  html_document:
+title: "THINGS-Kids"
+subtitle: "Every session, every trial — mixed-effects models over the full, unbalanced sample"
+date: today
+date-format: "D MMMM YYYY"
+format:
+  html:
+    theme: [cosmo, custom.scss]
     toc: true
-    toc_float:
-      collapsed: false
-    toc_depth: 2
-    theme: flatly
-    df_print: paged
-    self_contained: true
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Contents"
+    number-sections: true
+    number-depth: 2
+    embed-resources: true
+    fig-align: center
+    fig-width: 8
+    fig-height: 4.6
+    code-fold: true
+    code-summary: "code"
+    code-tools: false
+    df-print: paged
+    tbl-cap-location: top
+    link-external-newwindow: true
+execute:
+  echo: false
+  warning: false
+  message: false
+  cache: false
 params:
   sessions: "data/sessions.csv"
   trials: "data/trials.csv"
   raw: "data/raw.json"
-  aoa: "trial_aoa.csv"
   manifest: "../public/manifest.json"
+  aoa: "trial_aoa.csv"
 ---
 
 ```{r setup, include = FALSE}
@@ -135,6 +151,14 @@ kdf <- left_join(kdf, delib, by = "participantID") %>%
   left_join(select(kids_started, participantID, completed = complete), by = "participantID")
 kd  <- left_join(kd,  delib, by = "participantID")
 
+# The basic-level tier arrived on 2026-08-21 and is a different kind of item, so
+# it is held out of every vocab-gradient analysis and reported on its own. `kds`
+# is the SPoSE bank only; `kdb` is the new tier.
+kdb <- kdf %>% filter(tier == "basic_level")
+kds <- kdf %>% filter(tier != "basic_level")
+adb <- adf %>% filter(tier == "basic_level")
+adf <- adf %>% filter(tier != "basic_level")
+
 wilson <- function(k,n,z=1.96){ if(is.na(n)||n==0) return(c(NA,NA)); p<-k/n; d<-1+z^2/n
   c(max(0,(p+z^2/(2*n))/d - z*sqrt(p*(1-p)/n+z^2/(4*n^2))/d),
     min(1,(p+z^2/(2*n))/d + z*sqrt(p*(1-p)/n+z^2/(4*n^2))/d)) }
@@ -149,7 +173,7 @@ GL <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 3e5))
 # disproportionately made of the easy training/warmup trials that come first.
 m_age <- glmer(correct ~ scale(age) + scale(aoa_target) + is_test +
                  (1|participantID) + (1|trial_id),
-               data = filter(kdf, !is.na(aoa_target)), family = binomial, control = GL)
+               data = filter(kds, !is.na(aoa_target)), family = binomial, control = GL)
 b_age <- tidy(m_age, effects = "fixed") %>% filter(term == "scale(age)")
 
 n_kid_started <- nrow(kids_started); n_kid_all <- nrow(kids_all)
@@ -157,13 +181,17 @@ n_kid_complete <- sum(kids_started$complete)
 n_ad <- nrow(adults)
 ```
 
-> **All `r n_kid_started` children who answered at least one trial are in this analysis,
-> not just the `r n_kid_complete` who finished.** That more than doubles the child sample and
-> reverses the headline: accuracy now rises with age at
-> **β = `r sprintf('%+.2f', b_age$estimate)`, *p* = `r fp(b_age$p.value)`** (logit, per SD of age),
-> where the completers-only analysis could not detect it (*p* ≈ .09).
-> The effect is *stronger*, not weaker, among the most engaged children — so it is not an
-> artefact of young children tapping through.
+::: {.callout-important appearance="simple"}
+## The headline
+
+**All `r n_kid_started` children who answered at least one trial are in this analysis, not
+just the `r n_kid_complete` who finished.** That more than doubles the child sample and
+reverses the result: accuracy rises with age at
+**β = `r sprintf('%+.2f', b_age$estimate)`, *p* = `r fp(b_age$p.value)`** (logit, per SD of
+age), where the completers-only analysis could not detect it (*p* ≈ .09). The effect is
+*stronger*, not weaker, among the most engaged children — so it is not an artefact of young
+children tapping through.
+:::
 
 ---
 
@@ -279,7 +307,7 @@ kable(vc[, c("grp","sdcor")], digits = 3, col.names = c("random effect","SD (log
 ```
 
 ```{r age-plot, fig.height = 4.6}
-per_child <- kdf %>% group_by(participantID, age, n_done) %>%
+per_child <- kds %>% group_by(participantID, age, n_done) %>%
   summarise(n = n(), k = sum(correct), acc = mean(correct), .groups="drop")
 
 p1 <- ggplot(per_child, aes(age, acc)) +
@@ -337,12 +365,12 @@ spec <- function(lab, d) {
              beta = r$estimate, se = r$std.error, p = r$p.value)
 }
 rob <- bind_rows(
-  spec("ALL trials, no RT floor",              kd),
-  spec("RT floor 250 ms (primary)",            kdf),
-  spec("RT floor 500 ms",                      filter(kd, rt >= 500)),
-  spec("most-deliberate children only",        filter(kdf, median_rt >= 800)),
-  spec("completers only",                      filter(kdf, completed)),
-  spec("completers + deliberate (old report)", filter(kdf, completed, median_rt >= 800)))
+  spec("ALL trials, no RT floor",              filter(kd, tier != "basic_level")),
+  spec("RT floor 250 ms (primary)",            kds),
+  spec("RT floor 500 ms",                      filter(kd, rt >= 500, tier != "basic_level")),
+  spec("most-deliberate children only",        filter(kds, median_rt >= 800)),
+  spec("completers only",                      filter(kds, completed)),
+  spec("completers + deliberate (old report)", filter(kds, completed, median_rt >= 800)))
 rob %>% mutate(p = vapply(p, fp, character(1))) %>%
   kable(digits = 3, caption = "The age effect under six inclusion rules.")
 ```
@@ -370,7 +398,7 @@ tapper <- kids_started %>% left_join(delib, by = "participantID") %>%
   mutate(taps = median_rt < 800)
 ct <- suppressWarnings(cor.test(tapper$age, as.numeric(tapper$taps)))
 m_cov <- glmer(correct ~ scale(age) + scale(log(median_rt)) + is_test +
-                 (1|participantID) + (1|trial_id), data = kdf, family = binomial, control = GL)
+                 (1|participantID) + (1|trial_id), data = kds, family = binomial, control = GL)
 tidy(m_cov, effects = "fixed") %>% transmute(term, estimate, std.error, p.value) %>%
   kable(digits = 3, caption = paste("Age effect controlling for how deliberate each child was.",
         "Both predictors are independently reliable."))
@@ -392,7 +420,7 @@ assumed away. Target AoA spans `r sprintf('%.1f', min(items$aoa_target, na.rm=TR
 years, so there is real range to work with.
 
 ```{r aoa-models}
-kv <- kdf %>% filter(!is.na(aoa_target))
+kv <- kds %>% filter(!is.na(aoa_target))
 mk <- function(f, d = kv) glmer(as.formula(f), data = d, family = binomial, control = GL)
 grab <- function(lab, m, terms) {
   tidy(m, effects = "fixed") %>% filter(term %in% terms) %>%
@@ -534,7 +562,7 @@ interaction, and no movement in the age estimate.
 
 ```{r cond-model}
 cond_all <- bind_rows(
-  kdf %>% filter(condition %in% c("visual_agree","visual_conflict")) %>% mutate(grp = "children"),
+  kds %>% filter(condition %in% c("visual_agree","visual_conflict")) %>% mutate(grp = "children"),
   adf %>% filter(condition %in% c("visual_agree","visual_conflict")) %>% mutate(grp = "adults")) %>%
   mutate(grp = factor(grp, levels = c("adults","children")))
 
@@ -565,7 +593,7 @@ p3 <- ggplot(cs, aes(grp, acc, colour = condition, group = condition)) +
   labs(title = "Both conditions, both groups", x = NULL, y = "accuracy") +
   theme(legend.position = "top")
 
-cost_age <- kdf %>% filter(condition %in% c("visual_agree","visual_conflict")) %>%
+cost_age <- kds %>% filter(condition %in% c("visual_agree","visual_conflict")) %>%
   group_by(participantID, age, condition) %>% summarise(a = mean(correct), n = n(), .groups="drop") %>%
   group_by(participantID, age) %>% filter(n() == 2, min(n) >= 4) %>%
   summarise(cost = a[condition=="visual_agree"] - a[condition=="visual_conflict"],
@@ -590,9 +618,9 @@ cc <- cs %>% group_by(grp) %>% summarise(cost = acc[condition=="visual_agree"] -
 ```
 
 ```{r floor-sens}
-acc_by <- kdf %>% group_by(participantID) %>% summarise(a = mean(correct), .groups="drop")
+acc_by <- kds %>% group_by(participantID) %>% summarise(a = mean(correct), .groups="drop")
 sens <- function(lab, keep) {
-  kk <- kdf %>% filter(participantID %in% keep, condition %in% c("visual_agree","visual_conflict"))
+  kk <- kds %>% filter(participantID %in% keep, condition %in% c("visual_agree","visual_conflict"))
   d <- bind_rows(kk %>% mutate(grp="children"),
                  adf %>% filter(condition %in% c("visual_agree","visual_conflict")) %>% mutate(grp="adults")) %>%
        mutate(grp = factor(grp, levels=c("adults","children")))
@@ -640,7 +668,7 @@ properly rather than settling at *n* = `r n_kid_started`.
 RT is continuous, so this is an ordinary LMM on log RT, with the same crossed random effects.
 
 ```{r rt-model}
-rt_d <- kdf %>% filter(rt < 30000, condition %in% c("visual_agree","visual_conflict"))
+rt_d <- kds %>% filter(rt < 30000, condition %in% c("visual_agree","visual_conflict"))
 m_rt <- lmer(log(rt) ~ condition + scale(age) + correct + (1|participantID) + (1|trial_id), data = rt_d)
 tidy(m_rt, effects = "fixed") %>% transmute(term, estimate, std.error, df, statistic, p.value) %>%
   kable(digits = 3, caption = "log(RT) ~ condition + age + accuracy, children.")
@@ -654,7 +682,7 @@ p5 <- ggplot(rt_d, aes(rt/1000, fill = condition)) +
   labs(title = "Child RT distribution", x = "response time (s, log)", y = "density",
        subtitle = paste0("trials >= ", RT_FLOOR, " ms")) +
   theme(legend.position = "top")
-p6 <- kdf %>% group_by(participantID, age) %>% summarise(mrt = median(rt), .groups="drop") %>%
+p6 <- kds %>% group_by(participantID, age) %>% summarise(mrt = median(rt), .groups="drop") %>%
   ggplot(aes(age, mrt/1000)) +
   geom_point(colour = "#B5651D", size = 2.6, alpha = 0.8) +
   geom_smooth(method = "lm", colour = "#B5651D", fill = "#B5651D", alpha = 0.15) +
@@ -667,7 +695,7 @@ p5 + p6
 # 8. Does SPoSE rank difficulty for children?
 
 ```{r spose}
-sp <- kdf %>% filter(!is.na(p_correct_spose))
+sp <- kds %>% filter(!is.na(p_correct_spose))
 m_sp <- glmer(correct ~ scale(p_correct_spose) + scale(age) + (1|participantID) + (1|trial_id),
               data = sp, family = binomial, control = GL)
 tidy(m_sp, effects="fixed") %>% transmute(term, estimate, std.error, odds_ratio = exp(estimate), p.value) %>%
@@ -706,7 +734,7 @@ The quartile view above averages the model's errors away. This is the item-level
 version — every well-observed trial as its own point, split by age.
 
 ```{r item-density}
-item_age <- kdf %>% filter(!is.na(p_correct_spose), !is.na(age)) %>%
+item_age <- kds %>% filter(!is.na(p_correct_spose), !is.na(age)) %>%
   mutate(band = cut(age, c(1,4,6,11), labels = c("2–4","5–6","7–10+")))
 dens <- item_age %>% count(trial_id, band) %>%
   tidyr::pivot_wider(names_from = band, values_from = n, values_fill = 0)
@@ -817,6 +845,73 @@ The per-trial extremes are worth eyeballing directly: **`r worst$trial_id`**
 `r pct(worst_young)`, while **`r best$trial_id`** (*`r best$odd`*) runs the other way —
 predicted `r pct(best$predicted)`, observed `r pct(best_young)`. Items like the latter are
 the ones to mine when building a bank that works for the youngest children.
+
+# The basic-level tier {#sec-basic}
+
+A second kind of item went live on **21 August 2026**: two photographs of *one* concept
+against a different concept from the same category — two dogs and a cat. The pair are
+different exemplars, so the trial cannot be solved by matching pictures; a child has to see
+that two things which look unalike are the same kind. Six open every session and six more are
+sampled per child and spread through the test block, taking a session from 51 to 63 trials.
+
+Everything above this section is the vocab-gradient bank only. The two tiers are never pooled.
+
+```{r basic-rollout}
+# A partial session on the new design also has fewer than 51 trials, so length
+# alone cannot date it. Seeing a basic-level trial can: the tier did not exist
+# before the change.
+saw_basic <- unique(kdb$participantID)
+roll <- kids_all %>%
+  filter(n_trials > 0) %>%
+  mutate(design = ifelse(participantID %in% saw_basic | n_trials > 51,
+                         "new (63 trials)", "old (51 trials)")) %>%
+  group_by(design) %>%
+  summarise(children = n(), completed = sum(complete),
+            completion = sum(complete) / n(), .groups = "drop")
+kable(roll, digits = 2,
+      caption = "Kiosk children by session design. Completion is the number to watch.")
+```
+
+```{r basic-first-data}
+n_bt <- nrow(kdb); n_bk <- n_distinct(kdb$participantID)
+if (n_bt > 0) {
+  kdb %>% group_by(participantID, age) %>%
+    summarise(trials = n(), correct = sum(correct), accuracy = mean(correct),
+              median_rt = median(rt), .groups = "drop") %>%
+    kable(digits = 2, caption = "Every basic-level trial a kiosk child has done so far.")
+}
+```
+
+```{r basic-adults}
+if (nrow(adb) > 0) {
+  adb %>% group_by(participantID) %>%
+    summarise(trials = n(), accuracy = mean(correct), median_rt = median(rt), .groups="drop") %>%
+    arrange(desc(median_rt)) %>%
+    kable(digits = 2, caption = paste("Non-kiosk sessions that saw the new tier.",
+      "The fast ones are deploy smoke tests, not data."))
+}
+```
+
+::: {.callout-note}
+## Too early to read anything into it
+
+`r n_bt` basic-level trials from `r n_bk` kiosk `r ifelse(n_bk == 1, "child", "children")`.
+No child has yet finished a 63-trial session. What the data *do* confirm is that the tier is
+wired up correctly: scoring is consistent on every trial recorded
+(`correct` always equals `chosen == odd`), the opening six land at positions 1–6, and the
+sampled six are spread through the block as intended.
+:::
+
+The first thing worth checking once real sessions accumulate is whether these trials are
+actually the floor they are meant to be. The premise is that a child who cannot do the
+fine-grained discrimination can still do *two dogs and a cat* — so basic-level accuracy
+should sit **above** vocab-gradient accuracy, especially for the 2–4s. If it does not, the
+tier is not buying what it was added for.
+
+The second is completion. The session grew by 12 trials against a completion rate that was
+already `r pct(sum(kids_all$complete) / sum(kids_all$n_trials > 0), 0)`. The opening six may
+pull the other way — an easier, friendlier start is a plausible retention win — and the
+pre-change cohort in the table above is the comparison that settles it.
 
 # 9. What to do next
 
